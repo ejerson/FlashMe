@@ -95,7 +95,7 @@ public class DeckListActivity
   // creates a new view adapter and passing it items from dummy content
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
     try {
-      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(getHelper().getDeckDao().queryForAll()));
+      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(getHelper().getDeckDao(Deck.class).queryForAll()));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -117,8 +117,8 @@ public class DeckListActivity
   }
 
   @Override
-  public Dao<Deck, Integer> getDao() throws SQLException {
-    return getHelper().getDeckDao();
+  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
+    return getHelper().getDeckDao(Deck.class);
   }
 
   public class SimpleItemRecyclerViewAdapter

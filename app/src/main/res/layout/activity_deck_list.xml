@@ -30,11 +30,11 @@
     <include layout="@layout/deck_list"/>
 
     <Button
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:onClick="showAddDialog"
-      android:text="ADD DECK"
-      android:layout_gravity="bottom"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="showAddDialog"
+    android:text="ADD DECK"
+    android:layout_gravity="bottom"/>
   </FrameLayout>
 
   <!--<android.support.design.widget.FloatingActionButton-->

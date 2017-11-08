@@ -55,14 +55,16 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
 
   //Method to handle my Dao
   // synchronized manages multiple threads that are accessing this method, one at a time is the rule
-  public synchronized Dao<Deck, Integer> getDeckDao() throws SQLException {
+  public synchronized Dao<Deck, Integer> getDeckDao(
+      Class<Deck> deckClass) throws SQLException {
     if(deckDao == null) {
       deckDao = getDao(Deck.class);
     }
     return deckDao;
   }
 
-  public synchronized Dao<Card, Integer> getCardDao() throws SQLException {
+  public synchronized Dao<Card, Integer> getCardDao(
+      Class<Card> cardClass) throws SQLException {
     if(cardDao == null) {
       cardDao = getDao(Card.class);
     }

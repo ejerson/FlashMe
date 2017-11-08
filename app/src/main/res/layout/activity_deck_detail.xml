@@ -50,4 +50,11 @@
     <!--app:layout_anchorGravity="top|end"-->
     <!--app:srcCompat="@android:drawable/stat_notify_chat"/>-->
 
+  <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="showAddCardDialog"
+    android:text="ADD CARD"
+    android:layout_gravity="bottom"/>
+
 </android.support.design.widget.CoordinatorLayout>

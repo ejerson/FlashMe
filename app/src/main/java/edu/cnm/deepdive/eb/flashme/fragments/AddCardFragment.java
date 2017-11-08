@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.EditText;
 import edu.cnm.deepdive.eb.flashme.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.R;
-import edu.cnm.deepdive.eb.flashme.entities.Deck;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 
 
-public class AddContentFragment extends DialogFragment {
+public class AddCardFragment extends DialogFragment {
 
   private OrmHelper helper = null;
 
@@ -27,7 +27,7 @@ public class AddContentFragment extends DialogFragment {
 
     LayoutInflater inflater = getActivity().getLayoutInflater();
 
-    View inflatedView = inflater.inflate(R.layout.dialog_add_content, null);
+    View inflatedView = inflater.inflate(R.layout.dialog_add_card, null);
 
 
 
@@ -38,7 +38,7 @@ public class AddContentFragment extends DialogFragment {
 //    final EditText idView = inflatedView.findViewById(R.id.new_id);
 //    final EditText colorView = inflatedView.findViewById(R.id.new_color);
 
-    final EditText contentView = inflatedView.findViewById(R.id.new_deck);
+    final EditText contentView = inflatedView.findViewById(R.id.new_card);
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
@@ -50,10 +50,10 @@ public class AddContentFragment extends DialogFragment {
         OrmHelper helper = new OrmHelper(getContext());
 
         String content = contentView.getText().toString();
-        Deck deck = new Deck();
-        deck.setName(content);
+        Card card = new Card();
+        card.setName(content);
         try {
-          helper.getDeckDao(Deck.class).create(deck);
+          helper.getCardDao(Card.class).create(card);
         } catch (SQLException e) {
           throw new RuntimeException();
         }
@@ -68,7 +68,7 @@ public class AddContentFragment extends DialogFragment {
     builder.setNegativeButton(getString(R.string.dialogue_cancel), new OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
-        AddContentFragment.this.getDialog().cancel();
+        AddCardFragment.this.getDialog().cancel();
       }
     });
     return builder.create();

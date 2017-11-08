@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import edu.cnm.deepdive.eb.flashme.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import java.sql.SQLException;
 
@@ -49,7 +50,7 @@ public class DeckMemberFragment extends Fragment {
       // to load content from a content provider.
       try {
         mItem = ((DeckMemberFragmentDaoInteraction) getContext())
-            .getDao().queryForId(getArguments().getInt(ARG_ITEM_ID));
+            .getDaoDeck().queryForId(getArguments().getInt(ARG_ITEM_ID));
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
@@ -78,6 +79,10 @@ public class DeckMemberFragment extends Fragment {
   }
 
   public interface DeckMemberFragmentDaoInteraction {
-    Dao<Deck, Integer> getDao() throws SQLException;
+    Dao<Deck, Integer> getDaoDeck() throws SQLException;
+  }
+
+  public interface CardMemberFragmentDaoInteraction {
+    Dao<Card, Integer> getDaoCard() throws SQLException;
   }
 }

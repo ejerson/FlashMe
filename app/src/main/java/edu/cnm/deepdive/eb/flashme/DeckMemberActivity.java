@@ -2,18 +2,20 @@ package edu.cnm.deepdive.eb.flashme;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
+import edu.cnm.deepdive.eb.flashme.fragments.AddCardFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.CardMemberFragmentDaoInteraction;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 
@@ -24,7 +26,8 @@ import java.sql.SQLException;
  */
 public class DeckMemberActivity
     extends AppCompatActivity
-    implements DeckMemberFragmentDaoInteraction {
+    implements DeckMemberFragmentDaoInteraction,
+    CardMemberFragmentDaoInteraction {
 
   private OrmHelper helper = null;
 
@@ -35,14 +38,14 @@ public class DeckMemberActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
     setSupportActionBar(toolbar);
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
+//    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//    fab.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View view) {
+//        Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+//            .setAction("Action", null).show();
+//      }
+//    });
 
     // Show the Up button in the action bar.
     ActionBar actionBar = getSupportActionBar();
@@ -73,6 +76,7 @@ public class DeckMemberActivity
           .commit();
     }
   }
+
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,8 +110,25 @@ public class DeckMemberActivity
   }
 
   @Override
-  public Dao<Deck, Integer> getDao() throws SQLException {
-    return getHelper().getDeckDao();
+  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
+    return getHelper().getDeckDao(Deck.class);
+  }
+
+  @Override
+  public Dao<Card, Integer> getDaoCard() throws SQLException {
+    return getHelper().getCardDao(Card.class);
+  }
+
+  // I need to get Item count
+
+  public void goToCardCreationFragment(View view) {
+    Toast toast = Toast.makeText(this, "yey", Toast.LENGTH_SHORT);
+    toast.show();
+  }
+
+  public void showAddCardDialog(View view) {
+    AddCardFragment dialog = new AddCardFragment();
+    dialog.show(getSupportFragmentManager(), "AddCardFragment");
   }
 
 }

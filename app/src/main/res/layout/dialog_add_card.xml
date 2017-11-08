@@ -5,13 +5,13 @@
   android:layout_height="match_parent">
 
   <EditText
-  android:id="@+id/new_deck"
+  android:id="@+id/new_card"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:ems="10"
     android:padding="10dp"
   android:inputType="text"
-  android:hint="Deck Name"/>
+  android:hint="Card Name"/>
 
   <!--<EditText-->
     <!--android:id="@+id/new_id"-->
