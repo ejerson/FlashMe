@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
-import edu.cnm.deepdive.eb.flashme.fragments.AddContentFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.CardFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.CardFragment.CardFragmentDaoInteraction;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
@@ -27,9 +28,9 @@ import java.util.List;
  * touched, lead to a {@link DeckMemberActivity} representing item details. On tablets, the
  * activity presents the list of items and item details side-by-side using two vertical panes.
  */
-public class DeckListActivity
+public class CardListActivity
     extends AppCompatActivity
-    implements DeckMemberFragmentDaoInteraction {
+    implements CardFragmentDaoInteraction {
 
   /**
    * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
@@ -49,20 +50,11 @@ public class DeckListActivity
     setSupportActionBar(toolbar);
     toolbar.setTitle(getTitle());
 
-//    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//    fab.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null).show();
-//      }
-//    });
-
-    View recyclerView = findViewById(R.id.deck_list);
+    View recyclerView = findViewById(R.id.card_list);
     assert recyclerView != null;
     setupRecyclerView((RecyclerView) recyclerView);
 
-    if (findViewById(R.id.deck_detail_container) != null) {
+    if (findViewById(R.id.card_detail) != null) {
       // The detail container view will be present only in the
       // large-screen layouts (res/values-w900dp).
       // If this view is present, then the
@@ -87,7 +79,7 @@ public class DeckListActivity
   }
 
   public void refreshRecyclerView(){
-    View recyclerView = findViewById(R.id.deck_list);
+    View recyclerView = findViewById(R.id.card_list);
     assert recyclerView != null;
     setupRecyclerView((RecyclerView) recyclerView);
   }
@@ -117,8 +109,8 @@ public class DeckListActivity
   }
 
   @Override
-  public Dao<Deck, Integer> getDao() throws SQLException {
-    return getHelper().getDeckDao();
+  public Dao<Card, Integer> getCardDao() throws SQLException {
+    return getHelper().getCardDao();
   }
 
   public class SimpleItemRecyclerViewAdapter
@@ -144,7 +136,7 @@ public class DeckListActivity
     public void onBindViewHolder(final ViewHolder holder, int position) {
       holder.mItem = mValues.get(position);
 //      holder.mIdView.setId(mValues.get(position).getId());
-      holder.mDeckView.setText(mValues.get(position).getName());
+      holder.mCardView.setText(mValues.get(position).getName());
 //      holder.mCreatedView.setText(mValues.get(position).getCreated().toString());
 
       holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +144,8 @@ public class DeckListActivity
         public void onClick(View v) {
           if (mTwoPane) {
             Bundle arguments = new Bundle();
-            arguments.putInt(DeckMemberFragment.ARG_ITEM_ID, holder.mItem.getId());
-            DeckMemberFragment fragment = new DeckMemberFragment();
+            arguments.putInt(CardFragment.ARG_ITEM_ID, holder.mItem.getId());
+            CardFragment fragment = new CardFragment();
             fragment.setArguments(arguments); // this is how I pass arguments into a fragment
             getSupportFragmentManager().beginTransaction()
                 .replace(R.id.deck_detail_container, fragment)
@@ -181,7 +173,7 @@ public class DeckListActivity
 
       public final View mView;
 //      public final TextView mIdView;
-      public final TextView mDeckView;
+      public final TextView mCardView;
 //      public final TextView mCreatedView;
       public Deck mItem;
 
@@ -189,19 +181,15 @@ public class DeckListActivity
         super(view);
         mView = view;
 //        mIdView = (TextView) view.findViewById(R.id.deck_id);
-        mDeckView = (TextView) view.findViewById(R.id.deck_name);
+        mCardView = (TextView) view.findViewById(R.id.deck_name);
 //        mCreatedView = (TextView) view.findViewById(R.id.deck_created);
       }
 
       @Override
       public String toString() {
-        return super.toString() + " '" + mDeckView.getText() + "'";
+        return super.toString() + " '" + mCardView.getText() + "'";
       }
     }
   }
 
-  public void showAddDialog(View view) {
-    AddContentFragment dialog = new AddContentFragment();
-    dialog.show(getSupportFragmentManager(), "AddContentFragment");
-  }
 }

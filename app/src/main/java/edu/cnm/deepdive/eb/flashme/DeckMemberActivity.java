@@ -11,7 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import edu.cnm.deepdive.eb.flashme.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
@@ -108,4 +109,5 @@ public class DeckMemberActivity
   public Dao<Deck, Integer> getDao() throws SQLException {
     return getHelper().getDeckDao();
   }
+
 }

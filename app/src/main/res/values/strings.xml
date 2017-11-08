@@ -1,4 +1,6 @@
 <resources>
   <string name="app_name">Flash Me</string>
   <string name="title_deck_detail">Deck Detail</string>
+  <string name="dialogue_ok">Ok</string>
+  <string name="dialogue_cancel">Cancel</string>
 </resources>

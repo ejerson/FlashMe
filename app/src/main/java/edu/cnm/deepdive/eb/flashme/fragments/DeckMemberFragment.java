@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.eb.flashme;
+package edu.cnm.deepdive.eb.flashme.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
+import edu.cnm.deepdive.eb.flashme.DeckListActivity;
+import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
+import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import java.sql.SQLException;
 
@@ -22,7 +25,7 @@ public class DeckMemberFragment extends Fragment {
   /**
    * The fragment argument representing the item ID that this fragment represents.
    */
-  public static final String ARG_ITEM_ID = "student_id";
+  public static final String ARG_ITEM_ID = "deck_id";
 
   /**
    * The student content this fragment is presenting.
@@ -68,6 +71,7 @@ public class DeckMemberFragment extends Fragment {
     // Show the dummy content as text in a TextView.
     if (mItem != null) {
       ((TextView) rootView.findViewById(R.id.deck_detail)).setText(mItem.toString());
+      // TODO Set card entities
     }
 
     return rootView;

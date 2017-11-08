@@ -5,31 +5,23 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.HashMap;
 import java.util.Map;
 
-
 // connects my class to a specific table in my database
-@DatabaseTable(tableName = "DECK")
+@DatabaseTable(tableName = "CARD")
 // student class corresponds with STUDENT table
-public class Deck {
+public class Card {
 
   // generatedId = true, auto increments an id
-  @DatabaseField(columnName = "DECK_ID", generatedId = true)
+  @DatabaseField(columnName = "CARD_ID", generatedId = true)
   private int id;
 
-  // will get the current time and use it as a timestamp
-//  @DatabaseField(columnName = "CREATED", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
-//  format = "yyyy-MM-dd HH:mm:ss", canBeNull = false, readOnly = true)
-//  private Timestamp created;
 
-  @DatabaseField(columnName = "DECK", canBeNull = false)
+  @DatabaseField(columnName = "CARD", canBeNull = false)
   private String name;
 
   public int getId() {
     return id;
   }
 
-//  public Timestamp getCreated() {
-//    return created;
-//  }
 
   public String getName() {
     return name;
@@ -44,8 +36,9 @@ public class Deck {
     Map<String, Object> map = new HashMap<>();
     map.put("id", id);
     map.put("name", name);
-//    map.put("created", created);
 
     return map.toString();
   }
+
+
 }

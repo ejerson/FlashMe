@@ -6,6 +6,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import java.sql.SQLException;
 
@@ -16,6 +17,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
 
   //Data access object (Daos are parametarized by entity type <Deck> and the data type of the primary key <Integer>)
   private Dao<Deck, Integer> deckDao = null;
+  private Dao<Card, Integer> cardDao = null;
 
   public OrmHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,13 +28,13 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
     // deck.class is a class object, which gives code access to a world information about the class
     try {
       TableUtils.createTable(connectionSource, Deck.class);
-      populateDatabase();
+      TableUtils.createTable(connectionSource, Card.class);
+//      populateDatabase();
 
     } catch (SQLException e) {
       // RunTimeException is not a checked exception
       throw new RuntimeException(e);
     }
-
 
   }
 
@@ -47,6 +49,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
   public void close() {
     // any Dao reference must be set to null to make sure Garbage collection has access to the object
     deckDao = null;
+    cardDao = null;
     super.close();
   }
 
@@ -59,18 +62,24 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
     return deckDao;
   }
 
-  private void populateDatabase() throws SQLException {
-    // a lot of deserialization depends on a no parameter constructor
-    Deck deck = new Deck();
-    deck.setName("Mortimer Snerd");
+  public synchronized Dao<Card, Integer> getCardDao() throws SQLException {
+    if(cardDao == null) {
+      cardDao = getDao(Card.class);
+    }
+    return cardDao;
+  }
 
-    getDeckDao().create(deck);
+//  private void populateDatabase() throws SQLException {
+    // a lot of deserialization depends on a no parameter constructor
+//    Deck deck = new Deck();
+//    deck.setName("Mortimer Snerd");
+//    getDeckDao().create(deck);
     //data access object?
 
-    deck = new Deck();
-    deck.setName("Charlie McCarthy");
-    getDeckDao().create(deck);
+//    deck = new Deck();
+//    deck.setName("Charlie McCarthy");
+//    getDeckDao().create(deck);
 
-  }
+//  }
 
 }
