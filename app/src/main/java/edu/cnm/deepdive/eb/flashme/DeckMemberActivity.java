@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,13 +31,17 @@ public class DeckMemberActivity
 
   private OrmHelper helper = null;
 
+  private RecyclerView mRecyclerView;
+  private RecyclerView.Adapter mAdapter;
+  private RecyclerView.LayoutManager mLayoutManager;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_deck_detail);
     Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
     setSupportActionBar(toolbar);
-
+    
 //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //    fab.setOnClickListener(new View.OnClickListener() {
 //      @Override
@@ -93,8 +98,21 @@ public class DeckMemberActivity
     return super.onOptionsItemSelected(item);
   }
 
-  // we manage memory leaks in android by reusing our database references
-  public OrmHelper getHelper() {
+  @Override
+  protected void onStart() {
+    super.onStart();
+    getHelper();
+  }
+
+  @Override
+  protected void onStop() {
+    releaseHelper();
+    super.onStop();
+  }
+
+
+  @Override
+  public synchronized OrmHelper getHelper() {
     if (helper == null) {
       helper = OpenHelperManager.getHelper(this, OrmHelper.class);
     }
@@ -107,9 +125,6 @@ public class DeckMemberActivity
       helper = null;
     }
   }
-
-
-
 
   @Override
   public Dao<Deck, Integer> getDaoDeck() throws SQLException {

@@ -34,7 +34,7 @@
 
   </android.support.design.widget.AppBarLayout>
 
-  <android.support.v4.widget.NestedScrollView
+  <FrameLayout
     android:id="@+id/deck_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,6 +49,7 @@
     <!--app:layout_anchor="@+id/deck_detail_container"-->
     <!--app:layout_anchorGravity="top|end"-->
     <!--app:srcCompat="@android:drawable/stat_notify_chat"/>-->
+
 
   <Button
     android:layout_width="match_parent"

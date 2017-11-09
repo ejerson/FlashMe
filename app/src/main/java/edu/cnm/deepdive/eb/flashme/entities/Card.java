@@ -5,6 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.HashMap;
 import java.util.Map;
 
+// my foreign key would be here
+
 // connects my class to a specific table in my database
 @DatabaseTable(tableName = "CARD")
 // student class corresponds with STUDENT table
