@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -109,6 +108,9 @@ public class DeckMemberActivity
     }
   }
 
+
+
+
   @Override
   public Dao<Deck, Integer> getDaoDeck() throws SQLException {
     return getHelper().getDeckDao(Deck.class);
@@ -120,15 +122,11 @@ public class DeckMemberActivity
   }
 
   // I need to get Item count
-
-  public void goToCardCreationFragment(View view) {
-    Toast toast = Toast.makeText(this, "yey", Toast.LENGTH_SHORT);
-    toast.show();
-  }
-
   public void showAddCardDialog(View view) {
     AddCardFragment dialog = new AddCardFragment();
     dialog.show(getSupportFragmentManager(), "AddCardFragment");
   }
+
+  
 
 }

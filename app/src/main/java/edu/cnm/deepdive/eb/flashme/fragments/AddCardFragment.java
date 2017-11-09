@@ -9,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import edu.cnm.deepdive.eb.flashme.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
@@ -57,7 +56,7 @@ public class AddCardFragment extends DialogFragment {
         } catch (SQLException e) {
           throw new RuntimeException();
         }
-        ((DeckListActivity) getActivity()).refreshRecyclerView();
+//        ((DeckMemberActivity) getActivity()).refreshRecyclerView();
 
         // TODO Query my card creation so I get any cards that has equivalent deck_name column
         // TODO Post my query so it is loaded inside DecKMemberFragment
