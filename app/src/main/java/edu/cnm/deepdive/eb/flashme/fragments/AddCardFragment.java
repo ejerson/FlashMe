@@ -68,6 +68,7 @@ public class AddCardFragment extends DialogFragment {
         } catch (SQLException e) {
           throw new RuntimeException();
         }
+
 //        ((DeckMemberActivity) getActivity()).refreshRecyclerView();
 
 
