@@ -1,14 +1,14 @@
 package edu.cnm.deepdive.eb.flashme.entities;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.util.HashMap;
 import java.util.Map;
 
-
 // connects my class to a specific table in my database
 @DatabaseTable(tableName = "DECK")
-// student class corresponds with STUDENT table
 public class Deck {
 
   // generatedId = true, auto increments an id
@@ -22,6 +22,10 @@ public class Deck {
 
   @DatabaseField(columnName = "DECK", canBeNull = false)
   private String name;
+
+
+  @ForeignCollectionField
+  public ForeignCollection<Card> cards;
 
   public int getId() {
     return id;
@@ -37,6 +41,10 @@ public class Deck {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public ForeignCollection<Card> getCards() {
+    return cards;
   }
 
   @Override

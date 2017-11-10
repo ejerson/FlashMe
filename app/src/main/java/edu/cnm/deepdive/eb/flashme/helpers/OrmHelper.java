@@ -29,7 +29,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
     try {
       TableUtils.createTable(connectionSource, Deck.class);
       TableUtils.createTable(connectionSource, Card.class);
-//      populateDatabase();
+      populateDatabase();
 
     } catch (SQLException e) {
       // RunTimeException is not a checked exception
@@ -49,39 +49,58 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
   public void close() {
     // any Dao reference must be set to null to make sure Garbage collection has access to the object
     deckDao = null;
-    cardDao = null;
     super.close();
   }
 
   //Method to handle my Dao
   // synchronized manages multiple threads that are accessing this method, one at a time is the rule
-  public synchronized Dao<Deck, Integer> getDeckDao(
-      Class<Deck> deckClass) throws SQLException {
+  public synchronized Dao<Deck, Integer> getDeckDao() throws SQLException {
     if(deckDao == null) {
       deckDao = getDao(Deck.class);
     }
     return deckDao;
   }
 
-  public synchronized Dao<Card, Integer> getCardDao(
-      Class<Card> cardClass) throws SQLException {
+  public synchronized Dao<Card, Integer> getCardDao() throws SQLException {
     if(cardDao == null) {
       cardDao = getDao(Card.class);
     }
     return cardDao;
   }
 
-//  private void populateDatabase() throws SQLException {
-    // a lot of deserialization depends on a no parameter constructor
+  private void populateDatabase() throws SQLException {
+//     a lot of deserialization depends on a no parameter constructor
 //    Deck deck = new Deck();
-//    deck.setName("Mortimer Snerd");
+//    deck.setName("Fudge Nickleson");
 //    getDeckDao().create(deck);
-    //data access object?
-
+////    data access object?
+//
+//    Card card = new Card();
+//    card.setName("yey");
+//
+//    card.setDeck(deck);
+//    getCardDao().create(card);
+//
+//    List<Deck> testList = getDeckDao().queryForAll();
+//    Assert.assertEquals(testList.size(), 1);
+//    Assert.assertEquals(testList.get(0).getCards().size(), 1);
+//
 //    deck = new Deck();
-//    deck.setName("Charlie McCarthy");
+//    deck.setName("yey");
 //    getDeckDao().create(deck);
+//
+//    card = new Card();
+//    card.setName("I think my database is working");
+//
+//    card.setDeck(deck);
+//    getCardDao().create(card);
 
-//  }
+  }
+
+  public interface OrmInteraction {
+
+    OrmHelper getHelper();
+
+  }
 
 }

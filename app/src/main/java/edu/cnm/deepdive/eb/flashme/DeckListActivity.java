@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.fragments.AddContentFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +27,7 @@ import java.util.List;
  */
 public class DeckListActivity
     extends AppCompatActivity
-    implements DeckMemberFragmentDaoInteraction {
+    implements OrmHelper.OrmInteraction {
 
   /**
    * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
@@ -95,13 +93,14 @@ public class DeckListActivity
   // creates a new view adapter and passing it items from dummy content
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
     try {
-      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(getHelper().getDeckDao(Deck.class).queryForAll()));
+      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(getHelper().getDeckDao().queryForAll()));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
   // we manage memory leaks in android by reusing our database references
+  @Override
   public OrmHelper getHelper() {
     if (helper == null) {
       helper = OpenHelperManager.getHelper(this, OrmHelper.class);
@@ -109,6 +108,7 @@ public class DeckListActivity
     return helper;
   }
 
+//  @Override
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();
@@ -116,10 +116,10 @@ public class DeckListActivity
     }
   }
 
-  @Override
-  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
-    return getHelper().getDeckDao(Deck.class);
-  }
+//  @Override
+//  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
+//    return getHelper().getDeckDao();
+//  }
 
   public class SimpleItemRecyclerViewAdapter
       extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -152,7 +152,7 @@ public class DeckListActivity
         public void onClick(View v) {
           if (mTwoPane) {
             Bundle arguments = new Bundle();
-            arguments.putInt(DeckMemberFragment.ARG_ITEM_ID, holder.mItem.getId());
+            arguments.putInt(DeckMemberFragment.DECK_ID, holder.mItem.getId());
             DeckMemberFragment fragment = new DeckMemberFragment();
             fragment.setArguments(arguments); // this is how I pass arguments into a fragment
             getSupportFragmentManager().beginTransaction()
@@ -161,7 +161,7 @@ public class DeckListActivity
           } else {
             Context context = v.getContext();
             Intent intent = new Intent(context, DeckMemberActivity.class);
-            intent.putExtra(DeckMemberFragment.ARG_ITEM_ID, holder.mItem.getId());
+            intent.putExtra(DeckMemberFragment.DECK_ID, holder.mItem.getId());
 
             context.startActivity(intent);
           }

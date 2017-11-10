@@ -53,7 +53,7 @@ public class AddContentFragment extends DialogFragment {
         Deck deck = new Deck();
         deck.setName(content);
         try {
-          helper.getDeckDao(Deck.class).create(deck);
+          helper.getDeckDao().create(deck);
         } catch (SQLException e) {
           throw new RuntimeException();
         }

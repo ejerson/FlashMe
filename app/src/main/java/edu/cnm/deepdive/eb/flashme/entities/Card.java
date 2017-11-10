@@ -20,6 +20,11 @@ public class Card {
   @DatabaseField(columnName = "CARD", canBeNull = false)
   private String name;
 
+
+
+  @DatabaseField(columnName = "DECK_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  private Deck deck;
+
   public int getId() {
     return id;
   }
@@ -31,6 +36,14 @@ public class Card {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Deck getDeck() {
+    return deck;
+  }
+
+  public void setDeck(Deck deck) {
+    this.deck = deck;
   }
 
   @Override

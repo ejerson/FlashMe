@@ -37,8 +37,7 @@
   <FrameLayout
     android:id="@+id/deck_detail_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    android:layout_height="match_parent"/>
 
   <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fab"-->
@@ -49,13 +48,5 @@
     <!--app:layout_anchor="@+id/deck_detail_container"-->
     <!--app:layout_anchorGravity="top|end"-->
     <!--app:srcCompat="@android:drawable/stat_notify_chat"/>-->
-
-
-  <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="showAddCardDialog"
-    android:text="ADD CARD"
-    android:layout_gravity="bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

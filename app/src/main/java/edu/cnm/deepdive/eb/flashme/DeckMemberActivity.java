@@ -1,23 +1,13 @@
 package edu.cnm.deepdive.eb.flashme;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-import edu.cnm.deepdive.eb.flashme.entities.Card;
-import edu.cnm.deepdive.eb.flashme.entities.Deck;
-import edu.cnm.deepdive.eb.flashme.fragments.AddCardFragment;
 import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.CardMemberFragmentDaoInteraction;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DeckMemberFragmentDaoInteraction;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
-import java.sql.SQLException;
 
 /**
  * An activity representing a single Student detail screen. This activity is only used narrow width
@@ -26,14 +16,9 @@ import java.sql.SQLException;
  */
 public class DeckMemberActivity
     extends AppCompatActivity
-    implements DeckMemberFragmentDaoInteraction,
-    CardMemberFragmentDaoInteraction {
+    implements OrmHelper.OrmInteraction {
 
   private OrmHelper helper = null;
-
-  private RecyclerView mRecyclerView;
-  private RecyclerView.Adapter mAdapter;
-  private RecyclerView.LayoutManager mLayoutManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +56,8 @@ public class DeckMemberActivity
       // using a fragment transaction.
       // This allows me to pass info to my fragments
       Bundle arguments = new Bundle();
-      arguments.putInt(DeckMemberFragment.ARG_ITEM_ID,
-          getIntent().getIntExtra(DeckMemberFragment.ARG_ITEM_ID, 0));
+      arguments.putInt(DeckMemberFragment.DECK_ID,
+          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
       DeckMemberFragment fragment = new DeckMemberFragment();
       fragment.setArguments(arguments);
       getSupportFragmentManager().beginTransaction()
@@ -86,13 +71,14 @@ public class DeckMemberActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
     if (id == android.R.id.home) {
+      onBackPressed();
       // This ID represents the Home or Up button. In the case of this
       // activity, the Up button is shown. For
       // more details, see the Navigation pattern on Android Design:
       //
       // http://developer.android.com/design/patterns/navigation.html#up-vs-back
       //
-      navigateUpTo(new Intent(this, DeckListActivity.class));
+//      navigateUpTo(new Intent(this, DeckListActivity.class));
       return true;
     }
     return super.onOptionsItemSelected(item);
@@ -110,7 +96,6 @@ public class DeckMemberActivity
     super.onStop();
   }
 
-
   @Override
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
@@ -119,6 +104,7 @@ public class DeckMemberActivity
     return helper;
   }
 
+//  @Override
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();
@@ -126,21 +112,18 @@ public class DeckMemberActivity
     }
   }
 
-  @Override
-  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
-    return getHelper().getDeckDao(Deck.class);
-  }
-
-  @Override
-  public Dao<Card, Integer> getDaoCard() throws SQLException {
-    return getHelper().getCardDao(Card.class);
-  }
+//  @Override
+//  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
+//    return getHelper().getDeckDao();
+//  }
+//
+//  @Override
+//  public Dao<Card, Integer> getDaoCard() throws SQLException {
+//    return getHelper().getCardDao();
+//  }
 
   // I need to get Item count
-  public void showAddCardDialog(View view) {
-    AddCardFragment dialog = new AddCardFragment();
-    dialog.show(getSupportFragmentManager(), "AddCardFragment");
-  }
+
 
   
 
