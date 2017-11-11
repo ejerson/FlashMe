@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.ReviewCardFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 
 /**
@@ -73,16 +72,6 @@ public class DeckMemberActivity
       fragment.setArguments(args); // bundle
       manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
-  }
-
-  private void cardReviewFragment() {
-      fragment = new ReviewCardFragment();
-      Bundle args = new Bundle();
-      args.putInt(DeckMemberFragment.DECK_ID,
-          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-      fragment.setArguments(args); // bundle
-      manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
   }
 
 

@@ -131,7 +131,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         break;
       case R.id.button_review_card:
         startActivity(new Intent(getActivity(), CardActivity.class));
-
         break;
       default:
         break;

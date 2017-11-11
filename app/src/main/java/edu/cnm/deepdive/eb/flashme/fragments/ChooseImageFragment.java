@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import edu.cnm.deepdive.eb.flashme.R;
 
-public class ReviewCardFragment extends Fragment {
+public class ChooseImageFragment extends Fragment {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class ReviewCardFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.deck_detail, container, false);
+    View v = inflater.inflate(R.layout.image_fragment_view, container, false);
     return v;
   }
 

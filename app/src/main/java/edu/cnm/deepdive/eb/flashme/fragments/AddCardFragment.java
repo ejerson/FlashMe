@@ -26,6 +26,9 @@ public class AddCardFragment extends DialogFragment {
   private Dao<Deck, Integer> deckDao;
   private Deck deck;
   private OrmHelper helper;
+//
+//  FragmentManager manager = getActivity().getSupportFragmentManager();
+//  Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
 
   @Override
@@ -66,6 +69,18 @@ public class AddCardFragment extends DialogFragment {
         } catch (SQLException e) {
           throw new RuntimeException();
         }
+
+        // TODO make this go to a fragment that ask users to choose images from
+        // google api
+//        startActivity(new Intent(getActivity(), CardActivity.class));
+
+        ChooseImageFragment fragment = new ChooseImageFragment();
+        Bundle args = new Bundle();
+        args.putInt(DeckMemberFragment.DECK_ID,
+            getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+        fragment.setArguments(args); // bundle
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
       }
     });
