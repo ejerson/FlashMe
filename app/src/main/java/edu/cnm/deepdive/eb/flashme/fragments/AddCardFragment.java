@@ -70,8 +70,6 @@ public class AddCardFragment extends DialogFragment {
           throw new RuntimeException();
         }
 
-        // TODO make this go to a fragment that ask users to choose images from
-        // google api
 //        startActivity(new Intent(getActivity(), CardActivity.class));
 
         ChooseImageFragment fragment = new ChooseImageFragment();
@@ -79,7 +77,6 @@ public class AddCardFragment extends DialogFragment {
         args.putInt(DeckMemberFragment.DECK_ID,
             getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
         fragment.setArguments(args); // bundle
-
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
       }

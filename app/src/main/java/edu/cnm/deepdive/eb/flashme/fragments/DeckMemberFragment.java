@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.eb.flashme.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import edu.cnm.deepdive.eb.flashme.CardActivity;
 import edu.cnm.deepdive.eb.flashme.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
@@ -130,7 +128,12 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
       case R.id.button_review_card:
-        startActivity(new Intent(getActivity(), CardActivity.class));
+        ChooseImageFragment fragment = new ChooseImageFragment();
+        args = new Bundle();
+        args.putInt(DeckMemberFragment.DECK_ID,
+            getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+        fragment.setArguments(args); // bundle
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
         break;
       default:
         break;
