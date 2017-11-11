@@ -55,9 +55,7 @@ public class AddCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
-//        Card card = new Card();
-//        card.setDeck(deck);
-//        getCardDao().create(card);
+        // TODO refresh my view so I can see the cards right away
 
         String name = contentView.getText().toString();
         Card card = new Card();
@@ -68,9 +66,6 @@ public class AddCardFragment extends DialogFragment {
         } catch (SQLException e) {
           throw new RuntimeException();
         }
-
-//        ((DeckMemberActivity) getActivity()).refreshRecyclerView();
-
 
       }
     });
@@ -83,12 +78,4 @@ public class AddCardFragment extends DialogFragment {
     });
     return builder.create();
   }
-
-//  @Override
-//  public OrmHelper getHelper() {
-//    if (helper == null) {
-//      helper = OpenHelperManager.getHelper(getContext(), OrmHelper.class);
-//    }
-//    return helper;
-//  }
 }

@@ -49,7 +49,7 @@ public class Card {
   @Override
   public String toString() {
     Map<String, Object> map = new HashMap<>();
-    map.put("id", id);
+//    map.put("id", id);
     map.put("name", name);
 
     return map.toString();

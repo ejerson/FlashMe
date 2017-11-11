@@ -19,6 +19,8 @@ import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
 
+// TODO Change the title of my toolbar into deck name
+
 /**
  * An activity representing a list of Decks. This activity has different presentations for
  * handset and tablet-size devices. On handsets, the activity presents a list of items, which when
@@ -45,7 +47,7 @@ public class DeckListActivity
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    toolbar.setTitle(getTitle());
+
 
 //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //    fab.setOnClickListener(new View.OnClickListener() {
@@ -60,13 +62,13 @@ public class DeckListActivity
     assert recyclerView != null;
     setupRecyclerView((RecyclerView) recyclerView);
 
-    if (findViewById(R.id.deck_detail_container) != null) {
-      // The detail container view will be present only in the
-      // large-screen layouts (res/values-w900dp).
-      // If this view is present, then the
-      // activity should be in two-pane mode.
-      mTwoPane = true;
-    }
+//    if (findViewById(R.id.deck_detail_container) != null) {
+//      // The detail container view will be present only in the
+//      // large-screen layouts (res/values-w900dp).
+//      // If this view is present, then the
+//      // activity should be in two-pane mode.
+//      mTwoPane = true;
+//    }
   }
 
   // gets invoked after onCreate
@@ -180,17 +182,14 @@ public class DeckListActivity
     public class ViewHolder extends RecyclerView.ViewHolder {
 
       public final View mView;
-//      public final TextView mIdView;
       public final TextView mDeckView;
-//      public final TextView mCreatedView;
       public Deck mItem;
 
       public ViewHolder(View view) {
         super(view);
         mView = view;
-//        mIdView = (TextView) view.findViewById(R.id.deck_id);
         mDeckView = (TextView) view.findViewById(R.id.deck_name);
-//        mCreatedView = (TextView) view.findViewById(R.id.deck_created);
+
       }
 
       @Override

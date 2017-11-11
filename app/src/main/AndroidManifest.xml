@@ -29,6 +29,15 @@
         android:name="android.support.PARENT_ACTIVITY"
         android:value="edu.cnm.deepdive.eb.flashme.DeckListActivity"/>
     </activity>
+
+    <activity android:name=".CardActivity"
+      android:label="Card Activity"
+      android:theme="@style/AppTheme.NoActionBar">
+
+
+    </activity>
   </application>
+
+
 
 </manifest>

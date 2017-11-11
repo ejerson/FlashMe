@@ -29,7 +29,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
     try {
       TableUtils.createTable(connectionSource, Deck.class);
       TableUtils.createTable(connectionSource, Card.class);
-      populateDatabase();
+//      populateDatabase();
 
     } catch (SQLException e) {
       // RunTimeException is not a checked exception
@@ -85,15 +85,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
 //    Assert.assertEquals(testList.size(), 1);
 //    Assert.assertEquals(testList.get(0).getCards().size(), 1);
 //
-//    deck = new Deck();
-//    deck.setName("yey");
-//    getDeckDao().create(deck);
-//
-//    card = new Card();
-//    card.setName("I think my database is working");
-//
-//    card.setDeck(deck);
-//    getCardDao().create(card);
+
 
   }
 

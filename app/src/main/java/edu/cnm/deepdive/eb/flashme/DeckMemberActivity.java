@@ -1,12 +1,15 @@
 package edu.cnm.deepdive.eb.flashme;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.ReviewCardFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 
 /**
@@ -18,6 +21,9 @@ public class DeckMemberActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
 
+  FragmentManager manager = getSupportFragmentManager();
+  Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+
   private OrmHelper helper = null;
 
   @Override
@@ -26,15 +32,8 @@ public class DeckMemberActivity
     setContentView(R.layout.activity_deck_detail);
     Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
     setSupportActionBar(toolbar);
-    
-//    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//    fab.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null).show();
-//      }
-//    });
+
+
 
     // Show the Up button in the action bar.
     ActionBar actionBar = getSupportActionBar();
@@ -48,22 +47,42 @@ public class DeckMemberActivity
     // In this case, the fragment will automatically be re-added
     // to its container so we don't need to manually add it.
     // For more information, see the Fragments API guide at:
-    //
-    // http://developer.android.com/guide/components/fragments.html
-    //
-    if (savedInstanceState == null) {
-      // Create the detail fragment and add it to the activity
-      // using a fragment transaction.
-      // This allows me to pass info to my fragments
-      Bundle arguments = new Bundle();
-      arguments.putInt(DeckMemberFragment.DECK_ID,
+//    if (savedInstanceState == null) {
+//      // Create the detail fragment and add it to the activity
+//      // using a fragment transaction.
+//      // This allows me to pass info to my fragments
+//      Bundle arguments = new Bundle();
+//      arguments.putInt(DeckMemberFragment.DECK_ID,
+//          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+//      DeckMemberFragment fragment = new DeckMemberFragment();
+//      fragment.setArguments(arguments);
+//      getSupportFragmentManager().beginTransaction()
+//          .add(R.id.fragment_container, fragment)
+//          .commit();
+//    }
+
+    deckMemberFragment();
+  }
+
+  private void deckMemberFragment() {
+    if (fragment == null) {
+      fragment = new DeckMemberFragment();
+      Bundle args = new Bundle();
+      args.putInt(DeckMemberFragment.DECK_ID,
           getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-      DeckMemberFragment fragment = new DeckMemberFragment();
-      fragment.setArguments(arguments);
-      getSupportFragmentManager().beginTransaction()
-          .add(R.id.deck_detail_container, fragment)
-          .commit();
+      fragment.setArguments(args); // bundle
+      manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
+  }
+
+  private void cardReviewFragment() {
+      fragment = new ReviewCardFragment();
+      Bundle args = new Bundle();
+      args.putInt(DeckMemberFragment.DECK_ID,
+          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+      fragment.setArguments(args); // bundle
+      manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
   }
 
 
@@ -112,19 +131,5 @@ public class DeckMemberActivity
     }
   }
 
-//  @Override
-//  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
-//    return getHelper().getDeckDao();
-//  }
-//
-//  @Override
-//  public Dao<Card, Integer> getDaoCard() throws SQLException {
-//    return getHelper().getCardDao();
-//  }
-
-  // I need to get Item count
-
-
-  
 
 }
