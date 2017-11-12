@@ -17,8 +17,11 @@ public class Card {
   private int id;
 
 
-  @DatabaseField(columnName = "CARD", canBeNull = false)
+  @DatabaseField(columnName = "FRONT", canBeNull = false)
   private String name;
+
+  @DatabaseField(columnName = "TYPE", canBeNull = false)
+  private String type = "Level 1";
 
 
 
@@ -46,11 +49,20 @@ public class Card {
     this.deck = deck;
   }
 
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   @Override
   public String toString() {
     Map<String, Object> map = new HashMap<>();
 //    map.put("id", id);
     map.put("name", name);
+    map.put("type", type);
 
     return map.toString();
   }

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.cnm.deepdive.eb.flashme.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +23,6 @@ public class ChooseImageFragment extends Fragment {
   String pig = "Imagine I love candy!";
   String[] arr = pig.split(" ");
   private SpannableString ssOne, ssTwo, ssThree, ssFour;
-  TextView ssTextView;
-
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -42,20 +39,7 @@ public class ChooseImageFragment extends Fragment {
     ClickableSpan clickableSpan = new ClickableSpan() {
       @Override
       public void onClick(View textView) {
-
-        Toast.makeText(getActivity(), ssOne, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), ssTwo, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), ssThree, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), ssFour, Toast.LENGTH_SHORT).show();
-
-//        ChooseImageFragment fragment = new ChooseImageFragment();
-//        Bundle args = new Bundle();
-////        args.putInt(DeckMemberFragment.DECK_ID,
-////            getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-//        fragment.setArguments(args); // bundle
-//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
-
+        // TODO send the text of my clicked SpannableString to google API
       }
 
       @Override
@@ -64,8 +48,6 @@ public class ChooseImageFragment extends Fragment {
         ds.setUnderlineText(false);
       }
     };
-
-
 
 List<SpannableString> ss = new ArrayList<>();
 
@@ -95,10 +77,6 @@ List<SpannableString> ss = new ArrayList<>();
       ssTv[i].setTextColor(Color.parseColor("#000000"));
       rl.addView(ssTv[i]);
     }
-
-
-    // TODO the back of a card turns into something clickable which will search my api for images/ 1 max for now
-    // TODO make sure the chosen keyword gets loaded along with a new fragment
 
     return v;
   }

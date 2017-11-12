@@ -24,7 +24,9 @@ public class AddCardFragment extends DialogFragment {
   public static final String DECK_ID_KEY = "deck_id";
 
   private Dao<Deck, Integer> deckDao;
+  private Dao <Card, Integer> cardDao;
   private Deck deck;
+  private Deck card;
   private OrmHelper helper;
 //
 //  FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -58,14 +60,24 @@ public class AddCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
-        // TODO refresh my view so I can see the cards right away
-
+        // TODO validate (make decks do not contain blank card or cards with the same name
         String name = contentView.getText().toString();
         Card card = new Card();
         card.setDeck(deck);
         card.setName(name);
         try {
-          helper.getCardDao().create(card);
+
+//          QueryBuilder<Card, Integer> cardQb = cardDao.queryBuilder();
+//          cardQb.where().eq("FRONT", card.getName());
+//          PreparedQuery<Card> preparedQuery = cardQb.prepare();
+//          List<Card> singleCard = cardDao.query(preparedQuery);
+//          if (singleCard.equals(card.getName())) {
+//            Toast.makeText(getContext(), "exist", Toast.LENGTH_SHORT);
+//          } else {
+
+            helper.getCardDao().create(card);
+//          }
+
         } catch (SQLException e) {
           throw new RuntimeException();
         }

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 public class CardActivity extends AppCompatActivity {
 
+  // NOT BEING USED
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

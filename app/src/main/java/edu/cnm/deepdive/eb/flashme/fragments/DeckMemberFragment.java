@@ -81,10 +81,9 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       Bundle savedInstanceState) {
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
 
-
-       cardList = rootView.findViewById(R.id.card_name);
-       cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
-       cardList.setAdapter(cardAdapter);
+    cardList = rootView.findViewById(R.id.card_name);
+    cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+    cardList.setAdapter(cardAdapter);
 
     Button one = rootView.findViewById(R.id.button_add_card);
     one.setOnClickListener(this);
@@ -92,29 +91,8 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     Button two = rootView.findViewById(R.id.button_review_card);
     two.setOnClickListener(this);
 
-//    (
-//        new OnClickListener() {
-//          @Override
-//          public void onClick(View view) {
-//            Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
-//          }
-//        });
     return rootView;
   }
-
-//  public OrmHelper getHelper() {
-//    if (helper == null) {
-//      helper = OpenHelperManager.getHelper(getContext(), OrmHelper.class);
-//    }
-//    return helper;
-//  }
-//
-//  public synchronized void releaseHelper() {
-//    if (helper != null) {
-//      OpenHelperManager.releaseHelper();
-//      helper = null;
-//    }
-//  }
 
   @Override
   public void onClick(View v) {
@@ -128,7 +106,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
       case R.id.button_review_card:
-        ChooseImageFragment fragment = new ChooseImageFragment();
+        ReviewCardFragment fragment = new ReviewCardFragment();
         args = new Bundle();
         args.putInt(DeckMemberFragment.DECK_ID,
             getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));

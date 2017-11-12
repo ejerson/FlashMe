@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/image_layout"
+  android:id="@+id/review_card_layout"
+  android:orientation="vertical"
   android:layout_marginTop="@dimen/app_bar_height"
-  android:orientation="horizontal"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
+  <ListView
+    android:id="@+id/single_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"/>
 
 </LinearLayout>
