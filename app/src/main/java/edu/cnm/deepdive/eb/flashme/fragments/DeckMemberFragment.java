@@ -73,9 +73,9 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
 
   @Override
-  public void onClick(View v) {
+  public void onClick(View view) {
 
-    switch (v.getId()) {
+    switch (view.getId()) {
       case R.id.button_add_card:
         AddCardFragment dialog = new AddCardFragment();
         Bundle args = new Bundle();
@@ -122,6 +122,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     }
   }
 
+  // TODO how to customize what gets sent to my view
     @Override
     public String toString() {
       return super.toString();

@@ -68,14 +68,12 @@ public class Card {
   public String toString() {
 
     Map<String, Object> map = new HashMap<>();
-//    map.put("id", id);
+    map.put("id", id);
     map.put("front", front);
 //    map.put("back", back);
 //    map.put("type", type);
 
         return map.get("front").toString();
-
-    
   }
 
 
