@@ -42,11 +42,14 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>
     <Button
+      android:id="@+id/button_add_deck"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
       android:onClick="showAddDialog"
       android:text="ADD DECK"/>
+
+
   </FrameLayout>
 
   <!--<android.support.design.widget.FloatingActionButton-->

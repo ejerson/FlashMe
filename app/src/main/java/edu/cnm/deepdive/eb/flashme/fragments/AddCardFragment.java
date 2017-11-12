@@ -28,10 +28,6 @@ public class AddCardFragment extends DialogFragment {
   private Deck deck;
   private Deck card;
   private OrmHelper helper;
-//
-//  FragmentManager manager = getActivity().getSupportFragmentManager();
-//  Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,7 +48,6 @@ public class AddCardFragment extends DialogFragment {
     // declare them final to be able to access these inside my OnClickListener
     // this value will never change, it makes this variable immutable
     // this variable can't refer to another textView
-
     final EditText frontView = inflatedView.findViewById(R.id.card_front);
     final EditText backView = inflatedView.findViewById(R.id.card_back);
 

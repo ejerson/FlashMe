@@ -29,7 +29,6 @@ public class ReviewCardFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
   }
 
   @Nullable
@@ -43,9 +42,7 @@ public class ReviewCardFragment extends Fragment {
     singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
     singleCard.setAdapter(singleAdapter);
 
-
     return rootView;
-
   }
 
   @Override
@@ -77,9 +74,10 @@ public class ReviewCardFragment extends Fragment {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+
   }
 
 
 
 
-}
+  }

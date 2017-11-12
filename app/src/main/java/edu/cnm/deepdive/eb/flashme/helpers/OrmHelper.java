@@ -85,8 +85,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
 //    Assert.assertEquals(testList.size(), 1);
 //    Assert.assertEquals(testList.get(0).getCards().size(), 1);
 //
-
-
   }
 
   public interface OrmInteraction {

@@ -20,7 +20,6 @@ public class AddContentFragment extends DialogFragment {
 
   private OrmHelper helper = null;
 
-
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Builder builder = new Builder(getActivity());
@@ -29,23 +28,12 @@ public class AddContentFragment extends DialogFragment {
 
     View inflatedView = inflater.inflate(R.layout.dialog_add_content, null);
 
-
-
-    // declare them final to be able to access these inside my OnClickListener
-    // this value will never change, it makes this variable immutable
-    // this variable can't refer to another textView
-//    final EditText contentView = inflatedView.findViewById(R.id.new_content);
-//    final EditText idView = inflatedView.findViewById(R.id.new_id);
-//    final EditText colorView = inflatedView.findViewById(R.id.new_color);
-
     final EditText contentView = inflatedView.findViewById(R.id.new_deck);
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
-//        Toast toast = Toast.makeText(getActivity(), "yey", Toast.LENGTH_SHORT);
-//        toast.show();
 
         OrmHelper helper = new OrmHelper(getContext());
 
@@ -58,9 +46,6 @@ public class AddContentFragment extends DialogFragment {
           throw new RuntimeException();
         }
         ((DeckListActivity) getActivity()).refreshRecyclerView();
-
-        // TODO Query my card creation so I get any cards that has equivalent deck_name column
-        // TODO Post my query so it is loaded inside DecKMemberFragment
 
       }
     });
