@@ -47,7 +47,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private ArrayAdapter<Card> cardAdapter;
 
 
-
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
    * screen orientation changes).
@@ -81,7 +80,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       Bundle savedInstanceState) {
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
 
-    cardList = rootView.findViewById(R.id.card_name);
+    cardList = rootView.findViewById(R.id.card_front);
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
     cardList.setAdapter(cardAdapter);
 
@@ -93,6 +92,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
     return rootView;
   }
+
 
   @Override
   public void onClick(View v) {
@@ -111,14 +111,14 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         args.putInt(DeckMemberFragment.DECK_ID,
             getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
         fragment.setArguments(args); // bundle
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container, fragment).commit();
         break;
       default:
         break;
     }
 
   }
-
 
 
   @Override
@@ -130,7 +130,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         Dao<Deck, Integer> deckDao = helper.getDeckDao();
         Dao<Card, Integer> cardDao = helper.getCardDao();
         deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//        ((Toolbar) getActivity().findViewById(R.id.toolbar)).setTitle(deck.getName());
+
         QueryBuilder<Card, Integer> builder = cardDao.queryBuilder();
         builder.where().eq("DECK_ID", deck.getId());
         List<Card> cards = cardDao.query(builder.prepare());
@@ -140,10 +140,17 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
-    }  else {
+    } else {
       deck = null;
     }
   }
 
 
-}
+    @Override
+    public String toString() {
+      return super.toString();
+
+    }
+
+
+  }

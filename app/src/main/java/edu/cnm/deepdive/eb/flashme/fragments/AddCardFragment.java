@@ -53,7 +53,8 @@ public class AddCardFragment extends DialogFragment {
     // this value will never change, it makes this variable immutable
     // this variable can't refer to another textView
 
-    final EditText contentView = inflatedView.findViewById(R.id.new_card);
+    final EditText frontView = inflatedView.findViewById(R.id.card_front);
+    final EditText backView = inflatedView.findViewById(R.id.card_back);
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
@@ -61,17 +62,19 @@ public class AddCardFragment extends DialogFragment {
       public void onClick(DialogInterface dialogInterface, int i) {
 
         // TODO validate (make decks do not contain blank card or cards with the same name
-        String name = contentView.getText().toString();
+        String front = frontView.getText().toString();
+        String back = backView.getText().toString();
         Card card = new Card();
         card.setDeck(deck);
-        card.setName(name);
+        card.setFront(front);
+        card.setBack(back);
         try {
 
 //          QueryBuilder<Card, Integer> cardQb = cardDao.queryBuilder();
-//          cardQb.where().eq("FRONT", card.getName());
+//          cardQb.where().eq("FRONT", card.getFront());
 //          PreparedQuery<Card> preparedQuery = cardQb.prepare();
 //          List<Card> singleCard = cardDao.query(preparedQuery);
-//          if (singleCard.equals(card.getName())) {
+//          if (singleCard.equals(card.getFront())) {
 //            Toast.makeText(getContext(), "exist", Toast.LENGTH_SHORT);
 //          } else {
 
@@ -81,8 +84,6 @@ public class AddCardFragment extends DialogFragment {
         } catch (SQLException e) {
           throw new RuntimeException();
         }
-
-//        startActivity(new Intent(getActivity(), CardActivity.class));
 
         ChooseImageFragment fragment = new ChooseImageFragment();
         Bundle args = new Bundle();

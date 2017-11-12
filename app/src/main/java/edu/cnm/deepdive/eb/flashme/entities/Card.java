@@ -16,14 +16,14 @@ public class Card {
   @DatabaseField(columnName = "CARD_ID", generatedId = true)
   private int id;
 
-
   @DatabaseField(columnName = "FRONT", canBeNull = false)
-  private String name;
+  private String front;
+
+  @DatabaseField(columnName = "BACK", canBeNull = false)
+  private String back;
 
   @DatabaseField(columnName = "TYPE", canBeNull = false)
   private String type = "Level 1";
-
-
 
   @DatabaseField(columnName = "DECK_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Deck deck;
@@ -32,13 +32,20 @@ public class Card {
     return id;
   }
 
-
-  public String getName() {
-    return name;
+  public String getFront() {
+    return front;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setFront(String front) {
+    this.front = front;
+  }
+
+  public String getBack() {
+    return back;
+  }
+
+  public void setBack(String back) {
+    this.back = back;
   }
 
   public Deck getDeck() {
@@ -61,10 +68,12 @@ public class Card {
   public String toString() {
     Map<String, Object> map = new HashMap<>();
 //    map.put("id", id);
-    map.put("name", name);
-    map.put("type", type);
+    map.put("front", front);
+//    map.put("back", back);
+//    map.put("type", type);
 
-    return map.toString();
+
+    return map.get("front").toString();
   }
 
 

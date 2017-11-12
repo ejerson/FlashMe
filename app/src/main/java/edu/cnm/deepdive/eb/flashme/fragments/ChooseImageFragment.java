@@ -51,10 +51,10 @@ public class ChooseImageFragment extends Fragment {
 
 List<SpannableString> ss = new ArrayList<>();
 
-      ss.add(ssOne = new SpannableString(arr[0]));
-      ss.add(ssTwo = new SpannableString(arr[1]));
-      ss.add(ssThree = new SpannableString(arr[2]));
-      ss.add(ssFour = new SpannableString(arr[3]));
+      ss.add(new SpannableString(arr[0]));
+      ss.add(new SpannableString(arr[1]));
+      ss.add(new SpannableString(arr[2]));
+      ss.add(new SpannableString(arr[3]));
 
       for (int i = 0; i < ss.size(); i ++ ) {
        ss.get(i).setSpan(clickableSpan, 0, ss.get(i).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -178,7 +178,7 @@ public class DeckListActivity
       return mValues.size();
     }
 
-    // construct a representation for a student in our list
+    // construct a representation for a deck in our list
     public class ViewHolder extends RecyclerView.ViewHolder {
 
       public final View mView;

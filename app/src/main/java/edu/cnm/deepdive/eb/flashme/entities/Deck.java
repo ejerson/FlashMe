@@ -50,7 +50,7 @@ public class Deck {
   @Override
   public String toString() {
     Map<String, Object> map = new HashMap<>();
-    map.put("id", id);
+//    map.put("id", id);
     map.put("name", name);
 //    map.put("created", created);
 

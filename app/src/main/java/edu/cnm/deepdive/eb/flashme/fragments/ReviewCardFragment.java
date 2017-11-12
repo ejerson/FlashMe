@@ -43,6 +43,7 @@ public class ReviewCardFragment extends Fragment {
     singleAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
     singleCard.setAdapter(singleAdapter);
 
+
     return rootView;
 
   }
@@ -77,4 +78,8 @@ public class ReviewCardFragment extends Fragment {
       throw new RuntimeException(e);
     }
   }
+
+
+
+
 }
