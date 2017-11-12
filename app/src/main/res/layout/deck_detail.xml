@@ -9,10 +9,9 @@
     android:id="@+id/card_front"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/app_bar_height"
-
     android:layout_height="0dp"
-    android:layout_weight="1"
+    android:layout_weight="1.00"
+    android:layout_marginTop="@dimen/app_bar_height"
     android:padding="16dp"/>
 
   <LinearLayout

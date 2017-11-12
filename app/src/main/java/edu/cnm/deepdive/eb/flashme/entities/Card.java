@@ -66,14 +66,16 @@ public class Card {
 
   @Override
   public String toString() {
+
     Map<String, Object> map = new HashMap<>();
 //    map.put("id", id);
     map.put("front", front);
 //    map.put("back", back);
 //    map.put("type", type);
 
+        return map.get("front").toString();
 
-    return map.get("front").toString();
+    
   }
 
 

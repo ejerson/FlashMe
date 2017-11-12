@@ -40,7 +40,7 @@ public class ReviewCardFragment extends Fragment {
     rootView = inflater.inflate(R.layout.review_card_fragment, container, false);
 
     singleCard = rootView.findViewById(R.id.single_card);
-    singleAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
     singleCard.setAdapter(singleAdapter);
 
 

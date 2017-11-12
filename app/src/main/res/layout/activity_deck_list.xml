@@ -20,21 +20,33 @@
       app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
   </android.support.design.widget.AppBarLayout>
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
+    android:fontFamily="monospace"
+    android:text="Deck List"
+    android:textAlignment="center"
+    android:textSize="40dp"/>
 
   <FrameLayout
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include layout="@layout/deck_list"/>
 
+    <include
+      layout="@layout/deck_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
     <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="showAddDialog"
-    android:text="ADD DECK"
-    android:layout_gravity="bottom"/>
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:onClick="showAddDialog"
+      android:text="ADD DECK"/>
   </FrameLayout>
 
   <!--<android.support.design.widget.FloatingActionButton-->
