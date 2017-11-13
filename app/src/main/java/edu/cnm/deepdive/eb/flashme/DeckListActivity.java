@@ -48,27 +48,9 @@ public class DeckListActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-
-//    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//    fab.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null).show();
-//      }
-//    });
-
     View recyclerView = findViewById(R.id.deck_list);
     assert recyclerView != null;
     setupRecyclerView((RecyclerView) recyclerView);
-
-//    if (findViewById(R.id.deck_detail_container) != null) {
-//      // The detail container view will be present only in the
-//      // large-screen layouts (res/values-w900dp).
-//      // If this view is present, then the
-//      // activity should be in two-pane mode.
-//      mTwoPane = true;
-//    }
   }
 
   // gets invoked after onCreate
@@ -118,19 +100,12 @@ public class DeckListActivity
     }
   }
 
-//  @Override
-//  public Dao<Deck, Integer> getDaoDeck() throws SQLException {
-//    return getHelper().getDeckDao();
-//  }
-
   public class SimpleItemRecyclerViewAdapter
       extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
     // change this so I can populate my list with deck
     private final List<Deck> mValues;
-
-
-
+    
     public SimpleItemRecyclerViewAdapter(List<Deck> items) {
       mValues = items;
     }
@@ -203,4 +178,5 @@ public class DeckListActivity
     AddContentFragment dialog = new AddContentFragment();
     dialog.show(getSupportFragmentManager(), "AddContentFragment");
   }
+
 }

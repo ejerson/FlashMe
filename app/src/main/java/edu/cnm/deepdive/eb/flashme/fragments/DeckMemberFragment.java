@@ -27,10 +27,12 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
   /** The fragment argument representing the item ID that this fragment represents. */
   public static final String DECK_ID = "deck_id";
+  public static final String CARD_ID = "card_id";
 
   private OrmHelper helper;
   private int deckId;
   private Deck deck;
+  private Card card;
   private View rootView;
   private ListView cardList;
   private ArrayAdapter<Card> cardAdapter;
@@ -72,6 +74,8 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   }
 
 
+
+
   @Override
   public void onClick(View view) {
 
@@ -86,10 +90,10 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       case R.id.button_review_card:
 //        startActivity(new Intent(getActivity(), CardActivity.class));
         ReviewCardFragment fragment = new ReviewCardFragment();
-        args = new Bundle();
-        args.putInt(DeckMemberFragment.DECK_ID,
-            getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-        fragment.setArguments(args); // bundle
+        Bundle argsReview = new Bundle();
+        argsReview.putInt(ReviewCardFragment.CARD_ID,
+            getActivity().getIntent().getIntExtra(ReviewCardFragment.CARD_ID, 0));
+        fragment.setArguments(argsReview); // bundle
         getActivity().getSupportFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, fragment).commit();
         break;

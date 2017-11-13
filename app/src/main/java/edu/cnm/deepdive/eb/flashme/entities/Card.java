@@ -23,7 +23,7 @@ public class Card {
   private String back;
 
   @DatabaseField(columnName = "TYPE", canBeNull = false)
-  private String type = "Level 1";
+  private int type;
 
   @DatabaseField(columnName = "DECK_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Deck deck;
@@ -56,11 +56,11 @@ public class Card {
     this.deck = deck;
   }
 
-  public String getType() {
+  public int getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(int type) {
     this.type = type;
   }
 
@@ -71,9 +71,10 @@ public class Card {
     map.put("id", id);
     map.put("front", front);
 //    map.put("back", back);
-//    map.put("type", type);
+    map.put("type", type);
 
-        return map.get("front").toString();
+//        return map.get("front").toString();
+    return map.toString();
   }
 
 

@@ -33,8 +33,9 @@
     <activity android:name=".CardActivity"
       android:label="Card Activity"
       android:theme="@style/AppTheme.NoActionBar">
+    </activity>
 
-
+    <activity android:name=".TransferDeckListActivity">
     </activity>
   </application>
 

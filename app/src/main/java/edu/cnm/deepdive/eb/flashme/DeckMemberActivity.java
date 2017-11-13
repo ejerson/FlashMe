@@ -67,13 +67,11 @@ public class DeckMemberActivity
     if (fragment == null) {
       fragment = new DeckMemberFragment();
       Bundle args = new Bundle();
-      args.putInt(DeckMemberFragment.DECK_ID,
-          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+      args.putInt(DeckMemberFragment.DECK_ID, getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
       fragment.setArguments(args); // bundle
       manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
   }
-
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {

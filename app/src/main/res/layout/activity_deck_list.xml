@@ -46,9 +46,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
-      android:onClick="showAddDialog"
-      android:text="ADD DECK"/>
-
+    android:onClick="showAddDialog"
+    android:text="ADD DECK"/>
 
   </FrameLayout>
 

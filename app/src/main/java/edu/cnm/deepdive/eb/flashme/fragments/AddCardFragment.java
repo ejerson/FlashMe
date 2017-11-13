@@ -62,6 +62,7 @@ public class AddCardFragment extends DialogFragment {
         Card card = new Card();
         card.setDeck(deck);
         card.setFront(front);
+        card.setType(1);
         card.setBack(back);
         try {
 
