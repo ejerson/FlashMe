@@ -73,13 +73,11 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     return rootView;
   }
 
-
-
-
   @Override
   public void onClick(View view) {
 
     switch (view.getId()) {
+      // Adds a card to a specific deck id key (foreign key)
       case R.id.button_add_card:
         AddCardFragment dialog = new AddCardFragment();
         Bundle args = new Bundle();
@@ -87,15 +85,17 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         dialog.setArguments(args);
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
+        // TODO How to bind the value of the card currently being reviewed
+      // How do I target just the card with a specific deck id key?
       case R.id.button_review_card:
-//        startActivity(new Intent(getActivity(), CardActivity.class));
-        ReviewCardFragment fragment = new ReviewCardFragment();
+        ReviewCardFragment review = new ReviewCardFragment();
         Bundle argsReview = new Bundle();
-        argsReview.putInt(ReviewCardFragment.CARD_ID,
-            getActivity().getIntent().getIntExtra(ReviewCardFragment.CARD_ID, 0));
-        fragment.setArguments(argsReview); // bundle
+        argsReview.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
+//        argsReview.putInt(ReviewCardFragment.CARD_ID,
+//            getActivity().getIntent().getIntExtra(ReviewCardFragment.CARD_ID, 0));
+        review.setArguments(argsReview); // bundle
         getActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, fragment).commit();
+            .replace(R.id.fragment_container, review).commit();
         break;
       default:
         break;

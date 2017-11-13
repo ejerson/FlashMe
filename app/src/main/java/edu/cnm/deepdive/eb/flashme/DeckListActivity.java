@@ -31,12 +31,7 @@ public class DeckListActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
 
-  /**
-   * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
-   */
-  private boolean mTwoPane;
-  private OrmHelper helper = null;
-
+  private OrmHelper helper;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +63,17 @@ public class DeckListActivity
     releaseHelper();
   }
 
+  /** Updates my recyclerView when a new Deck is added*/
   public void refreshRecyclerView(){
     View recyclerView = findViewById(R.id.deck_list);
     assert recyclerView != null;
     setupRecyclerView((RecyclerView) recyclerView);
   }
 
-  // creates a new view adapter and passing it items from dummy content
+  /** Creates a new view adapted and passing it deck names */
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
     try {
-      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(getHelper().getDeckDao().queryForAll()));
+      recyclerView.setAdapter(new DeckItemRecyclerViewAdapter(getHelper().getDeckDao().queryForAll()));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -100,16 +96,19 @@ public class DeckListActivity
     }
   }
 
-  public class SimpleItemRecyclerViewAdapter
-      extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+  /** Manages my the Recycler view for my deck name list */
+  public class DeckItemRecyclerViewAdapter
+      extends RecyclerView.Adapter<DeckItemRecyclerViewAdapter.ViewHolder> {
 
-    // change this so I can populate my list with deck
-    private final List<Deck> mValues;
-    
-    public SimpleItemRecyclerViewAdapter(List<Deck> items) {
-      mValues = items;
+    /** Contains a list of individual deck */
+    private final List<Deck> mDecks;
+
+    /** Constructor for the List<Deck> mDecks field */
+    public DeckItemRecyclerViewAdapter(List<Deck> decks) {
+      mDecks = decks;
     }
 
+    /** Returns a new view from ViewHolder */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       View view = LayoutInflater.from(parent.getContext())
@@ -117,53 +116,44 @@ public class DeckListActivity
       return new ViewHolder(view);
     }
 
+    /** Binds the value ???? */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-      holder.mItem = mValues.get(position);
-//      holder.mIdView.setId(mValues.get(position).getId());
-      holder.mDeckView.setText(mValues.get(position).getName());
+      holder.mDeck = mDecks.get(position);
+      holder.mDeckView.setText(mDecks.get(position).getName());
 //      holder.mCreatedView.setText(mValues.get(position).getCreated().toString());
 
+      /** Passes the value of the Deck id onto DeckMemberActivity */
       holder.mView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(DeckMemberFragment.DECK_ID, holder.mItem.getId());
-            DeckMemberFragment fragment = new DeckMemberFragment();
-            fragment.setArguments(arguments); // this is how I pass arguments into a fragment
-            getSupportFragmentManager().beginTransaction()
-                .replace(R.id.deck_detail_container, fragment)
-                .commit();
-          } else {
             Context context = v.getContext();
             Intent intent = new Intent(context, DeckMemberActivity.class);
-            intent.putExtra(DeckMemberFragment.DECK_ID, holder.mItem.getId());
+            intent.putExtra(DeckMemberFragment.DECK_ID, holder.mDeck.getId());
 
             context.startActivity(intent);
-          }
         }
       });
     }
 
-    // Adapter connects me to data, its job is to construct a collection of views object to be used by
-    // a list/recycler view
+    // Adapter connects me to data, its job is to construct
+    // a collection of views object to be used by a list/recycler view
     @Override
     public int getItemCount() {
-      return mValues.size();
+      return mDecks.size();
     }
 
-    // construct a representation for a deck in our list
+    // construct a representation for a deck in the list
     public class ViewHolder extends RecyclerView.ViewHolder {
 
       public final View mView;
       public final TextView mDeckView;
-      public Deck mItem;
+      public Deck mDeck;
 
       public ViewHolder(View view) {
         super(view);
         mView = view;
-        mDeckView = (TextView) view.findViewById(R.id.deck_name);
+        mDeckView = view.findViewById(R.id.deck_name);
 
       }
 

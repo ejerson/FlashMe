@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--This controls the appearance of individual deck name-->
 <TextView
   android:id="@+id/deck_name"
   android:layout_width="match_parent"

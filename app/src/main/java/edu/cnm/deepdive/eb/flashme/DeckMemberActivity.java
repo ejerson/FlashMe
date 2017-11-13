@@ -32,33 +32,11 @@ public class DeckMemberActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
     setSupportActionBar(toolbar);
 
-
-
     // Show the Up button in the action bar.
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
       actionBar.setDisplayHomeAsUpEnabled(true);
     }
-
-    // savedInstanceState is non-null when there is fragment state
-    // saved from previous configurations of this activity
-    // (e.g. when rotating the screen from portrait to landscape).
-    // In this case, the fragment will automatically be re-added
-    // to its container so we don't need to manually add it.
-    // For more information, see the Fragments API guide at:
-//    if (savedInstanceState == null) {
-//      // Create the detail fragment and add it to the activity
-//      // using a fragment transaction.
-//      // This allows me to pass info to my fragments
-//      Bundle arguments = new Bundle();
-//      arguments.putInt(DeckMemberFragment.DECK_ID,
-//          getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-//      DeckMemberFragment fragment = new DeckMemberFragment();
-//      fragment.setArguments(arguments);
-//      getSupportFragmentManager().beginTransaction()
-//          .add(R.id.fragment_container, fragment)
-//          .commit();
-//    }
 
     deckMemberFragment();
   }
@@ -68,7 +46,7 @@ public class DeckMemberActivity
       fragment = new DeckMemberFragment();
       Bundle args = new Bundle();
       args.putInt(DeckMemberFragment.DECK_ID, getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-      fragment.setArguments(args); // bundle
+      fragment.setArguments(args);
       manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
   }

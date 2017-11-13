@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ChooseImageFragment extends Fragment {
 
-  String pig = "Imagine I love candy!";
+  String pig = "Imagine I love candy";
   String[] arr = pig.split(" ");
   private SpannableString ssOne, ssTwo, ssThree, ssFour;
 
@@ -51,11 +51,9 @@ public class ChooseImageFragment extends Fragment {
 
 List<SpannableString> ss = new ArrayList<>();
 
-      ss.add(new SpannableString(arr[0]));
-      ss.add(new SpannableString(arr[1]));
-      ss.add(new SpannableString(arr[2]));
-      ss.add(new SpannableString(arr[3]));
-
+for (int i = 0; i < arr.length; i++) {
+  ss.add(new SpannableString(arr[i]));
+}
       for (int i = 0; i < ss.size(); i ++ ) {
        ss.get(i).setSpan(clickableSpan, 0, ss.get(i).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
       }
@@ -68,7 +66,7 @@ List<SpannableString> ss = new ArrayList<>();
     {
       ssTv[i] = new TextView(getActivity());
       // TODO assign each TextView with its own SpannableString
-      ssTv[i].setText(ss.get(1));
+      ssTv[i].setText(ss.get(i));
       ssTv[i].setTextSize(20);
       ssTv[i].setMovementMethod(LinkMovementMethod.getInstance());
       ssTv[i].setHighlightColor(Color.TRANSPARENT);
