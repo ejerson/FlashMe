@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -24,29 +24,20 @@ import java.util.List;
 
 public class ReviewCardFragment extends Fragment implements OnClickListener {
 
-  public static final String CARD_ID = "card_id";
-  public static final String DECK_ID = "deck_id";
+  private static final String CARD_ID = "card_id";
+  private static final String DECK_ID = "deck_id";
 
   private OrmHelper helper;
   private int deckId;
   private Deck deck;
   private Card card;
   private int cardId;
-
   private View rootView;
-  private ListView singleCardCollection;
+
   private ArrayAdapter<Card> singleAdapter;
   private List<Card> deckCardCollection;
+  private TextView cardReview;
 
-
-//  public static ReviewCardFragment newInstance(UUID cardId) {
-//    Bundle args = new Bundle();
-//    args.putSerializable(CARD_ID, cardId);
-//
-//    ReviewCardFragment fragment = new ReviewCardFragment();
-//    fragment.setArguments(args);
-//    return fragment;
-//  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -72,9 +63,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     rootView = inflater.inflate(R.layout.review_card_fragment, container, false);
 
-    singleCardCollection = rootView.findViewById(R.id.single_card);
     singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
-    singleCardCollection.setAdapter(singleAdapter);
 
     Button card_review_button = rootView.findViewById(R.id.button_review);
     card_review_button.setOnClickListener(this);
@@ -90,16 +79,13 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     switch(view.getId()) {
       case R.id.button_review:
-        onStart();
+        cardReview = rootView.findViewById(R.id.review_random_card);
+        cardReview.setText(showNextCard());
         // TODO Retrieve one random card from my deck
 //        Toast.makeText(getActivity(), "yey", Toast.LENGTH_SHORT).show();
         break;
 
       case R.id.button_level_up:
-    // FIXME my card variable is null, why?
-    // I think I might need to find a way to
-    // make sure that I am getting the currently viewed
-    // card's id to be associated with my level_up button
         if (cardId > 0) {
 
     // duplicate the parent state, which is the listView
@@ -151,26 +137,33 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 // query for all decks that have 1 as a type
       deckCardCollection = cardDao.query(preparedQuery);
 
-      int max = deckCardCollection.size();
-      int min = 0;
-      int range = max - min;
 
-      // generate random number from 0 to singleCard.size()
-      int rand = (int) (Math.random() * range) + min;
-      singleAdapter.add(deckCardCollection.get(rand));
-      singleAdapter.notifyDataSetChanged();
+      cardReview = rootView.findViewById(R.id.review_random_card);
+      cardReview.setText(showNextCard());
+
+//      singleAdapter.add(deckCardCollection.get(randomNumberGenerator()));
+//      singleAdapter.notifyDataSetChanged();
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private void showNextCard() {
+  public String showNextCard() {
     // query for a random card
-
-
-
+    return deckCardCollection.get(randomNumberGenerator()).toString();
   }
+
+  public int randomNumberGenerator() {
+    int max = deckCardCollection.size();
+    int min = 0;
+    int range = max - min;
+
+    int rng = (int) (Math.random() * range) + min;
+    // generate random number from 0 to singleCard.size()
+    return rng;
+  }
+
 
 
 }

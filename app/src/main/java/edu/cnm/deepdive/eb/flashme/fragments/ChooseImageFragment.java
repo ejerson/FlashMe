@@ -41,6 +41,7 @@ public class ChooseImageFragment extends Fragment {
       @Override
       public void onClick(View textView) {
         // TODO send the text of my clicked SpannableString to google API
+        // TODO sign up for an Bing Image API
       }
 
       @Override
@@ -68,11 +69,11 @@ for (int i = 0; i < arr.length; i++) {
     {
       ssTv[i] = new TextView(getActivity());
       ssTv[i].setText(ss.get(i));
-      ssTv[i].setTextSize(20);
-//      ssTv[i].setPadding(5, 5, 5, 5);
+      ssTv[i].setTextSize(30);
+      ssTv[i].setPadding(5, 5, 5, 10);
       ssTv[i].setMovementMethod(LinkMovementMethod.getInstance());
       ssTv[i].setHighlightColor(Color.TRANSPARENT);
-      ssTv[i].setPadding(50, 50, 0, 0);
+//      ssTv[i].setPadding(50, 50, 0, 0);
       ssTv[i].setTextColor(Color.parseColor("#000000"));
       rl.addView(ssTv[i]);
     }
