@@ -20,8 +20,9 @@ import java.util.List;
 
 public class ChooseImageFragment extends Fragment {
 
-  String pig = "Imagine I love candy";
-  String[] arr = pig.split(" ");
+  // TODO link my card Back values to mCardBackKeyword
+  String mCardBackKeyword = "Imagine I love candy do you love them too? If not, go away!";
+  String[] arr = mCardBackKeyword.split(" ");
   private SpannableString ssOne, ssTwo, ssThree, ssFour;
 
   @Override
@@ -60,17 +61,17 @@ for (int i = 0; i < arr.length; i++) {
 
     LinearLayout rl = v.findViewById(R.id.image_layout);
 
+
     TextView[] ssTv = new TextView[arr.length];
 
     for(int i=0; i< arr.length; i++)
     {
       ssTv[i] = new TextView(getActivity());
-      // TODO assign each TextView with its own SpannableString
       ssTv[i].setText(ss.get(i));
       ssTv[i].setTextSize(20);
+//      ssTv[i].setPadding(5, 5, 5, 5);
       ssTv[i].setMovementMethod(LinkMovementMethod.getInstance());
       ssTv[i].setHighlightColor(Color.TRANSPARENT);
-
       ssTv[i].setPadding(50, 50, 0, 0);
       ssTv[i].setTextColor(Color.parseColor("#000000"));
       rl.addView(ssTv[i]);

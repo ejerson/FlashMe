@@ -70,7 +70,7 @@ public class DeckListActivity
     setupRecyclerView((RecyclerView) recyclerView);
   }
 
-  /** Creates a new view adapted and passing it deck names */
+  /** Creates a new view adapter and passing it deck names */
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
     try {
       recyclerView.setAdapter(new DeckItemRecyclerViewAdapter(getHelper().getDeckDao().queryForAll()));
