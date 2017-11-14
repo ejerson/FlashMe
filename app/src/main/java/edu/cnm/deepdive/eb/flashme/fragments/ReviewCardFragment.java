@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -33,10 +33,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private int cardId;
   private View rootView;
 
-  private ArrayAdapter<Card> singleAdapter;
+//  private ArrayAdapter<Card> singleAdapter;
   private List<Card> deckCardCollection;
   private TextView cardReview;
 
+  private int currentRandomNumber;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -62,13 +63,15 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     rootView = inflater.inflate(R.layout.review_card_fragment, container, false);
 
-    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
+//    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
 
     Button card_review_button = rootView.findViewById(R.id.button_review);
     card_review_button.setOnClickListener(this);
 
     Button level_up_button = rootView.findViewById(R.id.button_level_up);
     level_up_button.setOnClickListener(this);
+
+    // TODO add a check button
 
     return rootView;
   }
@@ -86,9 +89,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     // duplicate the parent state, which is the listView
 //    try {
-//      String yey = deckCardCollection.get(4).getFront().toString();
-//
-//      Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
+
+        // TODO need to get the current value of my view
+      String yey = String.valueOf(deckCardCollection.get(currentRandomNumber).getId());
+
+      Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
 //
 //
 //
@@ -146,7 +151,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       deckCardCollection = cardDao.query(preparedQuery);
 
       randomCard();
-      singleAdapter.addAll(deckCardCollection);
+//      singleAdapter.addAll(deckCardCollection);
 //      singleAdapter.notifyDataSetChanged();
 
 
@@ -159,12 +164,12 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
     cardReview.setText(showNextCard());
+
   }
 
   public final String showNextCard() {
     // query for a random card
 
-//    currentCard = deckCardCollection.get(randomNumberGenerator());
     return deckCardCollection.get(randomNumberGenerator()).toString();
   }
 
@@ -173,9 +178,9 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     int min = 0;
     int range = max - min;
 
-    int rng = (int) (Math.random() * range) + min;
+    currentRandomNumber = (int) (Math.random() * range) + min;
     // generate random number from 0 to singleCard.size()
-    return rng;
+    return currentRandomNumber;
   }
 
 

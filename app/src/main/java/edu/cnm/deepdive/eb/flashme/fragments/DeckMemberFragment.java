@@ -85,8 +85,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         dialog.setArguments(args);
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
-        // TODO How to bind the value of the card currently being reviewed
-      // How do I target just the card with a specific deck id key?
       case R.id.button_review_card:
         ReviewCardFragment review = new ReviewCardFragment();
         Bundle argsReview = new Bundle();
