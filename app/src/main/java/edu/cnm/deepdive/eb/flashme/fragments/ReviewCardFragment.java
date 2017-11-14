@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -96,34 +97,29 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         break;
 
       case R.id.button_level_up:
-//        if (cardId > 0) {
 
     // duplicate the parent state, which is the listView
-//    try {
+    try {
 
        // TODO update the level of the card being reviewed
       String yey = String.valueOf(deckCardCollection.get(currentRandomNumber).getId());
 
       Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
 
-////      Dao<Deck, Integer> deckDao = helper.getDeckDao();
-//      Dao<Card, Integer> cardDao = helper.getCardDao();
+//      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      Dao<Card, Integer> cardDao = helper.getCardDao();
 ////      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//      card = cardDao.queryForId(getArguments().getInt(CARD_ID));
+//      card = cardDao.queryForId(deckCardCollection.get(currentRandomNumber).getId());
 //      // this is how I make my query more specific by using the and keyword
-//
-//      UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
+      UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
 //      // set the criteria like you would a QueryBuilder
-//      updateBuilder.where().eq("CARD_ID", card.getId());
+      updateBuilder.where().eq("CARD_ID", deckCardCollection.get(currentRandomNumber).getId());
 //      // update the value of your field(s)
-//      updateBuilder.updateColumnValue("TYPE", 2);
-//      updateBuilder.update();
-//    } catch (SQLException e) {
-//      throw new RuntimeException(e);
-//    }
-//        } else {
-//          deck = null;
-//        }
+      updateBuilder.updateColumnValue("TYPE", 2);
+      updateBuilder.update();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
         break;
         default:
           break;
