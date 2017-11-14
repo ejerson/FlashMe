@@ -70,7 +70,7 @@ public class Card {
     Map<String, Object> map = new HashMap<>();
     map.put("id", id);
     map.put("front", front);
-//    map.put("back", back);
+    map.put("back", back);
     map.put("type", type);
 
 //        return map.get("front").toString();

@@ -36,6 +36,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 //  private ArrayAdapter<Card> singleAdapter;
   private List<Card> deckCardCollection;
   private TextView cardReview;
+  private TextView cardCheck;
 
   private int currentRandomNumber;
 
@@ -68,6 +69,9 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     Button card_review_button = rootView.findViewById(R.id.button_review);
     card_review_button.setOnClickListener(this);
 
+    Button card_check_button = rootView.findViewById(R.id.button_check);
+    card_check_button.setOnClickListener(this);
+
     Button level_up_button = rootView.findViewById(R.id.button_level_up);
     level_up_button.setOnClickListener(this);
 
@@ -82,6 +86,13 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     switch(view.getId()) {
       case R.id.button_review:
        randomCard();
+
+        break;
+
+      case R.id.button_check:
+        // TODO back of card is printed on text
+
+        cardCheck();
         break;
 
       case R.id.button_level_up:
@@ -90,14 +101,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     // duplicate the parent state, which is the listView
 //    try {
 
-        // TODO need to get the current value of my view
+       // TODO update the level of the card being reviewed
       String yey = String.valueOf(deckCardCollection.get(currentRandomNumber).getId());
 
       Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
-//
-//
-//
-//
+
 ////      Dao<Deck, Integer> deckDao = helper.getDeckDao();
 //      Dao<Card, Integer> cardDao = helper.getCardDao();
 ////      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
@@ -164,14 +172,22 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
     cardReview.setText(showNextCard());
-
   }
+
+  public final void cardCheck() {
+    cardCheck = rootView.findViewById(R.id.check_random_card);
+    cardCheck.setText(deckCardCollection.get(currentRandomNumber).getBack().toString());
+  }
+
+
 
   public final String showNextCard() {
     // query for a random card
 
-    return deckCardCollection.get(randomNumberGenerator()).toString();
+    return deckCardCollection.get(randomNumberGenerator()).getFront().toString();
   }
+
+
 
   public int randomNumberGenerator() {
     int max = deckCardCollection.size();
