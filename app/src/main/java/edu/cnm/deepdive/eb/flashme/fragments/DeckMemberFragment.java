@@ -27,7 +27,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
   /** The fragment argument representing the item ID that this fragment represents. */
   public static final String DECK_ID = "deck_id";
-  public static final String CARD_ID = "card_id";
+//  public static final String CARD_ID = "card_id";
 
   private OrmHelper helper;
   private int deckId;
@@ -91,8 +91,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         ReviewCardFragment review = new ReviewCardFragment();
         Bundle argsReview = new Bundle();
         argsReview.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
-//        argsReview.putInt(ReviewCardFragment.CARD_ID,
-//            getActivity().getIntent().getIntExtra(ReviewCardFragment.CARD_ID, 0));
         review.setArguments(argsReview); // bundle
         getActivity().getSupportFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, review).commit();

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -24,8 +23,8 @@ import java.util.List;
 
 public class ReviewCardFragment extends Fragment implements OnClickListener {
 
-  private static final String CARD_ID = "card_id";
   private static final String DECK_ID = "deck_id";
+  public static final String CARD_ID = "card_id";
 
   private OrmHelper helper;
   private int deckId;
@@ -79,31 +78,39 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     switch(view.getId()) {
       case R.id.button_review:
-        cardReview = rootView.findViewById(R.id.review_random_card);
-        cardReview.setText(showNextCard());
-        // TODO Retrieve one random card from my deck
-//        Toast.makeText(getActivity(), "yey", Toast.LENGTH_SHORT).show();
+       randomCard();
         break;
 
       case R.id.button_level_up:
-        if (cardId > 0) {
+//        if (cardId > 0) {
 
     // duplicate the parent state, which is the listView
-    try {
-      Dao<Card, Integer> cardDao = helper.getCardDao();
-      card = cardDao.queryForId(getArguments().getInt(CARD_ID));
-      UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
-      // set the criteria like you would a QueryBuilder
-      updateBuilder.where().eq("CARD_ID", card.getId());
-      // update the value of your field(s)
-      updateBuilder.updateColumnValue("TYPE", 2);
-      updateBuilder.update();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-        } else {
-          card = null;
-        }
+//    try {
+//      String yey = deckCardCollection.get(4).getFront().toString();
+//
+//      Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
+//
+//
+//
+//
+////      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+//      Dao<Card, Integer> cardDao = helper.getCardDao();
+////      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
+//      card = cardDao.queryForId(getArguments().getInt(CARD_ID));
+//      // this is how I make my query more specific by using the and keyword
+//
+//      UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
+//      // set the criteria like you would a QueryBuilder
+//      updateBuilder.where().eq("CARD_ID", card.getId());
+//      // update the value of your field(s)
+//      updateBuilder.updateColumnValue("TYPE", 2);
+//      updateBuilder.update();
+//    } catch (SQLException e) {
+//      throw new RuntimeException(e);
+//    }
+//        } else {
+//          deck = null;
+//        }
         break;
         default:
           break;
@@ -121,6 +128,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
+//      card = cardDao.queryForId(getArguments().getInt(CARD_ID));
 // get our query builder from the DAO
       QueryBuilder<Card, Integer> queryBuilder =
           cardDao.queryBuilder();
@@ -137,20 +145,26 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 // query for all decks that have 1 as a type
       deckCardCollection = cardDao.query(preparedQuery);
 
-
-      cardReview = rootView.findViewById(R.id.review_random_card);
-      cardReview.setText(showNextCard());
-
-//      singleAdapter.add(deckCardCollection.get(randomNumberGenerator()));
+      randomCard();
+      singleAdapter.addAll(deckCardCollection);
 //      singleAdapter.notifyDataSetChanged();
+
+
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public String showNextCard() {
+  public final void randomCard() {
+    cardReview = rootView.findViewById(R.id.review_random_card);
+    cardReview.setText(showNextCard());
+  }
+
+  public final String showNextCard() {
     // query for a random card
+
+//    currentCard = deckCardCollection.get(randomNumberGenerator());
     return deckCardCollection.get(randomNumberGenerator()).toString();
   }
 
