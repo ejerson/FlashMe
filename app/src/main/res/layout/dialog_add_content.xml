@@ -14,18 +14,4 @@
   android:inputType="text"
   android:hint="Deck Name"/>
 
-  <!--<EditText-->
-    <!--android:id="@+id/new_id"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:ems="10"-->
-    <!--android:inputType="text"-->
-    <!--android:hint="Content"/>-->
-  <!--<EditText-->
-    <!--android:id="@+id/new_color"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:ems="10"-->
-    <!--android:inputType="text"-->
-    <!--android:hint="Color"/>-->
 </LinearLayout>

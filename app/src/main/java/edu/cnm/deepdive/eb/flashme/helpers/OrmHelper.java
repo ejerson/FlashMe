@@ -44,6 +44,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper{
 
   }
 
+
+
   // Think of an entities type as a class
   @Override
   public void close() {

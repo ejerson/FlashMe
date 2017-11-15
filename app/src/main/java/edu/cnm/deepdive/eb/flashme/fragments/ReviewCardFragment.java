@@ -109,8 +109,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
 //      Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
-////      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//      card = cardDao.queryForId(deckCardCollection.get(currentRandomNumber).getId());
 //      // this is how I make my query more specific by using the and keyword
       UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
 //      // set the criteria like you would a QueryBuilder

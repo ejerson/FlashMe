@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.eb.flashme;
 
+import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK_ID;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.fragments.AddContentFragment;
-import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
@@ -58,8 +64,6 @@ public class DeckListActivity
   @Override
   protected void onStop() {
     super.onStop();
-    // make sure that my database doesn't consume memory, otherwise it would remain open if I don't
-    // release the database if my app is in the background
     releaseHelper();
   }
 
@@ -118,18 +122,40 @@ public class DeckListActivity
 
     /** Binds the value ???? */
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
       holder.mDeck = mDecks.get(position);
       holder.mDeckView.setText(mDecks.get(position).getName());
+      holder.mDeckDeleteView.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          try {
+          // TODO add a warning fragment to prevent users from accidentally pressing the button
+//            showAddDialog(view);
+            Dao<Card, Integer> cardDao = helper.getCardDao();
+            DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
+            cardDeleteBuilder.where().eq("DECK_ID", holder.mDeck.getId());
+            cardDeleteBuilder.delete();
+
+            Dao<Deck, Integer> deckDao = helper.getDeckDao();
+            DeleteBuilder<Deck, Integer> deckDeleteBuilder = deckDao.deleteBuilder();
+            deckDeleteBuilder.where().eq("DECK_ID", holder.mDeck.getId());
+            deckDeleteBuilder.delete();
+
+            refreshRecyclerView();
+          } catch (SQLException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      });
 //      holder.mCreatedView.setText(mValues.get(position).getCreated().toString());
 
       /** Passes the value of the Deck id onto DeckMemberActivity */
-      holder.mView.setOnClickListener(new View.OnClickListener() {
+      holder.mDeckView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
             Intent intent = new Intent(context, DeckMemberActivity.class);
-            intent.putExtra(DeckMemberFragment.DECK_ID, holder.mDeck.getId());
+            intent.putExtra(DECK_ID, holder.mDeck.getId());
 
             context.startActivity(intent);
         }
@@ -148,13 +174,14 @@ public class DeckListActivity
 
       public final View mView;
       public final TextView mDeckView;
+      public final ImageButton mDeckDeleteView;
       public Deck mDeck;
 
       public ViewHolder(View view) {
         super(view);
         mView = view;
         mDeckView = view.findViewById(R.id.deck_name);
-
+        mDeckDeleteView = view.findViewById(R.id.delete_deck);
       }
 
       @Override

@@ -24,7 +24,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="70dp"
-    android:fontFamily="monospace"
+    android:fontFamily="sans-serif-condensed"
     android:text="Deck List"
     android:textAlignment="center"
     android:textSize="40dp"/>
