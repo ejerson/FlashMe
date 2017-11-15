@@ -94,6 +94,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO back of card is printed on text
 
         cardCheck();
+
         break;
 
       case R.id.button_level_up:
@@ -182,8 +183,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     return deckCardCollection.get(randomNumberGenerator()).getFront().toString();
   }
-
-
 
   public int randomNumberGenerator() {
     int max = deckCardCollection.size();
