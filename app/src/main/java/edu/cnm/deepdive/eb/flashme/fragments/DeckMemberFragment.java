@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -39,9 +38,10 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private Deck deck;
   private Card card;
   private View rootView;
-  private ListView cardList;
-  private ArrayAdapter<Card> cardAdapter;
-  private List<String> stringCollection = new ArrayList<>();
+  private static ListView cardList;
+  private static ArrayAdapter<Card> cardAdapter;
+  private static String currentItemText;
+  private static List<String> stringCollection = new ArrayList<>();
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -72,6 +72,9 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
     cardList.setAdapter(cardAdapter);
 
+
+
+
     // TODO Put this back
 //    R.layout.single_card, R.id.card_front
 
@@ -79,23 +82,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
     /** pools the front value of each individual checked item/s and
      * store them inside List<String> stringCollection */
-    cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // change the checkbox state
-        CheckedTextView checkedTextView = ((CheckedTextView)view);
-        checkedTextView.setChecked(!checkedTextView.isChecked());
-
-        String currentItemText = (String) checkedTextView.getText();
-
-        if(checkedTextView.isChecked()) {
-          stringCollection.add(currentItemText);
-        } else {
-          stringCollection.remove(currentItemText);
-        }
-      }
-    });
-
+    getItemTextValue();
 
     Button edit_card_button = rootView.findViewById(R.id.button_edit_card);
     edit_card_button.setOnClickListener(this);
@@ -110,6 +97,26 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     delete_card_button.setOnClickListener(this);
 
     return rootView;
+  }
+
+  static String getItemTextValue() {
+    cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // change the checkbox state
+        CheckedTextView checkedTextView = ((CheckedTextView)view);
+        checkedTextView.setChecked(!checkedTextView.isChecked());
+
+        currentItemText = (String) checkedTextView.getText();
+
+        if(checkedTextView.isChecked()) {
+          stringCollection.add(currentItemText);
+        } else {
+          stringCollection.remove(currentItemText);
+        }
+      }
+    });
+    return currentItemText;
   }
 
   @Override
@@ -140,14 +147,24 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
+            stringCollection.remove(stringCollection.get(i));
           }
+          cardList.invalidateViews();
+          cardAdapter.notifyDataSetChanged();
 
         } catch (SQLException e) {
           throw new RuntimeException();
         }
         break;
       case R.id.button_edit_card:
-        Toast.makeText(getActivity(), "Need to get Value of card front, and pass them to my EditCardFragment", Toast.LENGTH_SHORT).show();
+        EditCardFragment edit = new EditCardFragment();
+        Bundle argsEdit = new Bundle();
+        argsEdit.putStringArrayList("yey", (ArrayList<String>) stringCollection);
+
+        //Get value of getItemTextValue)
+//        argsEdit.putInt(EditCardFragment.DECK_ID_KEY, deck.getId());
+//        edit.setArguments(argsEdit); // bundle
+        edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
         break;
       default:
         break;
@@ -181,13 +198,5 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     public String toString() {
       return super.toString();
     }
-
-    public void updateDatabase() {
-
-
-
-    }
-
-
 
   }
