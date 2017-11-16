@@ -20,7 +20,6 @@ import java.sql.SQLException;
 
 
 public class AddCardFragment extends DialogFragment {
-//  implements OrmHelper.OrmInteraction {
 
   public static final String DECK_ID_KEY = "deck_id";
 

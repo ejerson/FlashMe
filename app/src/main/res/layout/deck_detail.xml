@@ -23,16 +23,30 @@
     android:gravity="center">
 
     <Button
+      android:id="@+id/button_edit_card"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="EDIT"
+      android:layout_gravity="bottom"/>
+
+    <Button
       android:id="@+id/button_add_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="ADD CARD"
+      android:text="ADD"
       android:layout_gravity="bottom"/>
     <Button
       android:id="@+id/button_review_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="REVIEW CARD"
+      android:text="REVIEW"
+      android:layout_gravity="bottom"/>
+
+    <Button
+      android:id="@+id/button_delete_card"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="DELETE"
       android:layout_gravity="bottom"/>
 
   </LinearLayout>
