@@ -76,8 +76,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     Button level_up_button = rootView.findViewById(R.id.button_level_up);
     level_up_button.setOnClickListener(this);
 
-    // TODO add a check button
-
     return rootView;
   }
 
@@ -91,8 +89,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         break;
 
       case R.id.button_check:
-        // TODO back of card is printed on text
-
         cardCheck();
 
         break;
@@ -102,7 +98,8 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     // duplicate the parent state, which is the listView
     try {
 
-       // TODO update the level of the card being reviewed
+       // TODO Decide what to do with the Leitner Game Schedule
+      // TODO downgrade the level of the card being reviewed
       String yey = String.valueOf(deckCardCollection.get(currentRandomNumber).getId());
 
       Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
@@ -131,12 +128,9 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
 
     try {
-
-      // TODO change this so it only query TYPE that has a specific DECK_ID
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//      card = cardDao.queryForId(getArguments().getInt(CARD_ID));
 // get our query builder from the DAO
       QueryBuilder<Card, Integer> queryBuilder =
           cardDao.queryBuilder();

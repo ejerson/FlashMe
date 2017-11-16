@@ -44,8 +44,6 @@
       android:text="CHECK"
       android:layout_gravity="bottom"/>
 
-    <!--TODO this button needs to place the card into higher level, need a true or false flag so this card is
-    not review again until a specific date-->
     <Button
       android:id="@+id/button_level_up"
       android:layout_width="wrap_content"

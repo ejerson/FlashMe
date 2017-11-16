@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -56,37 +57,34 @@ public class AddCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
-        // TODO validate (make decks do not contain blank card or cards with the same name
+        // TODO validate (decks should do not contain cards with the same name)
         String front = frontView.getText().toString();
         String back = backView.getText().toString();
-        Card card = new Card();
-        card.setDeck(deck);
-        card.setFront(front);
-        card.setType(1);
-        card.setBack(back);
-        try {
 
-//          QueryBuilder<Card, Integer> cardQb = cardDao.queryBuilder();
-//          cardQb.where().eq("FRONT", card.getFront());
-//          PreparedQuery<Card> preparedQuery = cardQb.prepare();
-//          List<Card> singleCard = cardDao.query(preparedQuery);
-//          if (singleCard.equals(card.getFront())) {
-//            Toast.makeText(getContext(), "exist", Toast.LENGTH_SHORT);
-//          } else {
+        if (front.equalsIgnoreCase("") || back.equalsIgnoreCase("")) {
+          Toast.makeText(getActivity(), "Enter Card Details", Toast.LENGTH_SHORT).show();
+        } else {
 
+          Card card = new Card();
+          card.setDeck(deck);
+          card.setFront(front);
+          card.setType(1);
+          card.setBack(back);
+          try {
             helper.getCardDao().create(card);
-//          }
 
-        } catch (SQLException e) {
-          throw new RuntimeException();
+          } catch (SQLException e) {
+            throw new RuntimeException();
+          }
+
+          ChooseImageFragment fragment = new ChooseImageFragment();
+          Bundle args = new Bundle();
+          args.putInt(DeckMemberFragment.DECK_ID,
+              getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+          fragment.setArguments(args); // bundle
+          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
         }
-
-        ChooseImageFragment fragment = new ChooseImageFragment();
-        Bundle args = new Bundle();
-        args.putInt(DeckMemberFragment.DECK_ID,
-            getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-        fragment.setArguments(args); // bundle
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
       }
     });
