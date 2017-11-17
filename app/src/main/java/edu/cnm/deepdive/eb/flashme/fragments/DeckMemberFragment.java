@@ -38,9 +38,9 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private Deck deck;
   private Card card;
   private View rootView;
-  private static ListView cardList;
-  private static ArrayAdapter<Card> cardAdapter;
-  private static String currentItemText;
+  private ListView cardList;
+  private ArrayAdapter<Card> cardAdapter;
+  private String currentItemText;
   private ArrayList<String> stringCollection = new ArrayList<>();
 
   /**
@@ -71,14 +71,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 //    MyCustomAdapter adapter = new MyCustomAdapter(cardList, this);
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
     cardList.setAdapter(cardAdapter);
-
-
-
-
-    // TODO Put this back
-//    R.layout.single_card, R.id.card_front
-
-
 
     /** pools the front value of each individual checked item/s and
      * store them inside List<String> stringCollection */
@@ -156,13 +148,14 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           throw new RuntimeException();
         }
         break;
+
+      // TODO if users pick multiple cards to edit, Toast that
+      // they should only choose one
+      // STRETCH GOAL users can pick multiple cards to edit
       case R.id.button_edit_card:
         EditCardFragment edit = new EditCardFragment();
         Bundle argsEdit = new Bundle();
-//        for(int i = 0; i < stringCollection.size(); i++) {
-          argsEdit.putStringArrayList("stringCollection", stringCollection);
-//        }
-
+        argsEdit.putStringArrayList("stringCollection", stringCollection);
         //Get value of getItemTextValue)
 //        argsEdit.putInt(EditCardFragment.DECK_ID_KEY, deck.getId());
         edit.setArguments(argsEdit); // bundle
