@@ -142,6 +142,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
             cardDeleteBuilder.delete();
             stringCollection.remove(stringCollection.get(i));
           }
+
           cardList.invalidateViews();
           cardAdapter.notifyDataSetChanged();
 
@@ -150,8 +151,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         }
         break;
 
-      // TODO if users pick multiple cards to edit, Toast that
-      // they should only choose one
       // STRETCH GOAL users can pick multiple cards to edit
       case R.id.button_edit_card:
        if(stringCollection.size() == 1) {
