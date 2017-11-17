@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -153,13 +154,17 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       // they should only choose one
       // STRETCH GOAL users can pick multiple cards to edit
       case R.id.button_edit_card:
-        EditCardFragment edit = new EditCardFragment();
-        Bundle argsEdit = new Bundle();
-        argsEdit.putStringArrayList("stringCollection", stringCollection);
-        //Get value of getItemTextValue)
+       if(stringCollection.size() == 1) {
+         EditCardFragment edit = new EditCardFragment();
+         Bundle argsEdit = new Bundle();
+         argsEdit.putStringArrayList("stringCollection", stringCollection);
+         //Get value of getItemTextValue)
 //        argsEdit.putInt(EditCardFragment.DECK_ID_KEY, deck.getId());
-        edit.setArguments(argsEdit); // bundle
-        edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
+         edit.setArguments(argsEdit); // bundle
+         edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
+       } else {
+         Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
+       }
         break;
       default:
         break;
