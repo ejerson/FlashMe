@@ -41,7 +41,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private static ListView cardList;
   private static ArrayAdapter<Card> cardAdapter;
   private static String currentItemText;
-  private static List<String> stringCollection = new ArrayList<>();
+  private ArrayList<String> stringCollection = new ArrayList<>();
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -99,7 +99,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     return rootView;
   }
 
-  static String getItemTextValue() {
+  String getItemTextValue() {
     cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -159,11 +159,13 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       case R.id.button_edit_card:
         EditCardFragment edit = new EditCardFragment();
         Bundle argsEdit = new Bundle();
-        argsEdit.putStringArrayList("yey", (ArrayList<String>) stringCollection);
+//        for(int i = 0; i < stringCollection.size(); i++) {
+          argsEdit.putStringArrayList("stringCollection", stringCollection);
+//        }
 
         //Get value of getItemTextValue)
 //        argsEdit.putInt(EditCardFragment.DECK_ID_KEY, deck.getId());
-//        edit.setArguments(argsEdit); // bundle
+        edit.setArguments(argsEdit); // bundle
         edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
         break;
       default:
@@ -199,4 +201,4 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       return super.toString();
     }
 
-  }
+}
