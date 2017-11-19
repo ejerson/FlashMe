@@ -32,13 +32,14 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
   /** The fragment argument representing the item ID that this fragment represents. */
   public static final String DECK_ID = "deck_id";
-//  public static final String CARD_ID = "card_id";
+  public static final String DECK = "deck_name";
 
   private OrmHelper helper;
   private int deckId;
   private Deck deck;
   private Card card;
   private View rootView;
+  List<Card> cards;
   private ListView cardList;
   private ArrayAdapter<Card> cardAdapter;
   private String currentItemText;
@@ -66,6 +67,8 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
+
+
 
     // TODO how to customize what gets displayed in my view
     cardList = rootView.findViewById(R.id.card_front);
@@ -140,7 +143,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
-            stringCollection.remove(stringCollection.get(i));
           }
 
           cardList.invalidateViews();
@@ -157,8 +159,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
          EditCardFragment edit = new EditCardFragment();
          Bundle argsEdit = new Bundle();
          argsEdit.putStringArrayList("stringCollection", stringCollection);
-         //Get value of getItemTextValue)
-//        argsEdit.putInt(EditCardFragment.DECK_ID_KEY, deck.getId());
          edit.setArguments(argsEdit); // bundle
          edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
        } else {
@@ -174,14 +174,16 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   public void onStart() {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
+
     if (deckId > 0) {
       try {
         Dao<Deck, Integer> deckDao = helper.getDeckDao();
         Dao<Card, Integer> cardDao = helper.getCardDao();
         deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
         QueryBuilder<Card, Integer> builder = cardDao.queryBuilder();
+        getActivity().setTitle(deck.getName());
         builder.where().eq("DECK_ID", deck.getId());
-        List<Card> cards = cardDao.query(builder.prepare());
+        cards = cardDao.query(builder.prepare());
         cardAdapter.addAll(cards);
         cardAdapter.notifyDataSetChanged();
 //        rootView.forceLayout();

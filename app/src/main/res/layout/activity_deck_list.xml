@@ -25,8 +25,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="70dp"
     android:fontFamily="sans-serif-condensed"
-    android:text="Deck List"
     android:textAlignment="center"
+    android:text="Deck List"
     android:textSize="40dp"/>
 
   <FrameLayout

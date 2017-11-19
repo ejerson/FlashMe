@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.eb.flashme;
 
+import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.*;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +34,7 @@ public class DeckMemberActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
     setSupportActionBar(toolbar);
 
+
     // Show the Up button in the action bar.
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
@@ -45,7 +48,7 @@ public class DeckMemberActivity
     if (fragment == null) {
       fragment = new DeckMemberFragment();
       Bundle args = new Bundle();
-      args.putInt(DeckMemberFragment.DECK_ID, getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+      args.putInt(DECK_ID, getIntent().getIntExtra(DECK_ID, 0));
       fragment.setArguments(args);
       manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }

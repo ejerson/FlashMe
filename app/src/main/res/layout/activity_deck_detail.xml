@@ -34,15 +34,10 @@
 
   </android.support.design.widget.AppBarLayout>
 
-
-  // TODO use this as a way for my fragments to switch around, I
-  // can change this id to fragment container
   <FrameLayout
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
-
-
 
   <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fab"-->

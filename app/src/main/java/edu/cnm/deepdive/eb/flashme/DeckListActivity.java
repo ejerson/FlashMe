@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.eb.flashme;
 
+import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK;
 import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK_ID;
 
 import android.content.Context;
@@ -38,6 +39,7 @@ public class DeckListActivity
     implements OrmHelper.OrmInteraction {
 
   private OrmHelper helper;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +158,7 @@ public class DeckListActivity
             Context context = v.getContext();
             Intent intent = new Intent(context, DeckMemberActivity.class);
             intent.putExtra(DECK_ID, holder.mDeck.getId());
+            intent.putExtra(DECK, holder.mDeck.getName());
 
             context.startActivity(intent);
         }

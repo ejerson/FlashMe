@@ -21,7 +21,6 @@
       </intent-filter>
     </activity>
     <activity
-      android:label="@string/title_deck_detail"
       android:name=".DeckMemberActivity"
       android:parentActivityName=".DeckListActivity"
       android:theme="@style/AppTheme.NoActionBar">
@@ -30,8 +29,6 @@
         android:value="edu.cnm.deepdive.eb.flashme.DeckListActivity"/>
     </activity>
 
-    <activity android:name=".TransferDeckListActivity">
-    </activity>
   </application>
 
 
