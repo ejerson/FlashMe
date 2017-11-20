@@ -41,19 +41,27 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private List<Card> cardL1Collection;
   private List<Card> cardL2Collection;
 
-  private ArrayList<String> cardL1Front = new ArrayList<>();
-//  private List<Card> cardL2Front = new ArrayList<>();
+
+  private ArrayList<Card> cardL1Id = new ArrayList<>();
+  private ArrayList<Card> cardL2Id = new ArrayList<>();
+
+  // 15 id from cardL1 and 10 id cardL2
+  private ArrayList<Card> reviewPool = new ArrayList<>();
+
+
+  private ArrayList<String> graduatedFront = new ArrayList<>();
   // 0 -14 = L1
   // 15-24 = L2
   // 55- 29 = L3
 
-  private List<Card> cardL2Front;
 
 
   private TextView cardReview;
   private TextView cardCheck;
 
-  private int currentRandomNumber;
+  private Card currentRandomCard;
+  private String currentCardFront;
+  private String currentCardBack;
 
   // create a pool of cards to be reviewed
 
@@ -103,25 +111,21 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     switch(view.getId()) {
       case R.id.button_review:
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
-        while (cardL1Front.size() < 14) {
-          for (int i = 0; i < 15; i++) {
-            cardL1Front.add(cardL1Collection.get(i).getFront());
-          }
+        randomNumberGenerator();
+        randomCard();
+        
+        // a user gets a 30 out of 30 when cards have either been promoted or demoted
+        // place all cards to the graduated pile - this pile contains cards that have gone
+        // beyond the highest level.
+        // the counter increases if
+          // a level one card is promoted to level 2
+          // a level two card is promoted to level 3
+          // a level three card is graduated
 
-        }
-       randomCard();
+             // graduated cards can be place back into the pile as level 1 (for now)
 
-//       for (int i = 0; i < cardL1Front.length - 10; i++) {
-//           cardL1Front[i] = cardL1Collection.get(i).getFront();
-//       }
-
-//       for (int i = 15; i < cardL1Front.length; i++) {
-//         cardL1Front[i] = cardL2Collection.get(i - 15).getFront();
-//       }
-
-        String yes = String.valueOf(cardL1Front.size());
+        String yes = String.valueOf(currentRandomCard);
         Toast.makeText(getActivity(), yes, Toast.LENGTH_SHORT).show();
-
         break;
 
       case R.id.button_check:
@@ -140,7 +144,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 //      // this is how I make my query more specific by using the and keyword
       UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
 //      // set the criteria like you would a QueryBuilder
-      updateBuilder.where().eq("CARD_ID", cardL1Collection.get(currentRandomNumber).getId());
+      updateBuilder.where().eq("CARD_ID", currentRandomCard.getId());
 //      // update the value of your field(s)
       updateBuilder.updateColumnValue("TYPE", 2);
       updateBuilder.update();
@@ -179,12 +183,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 // query for all decks that have 1 as a type
       cardL1Collection = cardDao.query(preparedQueryL1);
 
-      randomCard();
-//      singleAdapter.addAll(cardL1Collection);
-//      singleAdapter.notifyDataSetChanged();
-
-
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -214,33 +212,63 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       throw new RuntimeException(e);
     }
 
+    /** Review Pool Population */
+    if (reviewPool.size() > 25) {
+      Toast.makeText(getActivity(), "Please increase review limit.", Toast.LENGTH_SHORT).show();
+    } else {
+
+      if(cardL1Collection.isEmpty() && cardL1Id.size() > 15) {
+        Toast.makeText(getActivity(), "Please create cards", Toast.LENGTH_SHORT).show();
+      } else {
+        // I want this  value to be 15 if cardL1Id is full, otherwise I want it to be cardL1.size
+        int addItemSize = (cardL1Collection.size() > 15) ? 15 : cardL1Collection.size();
+        reviewPool.addAll(cardL1Collection.subList(0, addItemSize));
+      }
+
+      if(cardL2Collection.isEmpty() && cardL2Id.size() > 10) {
+        Toast.makeText(getActivity(), "Please promote cards to level 2.", Toast.LENGTH_SHORT).show();
+      } else {
+        int addItemSize = (cardL2Collection.size() > 10) ? 10 : cardL2Collection.size();
+        reviewPool.addAll(cardL2Collection.subList(0, addItemSize));
+
+      }
+
+        randomNumberGenerator();
+        randomCard();
+
+    }
+
+  }
+
+  public Card randomNumberGenerator() {
+    int max = reviewPool.size();
+    int min = 0;
+    int range = max - min;
+
+    int currentPoolRandomId;
+
+    currentPoolRandomId = (int) (Math.random() * range) + min;
+    currentRandomCard = reviewPool.get(currentPoolRandomId);
+    // generate random number from 0 to singleCard.size()
+    return currentRandomCard;
   }
 
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
-    cardReview.setText(showNextCard());
+
+    /** checks and retrieve value of the current random card*/
+    if (cardL1Collection.isEmpty() && cardL2Collection.isEmpty()) {
+      Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+    } else {
+      currentCardFront = currentRandomCard.getFront();
+      currentCardBack = currentRandomCard.getBack();
+      cardReview.setText(currentCardFront);
+    }
   }
 
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
-    cardCheck.setText(cardL1Collection.get(currentRandomNumber).getBack().toString());
+    cardCheck.setText(currentCardBack);
   }
-
-  public final String showNextCard() {
-    // query for a random card
-
-    return cardL1Collection.get(randomNumberGenerator()).getFront().toString();
-  }
-
-  public int randomNumberGenerator() {
-    int max = cardL1Collection.size();
-    int min = 0;
-    int range = max - min;
-
-    currentRandomNumber = (int) (Math.random() * range) + min;
-    // generate random number from 0 to singleCard.size()
-    return currentRandomNumber;
-  }
-
 
 }
