@@ -20,6 +20,7 @@ import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewCardFragment extends Fragment implements OnClickListener {
@@ -35,11 +36,26 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private View rootView;
 
 //  private ArrayAdapter<Card> singleAdapter;
-  private List<Card> deckCardCollection;
+
+  // create a pool of cards from each levels
+  private List<Card> cardL1Collection;
+  private List<Card> cardL2Collection;
+
+  private ArrayList<String> cardL1Front = new ArrayList<>();
+//  private List<Card> cardL2Front = new ArrayList<>();
+  // 0 -14 = L1
+  // 15-24 = L2
+  // 55- 29 = L3
+
+  private List<Card> cardL2Front;
+
+
   private TextView cardReview;
   private TextView cardCheck;
 
   private int currentRandomNumber;
+
+  // create a pool of cards to be reviewed
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +92,8 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     Button level_up_button = rootView.findViewById(R.id.button_level_up);
     level_up_button.setOnClickListener(this);
 
+
+
     return rootView;
   }
 
@@ -84,7 +102,25 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     switch(view.getId()) {
       case R.id.button_review:
+        // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
+        while (cardL1Front.size() < 14) {
+          for (int i = 0; i < 15; i++) {
+            cardL1Front.add(cardL1Collection.get(i).getFront());
+          }
+
+        }
        randomCard();
+
+//       for (int i = 0; i < cardL1Front.length - 10; i++) {
+//           cardL1Front[i] = cardL1Collection.get(i).getFront();
+//       }
+
+//       for (int i = 15; i < cardL1Front.length; i++) {
+//         cardL1Front[i] = cardL2Collection.get(i - 15).getFront();
+//       }
+
+        String yes = String.valueOf(cardL1Front.size());
+        Toast.makeText(getActivity(), yes, Toast.LENGTH_SHORT).show();
 
         break;
 
@@ -97,19 +133,14 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     // duplicate the parent state, which is the listView
     try {
-
-       // TODO Decide what to do with the Leitner Game Schedule
       // TODO downgrade the level of the card being reviewed
-      String yey = String.valueOf(deckCardCollection.get(currentRandomNumber).getId());
-
-      Toast.makeText(getActivity(), yey, Toast.LENGTH_SHORT).show();
 
 //      Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
 //      // this is how I make my query more specific by using the and keyword
       UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
 //      // set the criteria like you would a QueryBuilder
-      updateBuilder.where().eq("CARD_ID", deckCardCollection.get(currentRandomNumber).getId());
+      updateBuilder.where().eq("CARD_ID", cardL1Collection.get(currentRandomNumber).getId());
 //      // update the value of your field(s)
       updateBuilder.updateColumnValue("TYPE", 2);
       updateBuilder.update();
@@ -127,6 +158,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
 
+    /** get level 1 cards */
     try {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -143,12 +175,12 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 // only retrieve cards that belongs to a specific deck
       where.eq("DECK_ID", deck.getId());
 // prepare my sql statement
-      PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
+      PreparedQuery<Card> preparedQueryL1 = queryBuilder.prepare();
 // query for all decks that have 1 as a type
-      deckCardCollection = cardDao.query(preparedQuery);
+      cardL1Collection = cardDao.query(preparedQueryL1);
 
       randomCard();
-//      singleAdapter.addAll(deckCardCollection);
+//      singleAdapter.addAll(cardL1Collection);
 //      singleAdapter.notifyDataSetChanged();
 
 
@@ -156,6 +188,32 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+
+    /** get level 2 cards */
+    try {
+      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      Dao<Card, Integer> cardDao = helper.getCardDao();
+      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
+// get our query builder from the DAO
+      QueryBuilder<Card, Integer> queryBuilder =
+          cardDao.queryBuilder();
+      // this is how I make my query more specific by using the and keyword
+      Where<Card, Integer> where = queryBuilder.where();
+// the name field must be equal to "foo"
+      where.eq("TYPE", 2);
+//// and
+      where.and();
+// only retrieve cards that belongs to a specific deck
+      where.eq("DECK_ID", deck.getId());
+// prepare my sql statement
+      PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
+// query for all decks that have 2 as a type
+      cardL2Collection = cardDao.query(preparedQuery);
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 
   public final void randomCard() {
@@ -165,19 +223,17 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
-    cardCheck.setText(deckCardCollection.get(currentRandomNumber).getBack().toString());
+    cardCheck.setText(cardL1Collection.get(currentRandomNumber).getBack().toString());
   }
-
-
 
   public final String showNextCard() {
     // query for a random card
 
-    return deckCardCollection.get(randomNumberGenerator()).getFront().toString();
+    return cardL1Collection.get(randomNumberGenerator()).getFront().toString();
   }
 
   public int randomNumberGenerator() {
-    int max = deckCardCollection.size();
+    int max = cardL1Collection.size();
     int min = 0;
     int range = max - min;
 
@@ -185,7 +241,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     // generate random number from 0 to singleCard.size()
     return currentRandomNumber;
   }
-
 
 
 }
