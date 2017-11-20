@@ -68,9 +68,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       Bundle savedInstanceState) {
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
 
-
-
-    // TODO how to customize what gets displayed in my view
     cardList = rootView.findViewById(R.id.card_front);
 //    MyCustomAdapter adapter = new MyCustomAdapter(cardList, this);
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
@@ -120,7 +117,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
 
     switch (view.getId()) {
       case R.id.button_add_card:
-        // FIXME is there a way for me to select a given card using a check
         AddCardFragment dialog = new AddCardFragment();
         Bundle args = new Bundle();
         args.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
@@ -143,7 +139,9 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
+
           }
+          // TODO how to refresh my view on item delete
 
           cardList.invalidateViews();
           cardAdapter.notifyDataSetChanged();

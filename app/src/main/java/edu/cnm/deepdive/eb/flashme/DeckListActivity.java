@@ -26,8 +26,6 @@ import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
 
-// TODO Change the title of my toolbar into deck name
-
 /**
  * An activity representing a list of Decks. This activity has different presentations for
  * handset and tablet-size devices. On handsets, the activity presents a list of items, which when

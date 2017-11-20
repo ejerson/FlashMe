@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import edu.cnm.deepdive.eb.flashme.fragments.AddCardFragment;
 import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 
@@ -26,6 +27,7 @@ public class DeckMemberActivity
   Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
   private OrmHelper helper = null;
+  private static String currentBack = AddCardFragment.currentBack;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

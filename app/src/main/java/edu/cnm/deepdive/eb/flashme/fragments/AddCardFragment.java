@@ -29,6 +29,9 @@ public class AddCardFragment extends DialogFragment {
   private Deck card;
   private OrmHelper helper;
 
+  // FIXME is it okay to declare a value public static?
+  public static String currentBack;
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Builder builder = new Builder(getActivity());
@@ -44,7 +47,6 @@ public class AddCardFragment extends DialogFragment {
       throw new RuntimeException(e);
     }
 
-
     // declare them final to be able to access these inside my OnClickListener
     // this value will never change, it makes this variable immutable
     // this variable can't refer to another textView
@@ -58,9 +60,9 @@ public class AddCardFragment extends DialogFragment {
 
         // TODO validate (decks should do not contain cards with the same name)
         String front = frontView.getText().toString();
-        String back = backView.getText().toString();
+        currentBack = backView.getText().toString();
 
-        if (front.equalsIgnoreCase("") || back.equalsIgnoreCase("")) {
+        if (front.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
           Toast.makeText(getActivity(), "Enter Card Details", Toast.LENGTH_SHORT).show();
         } else {
 
@@ -68,7 +70,7 @@ public class AddCardFragment extends DialogFragment {
           card.setDeck(deck);
           card.setFront(front);
           card.setType(1);
-          card.setBack(back);
+          card.setBack(currentBack);
           try {
             helper.getCardDao().create(card);
 
@@ -78,12 +80,16 @@ public class AddCardFragment extends DialogFragment {
 
           ChooseImageFragment fragment = new ChooseImageFragment();
           Bundle args = new Bundle();
-          args.putInt(DeckMemberFragment.DECK_ID,
-              getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+//          args.putInt(DeckMemberFragment.DECK_ID,
+//              getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+          args.putString("currentBack", currentBack);
           fragment.setArguments(args); // bundle
           getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
+
         }
+
+
 
       }
     });

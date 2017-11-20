@@ -29,7 +29,6 @@
     android:orientation="horizontal"
     android:gravity="center">
 
-    <!--TODO this button needs to requery my database so I review a card that I haven't reviewed-->
     <Button
       android:id="@+id/button_review"
       android:layout_width="wrap_content"

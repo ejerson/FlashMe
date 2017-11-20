@@ -50,11 +50,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
 
   private ArrayList<String> graduatedFront = new ArrayList<>();
-  // 0 -14 = L1
-  // 15-24 = L2
-  // 55- 29 = L3
-
-
 
   private TextView cardReview;
   private TextView cardCheck;
@@ -113,7 +108,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
         randomNumberGenerator();
         randomCard();
-        
+
         // a user gets a 30 out of 30 when cards have either been promoted or demoted
         // place all cards to the graduated pile - this pile contains cards that have gone
         // beyond the highest level.
@@ -121,18 +116,14 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
           // a level one card is promoted to level 2
           // a level two card is promoted to level 3
           // a level three card is graduated
-
              // graduated cards can be place back into the pile as level 1 (for now)
 
         String yes = String.valueOf(currentRandomCard);
         Toast.makeText(getActivity(), yes, Toast.LENGTH_SHORT).show();
         break;
-
       case R.id.button_check:
         cardCheck();
-
         break;
-
       case R.id.button_level_up:
 
     // duplicate the parent state, which is the listView
@@ -230,7 +221,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       } else {
         int addItemSize = (cardL2Collection.size() > 10) ? 10 : cardL2Collection.size();
         reviewPool.addAll(cardL2Collection.subList(0, addItemSize));
-
       }
 
         randomNumberGenerator();
@@ -255,7 +245,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
-
     /** checks and retrieve value of the current random card*/
     if (cardL1Collection.isEmpty() && cardL2Collection.isEmpty()) {
       Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
