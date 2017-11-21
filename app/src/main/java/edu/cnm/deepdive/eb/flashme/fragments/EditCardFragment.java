@@ -61,9 +61,7 @@ public class EditCardFragment extends DialogFragment {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-
-//      }
-
+    
     // declare them final to be able to access these inside my OnClickListener
     // this value will never change, it makes this variable immutable
     // this variable can't refer to another textView
@@ -82,8 +80,6 @@ public class EditCardFragment extends DialogFragment {
             UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
             // set the criteria like you would a QueryBuilder
             updateBuilder.where().eq("FRONT", stringCollection.get(0));
-//          updateBuilder.where().eq("BACK", content);
-
             // update the value of your field(s)
             updateBuilder.updateColumnValue("FRONT", frontView.getText().toString());
 //          updateBuilder.updateColumnValue("BACK", backView.getText().toString());
@@ -97,13 +93,14 @@ public class EditCardFragment extends DialogFragment {
             UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
             // set the criteria like you would a QueryBuilder
             updateBuilder.where().eq("BACK", content);
-
             // update the value of your field(s)
             updateBuilder.updateColumnValue("BACK", backView.getText().toString());
             updateBuilder.update();
           } catch (SQLException e) {
             e.printStackTrace();
           }
+
+//        ((DeckMemberFragment)getFragmentManager().findFragmentById(R.id.deck_detail_container)).queryForCards();
 
       }
     });

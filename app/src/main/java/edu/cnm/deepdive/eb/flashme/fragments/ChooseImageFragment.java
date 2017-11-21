@@ -61,7 +61,7 @@ public class ChooseImageFragment extends Fragment {
       public void onClick(View textView) {
         // TODO send the text of my clicked SpannableString to google API
         Toast.makeText(getActivity(), ((TextView) textView).getText(), Toast.LENGTH_SHORT).show();
-        
+
       }
 
       @Override
@@ -88,7 +88,7 @@ public class ChooseImageFragment extends Fragment {
       ssTv[i] = new TextView(getActivity());
       ssTv[i].setText(ss.get(i));
       ssTv[i].setTextSize(30);
-      ssTv[i].setPadding(5, 5, 5, 10);
+      ssTv[i].setPadding(10, 5, 10, 10);
       ssTv[i].setMovementMethod(LinkMovementMethod.getInstance());
       ssTv[i].setHighlightColor(Color.TRANSPARENT);
       ssTv[i].setTextColor(Color.parseColor("#000000"));

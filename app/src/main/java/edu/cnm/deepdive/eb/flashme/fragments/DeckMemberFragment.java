@@ -139,12 +139,15 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
-
           }
+
+          queryForCards();
           // TODO how to refresh my view on item delete
+
 
           cardList.invalidateViews();
           cardAdapter.notifyDataSetChanged();
+
 
         } catch (SQLException e) {
           throw new RuntimeException();
@@ -162,6 +165,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
        } else {
          Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
        }
+
         break;
       default:
         break;
@@ -172,7 +176,10 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   public void onStart() {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
+    queryForCards();
+  }
 
+  public void queryForCards() {
     if (deckId > 0) {
       try {
         Dao<Deck, Integer> deckDao = helper.getDeckDao();
@@ -182,6 +189,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         getActivity().setTitle(deck.getName());
         builder.where().eq("DECK_ID", deck.getId());
         cards = cardDao.query(builder.prepare());
+        cardAdapter.clear();
         cardAdapter.addAll(cards);
         cardAdapter.notifyDataSetChanged();
 //        rootView.forceLayout();
@@ -193,7 +201,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     }
   }
 
-    @Override
+  @Override
     public String toString() {
       return super.toString();
     }
