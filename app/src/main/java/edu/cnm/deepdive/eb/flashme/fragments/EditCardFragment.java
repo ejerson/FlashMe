@@ -61,7 +61,7 @@ public class EditCardFragment extends DialogFragment {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-    
+
     // declare them final to be able to access these inside my OnClickListener
     // this value will never change, it makes this variable immutable
     // this variable can't refer to another textView
