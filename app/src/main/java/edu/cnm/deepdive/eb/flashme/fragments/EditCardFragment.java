@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
@@ -74,7 +75,6 @@ public class EditCardFragment extends DialogFragment {
         // Then a EditCardFragment will appear, which will contain
         // the first value of front, back, and image
         // of the first card on a list of cards
-
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
             UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
@@ -100,7 +100,7 @@ public class EditCardFragment extends DialogFragment {
             e.printStackTrace();
           }
 
-//        ((DeckMemberFragment)getFragmentManager().findFragmentById(R.id.deck_detail_container)).queryForCards();
+        ((DeckMemberActivity) getActivity()).requeryCards();
 
       }
     });

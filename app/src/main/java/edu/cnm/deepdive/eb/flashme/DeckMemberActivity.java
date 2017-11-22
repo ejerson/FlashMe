@@ -3,7 +3,6 @@ package edu.cnm.deepdive.eb.flashme;
 import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK_ID;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,7 @@ public class DeckMemberActivity
 
 
   FragmentManager manager = getSupportFragmentManager();
-  Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+  DeckMemberFragment fragment = (DeckMemberFragment) manager.findFragmentById(R.id.fragment_container);
 
   private OrmHelper helper = null;
   private static String currentBack = AddCardFragment.currentBack;
@@ -100,6 +99,11 @@ public class DeckMemberActivity
       helper = null;
     }
   }
+
+  public void requeryCards() {
+    fragment.queryForCards();
+  }
+
 
 }
 

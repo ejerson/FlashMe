@@ -17,6 +17,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,31 +33,58 @@ import java.util.List;
 
 public class ImageActivity extends AppCompatActivity {
 
-  private StringBuilder stringBuilder;
+  private StringBuilder urlBuilder;
   private boolean networkOk;
 
   private String cardBackKeyword = currentBack;
   private String[] arr = cardBackKeyword.split(" ");
-  private String currentLink;
+  private ImageView[] imageView;
+  private GoogleItem[] dataItems;
+  GridLayout imageLayout;
+  ArrayList<String> currentLink = new ArrayList<>();
 
   List<SpannableString> ss = new ArrayList<>();;
 
   private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
     @Override
-    public void onReceive(Context context, Intent intent) {
-      GoogleItem[] dataItems = (GoogleItem[]) intent
+    public void onReceive(final Context context, Intent intent) {
+      dataItems = (GoogleItem[]) intent
           .getParcelableArrayExtra(MyService.MY_SERVICE_PAYLOAD);
 
-      GridLayout imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
+      imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
 
-      ImageView[] imageView = new ImageView[dataItems.length];
+      imageView = new ImageView[dataItems.length];
+      int i;
 
-        for (int i = 0; i < dataItems.length; i++) {
+        for ( i = 0; i < dataItems.length; i++) {
           imageView[i] = new ImageView(context);
           imageView[i].setPadding(5, 5, 5, 5);
+          // TODO Save image url to database
+          imageView[i].setId(i);
+          imageView[i].setClickable(true);
 
-          // TODO create on click listeners for my images to retrieve image link to
-          // save
+          // I want to save the link for the images clicked
+          // Users can pick up to two
+
+          imageView[i].setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+              String yes;
+
+              for (int i = 0; i < dataItems.length; i++) {
+                if (imageView[i].getId() == view.getId()) {
+                  currentLink.add(dataItems[i].getLink());
+
+                }
+              }
+
+              yes = String.valueOf(currentLink.get(0));
+              Toast.makeText(context, yes, Toast.LENGTH_SHORT).show();
+            }
+          });
+
+          // TODO create on click listeners for my images to retrieve image link to save
 
           int width = context.getResources().getDisplayMetrics().widthPixels;
 
@@ -75,7 +103,7 @@ public class ImageActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_image);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
     LocalBroadcastManager.getInstance(getApplicationContext())
@@ -106,14 +134,17 @@ public class ImageActivity extends AppCompatActivity {
         String key = getString(R.string.google_key);
 
         String currentKeyword = ((TextView) textView).getText().toString();
-        stringBuilder = new StringBuilder()
-            .append("https://www.googleapis.com/customsearch/v1?q=").append(currentKeyword)
-            .append("&cx=").append(cx).append("&fileType=png%2C+jpg&imgType=photo&searchType=image&fields=items%2Flink&key=")
+        urlBuilder = new StringBuilder()
+            .append("https://www.googleapis.com/customsearch/v1?q=")
+            .append(currentKeyword)
+            .append("&cx=")
+            .append(cx)
+            .append("&fileType=png%2C+jpg&imgType=photo&searchType=image&fields=items%2Flink&key=")
             .append(key);
 
         if (networkOk) {
           Intent intent = new Intent(ImageActivity.this, MyService.class);
-          intent.setData(Uri.parse(stringBuilder.toString()));
+          intent.setData(Uri.parse(urlBuilder.toString()));
           startService(intent);
         } else {
           Toast.makeText(ImageActivity.this, "Network not available!", Toast.LENGTH_SHORT).show();

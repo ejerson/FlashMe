@@ -176,11 +176,14 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   public void onStart() {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
-    queryForCards();
+    if (deckId > 0) {
+      queryForCards();
+    } else {
+      deck = null;
+    }
   }
 
   public void queryForCards() {
-    if (deckId > 0) {
       try {
         Dao<Deck, Integer> deckDao = helper.getDeckDao();
         Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -196,9 +199,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
-    } else {
-      deck = null;
-    }
+
   }
 
   @Override

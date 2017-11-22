@@ -26,12 +26,11 @@ public class AddCardFragment extends DialogFragment {
   public static final String DECK_ID_KEY = "deck_id";
 
   private Dao<Deck, Integer> deckDao;
-  private Dao <Card, Integer> cardDao;
+//  private Dao <Card, Integer> cardDao;
   private Deck deck;
-  private Deck card;
+//  private Deck card;
   private OrmHelper helper;
 
-  // FIXME is it okay to declare a value public static?
   public static String currentBack;
 
   @Override
