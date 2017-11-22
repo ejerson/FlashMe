@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -42,6 +44,7 @@ public class ImageActivity extends AppCompatActivity {
   private GoogleItem[] dataItems;
   GridLayout imageLayout;
   ArrayList<String> currentLink = new ArrayList<>();
+  ClickableSpan clickableSpan;
 
   List<SpannableString> ss = new ArrayList<>();;
 
@@ -56,35 +59,61 @@ public class ImageActivity extends AppCompatActivity {
       imageView = new ImageView[dataItems.length];
       int i;
 
+      imageLayout.removeAllViews();
         for ( i = 0; i < dataItems.length; i++) {
           imageView[i] = new ImageView(context);
           imageView[i].setPadding(5, 5, 5, 5);
-          // TODO Save image url to database
+
+          // TODO Allow users to pick multiple images from different search
+          // TODO Save image urls to database from currentLink ArrayList
           imageView[i].setId(i);
           imageView[i].setClickable(true);
 
-          // I want to save the link for the images clicked
-          // Users can pick up to two
+          if (!currentLink.contains(dataItems[i].getLink())) {
+            setLocked(imageView[i]);
+          }
 
           imageView[i].setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
               String yes;
+              // TODO clear my currentLint arrayList after a save button is clicked
+//              currentLink.remove();
 
               for (int i = 0; i < dataItems.length; i++) {
                 if (imageView[i].getId() == view.getId()) {
-                  currentLink.add(dataItems[i].getLink());
-
+                  if (currentLink.contains(dataItems[i].getLink())) {
+                    currentLink.remove(dataItems[i].getLink());
+                    setLocked(imageView[i]);
+                  } else {
+                    if ( currentLink.size() < 4) {
+                      setUnlocked(imageView[i]);
+                      imageView[i].setSelected(true);
+                      currentLink.add(dataItems[i].getLink());
+                    }
+                  }
                 }
+
+                // TODO give the user the ability to unselect the image
+                // If a user click on an image,
+                  // image link is removed from currentLink
+                  // image becomes black and white again
+//                if  () {
+//                  setLocked(imageView[i]);
+//                  imageView[i].setSelected(false);
+//                  currentLink.remove(i);
+//                }
               }
 
-              yes = String.valueOf(currentLink.get(0));
+              if (currentLink.size() > 4) {
+                Toast.makeText(ImageActivity.this, "Only choose 4 images!", Toast.LENGTH_SHORT)
+                    .show();
+              }
+
+              yes = String.valueOf(currentLink.size());
               Toast.makeText(context, yes, Toast.LENGTH_SHORT).show();
             }
           });
-
-          // TODO create on click listeners for my images to retrieve image link to save
 
           int width = context.getResources().getDisplayMetrics().widthPixels;
 
@@ -94,6 +123,7 @@ public class ImageActivity extends AppCompatActivity {
               .placeholder(R.drawable.loading)
               .into(imageView[i]);
           imageLayout.addView(imageView[i]);
+
         }
       }
   };
@@ -106,28 +136,9 @@ public class ImageActivity extends AppCompatActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    LocalBroadcastManager.getInstance(getApplicationContext())
-        .registerReceiver(broadcastReceiver,
-            new IntentFilter(MyService.MY_SERVICE_MESSAGE));
+    clickableSpan = new ClickableSpan() {
 
-    networkOk = NetworkHelper.hasNetworkAccess(this);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-
-    LocalBroadcastManager.getInstance(getApplicationContext())
-        .unregisterReceiver(broadcastReceiver);
-  }
-
-
-  @Override
-  protected void onStart() {
-    super.onStart();
-
-    final ClickableSpan clickableSpan = new ClickableSpan() {
-
+      // TODO users can click on multiple keywords to search for images, as of now users can only pick one
       @Override
       public void onClick(View textView) {
         String cx = getString(R.string.search_engine_id);
@@ -153,6 +164,27 @@ public class ImageActivity extends AppCompatActivity {
 
     };
 
+    LocalBroadcastManager.getInstance(getApplicationContext())
+        .registerReceiver(broadcastReceiver,
+            new IntentFilter(MyService.MY_SERVICE_MESSAGE));
+
+    networkOk = NetworkHelper.hasNetworkAccess(this);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    LocalBroadcastManager.getInstance(getApplicationContext())
+        .unregisterReceiver(broadcastReceiver);
+  }
+
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+
+
     for (int i = 0; i < arr.length; i++) {
       ss.add(new SpannableString(arr[i]));
     }
@@ -174,5 +206,20 @@ public class ImageActivity extends AppCompatActivity {
       ssTv[i].setTextColor(Color.parseColor("#000000"));
       rl.addView(ssTv[i]);
     }
+  }
+
+  public static void  setLocked(ImageView v)
+  {
+    ColorMatrix matrix = new ColorMatrix();
+    matrix.setSaturation(0);  //0 means grayscale
+    ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
+    v.setColorFilter(cf);
+    v.setImageAlpha(128);   // 128 = 0.5
+  }
+
+  public static void  setUnlocked(ImageView v)
+  {
+    v.setColorFilter(null);
+    v.setImageAlpha(255);
   }
 }
