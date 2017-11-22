@@ -3,4 +3,6 @@
   <string name="title_deck_detail">Deck Detail</string>
   <string name="dialogue_ok">Ok</string>
   <string name="dialogue_cancel">Cancel</string>
+  <string name="run_code">Run code</string>
+  <string name="clear_output">Clear</string>
 </resources>

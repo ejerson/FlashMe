@@ -36,7 +36,7 @@ public class MyService extends IntentService {
             response = HttpHelper.downloadUrl(uri.toString());
 
         } catch (IOException e) {
-            e.printStackTrace();
+//            throw new RuntimeException(e);
             return;
         }
 

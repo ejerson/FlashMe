@@ -33,6 +33,18 @@
         android:name="android.support.PARENT_ACTIVITY"
         android:value="edu.cnm.deepdive.eb.flashme.DeckListActivity"/>
     </activity>
+
+
+    <activity
+      android:label="@string/app_name"
+      android:name=".ImageActivity"
+      android:parentActivityName=".DeckListActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="edu.cnm.deepdive.eb.flashme.DeckListActivity"/>
+    </activity>
+
     <service
       android:name=".services.MyService"
       android:exported="false" />

@@ -4,6 +4,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
+import edu.cnm.deepdive.eb.flashme.ImageActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
@@ -78,14 +80,16 @@ public class AddCardFragment extends DialogFragment {
             throw new RuntimeException();
           }
 
-          ChooseImageFragment fragment = new ChooseImageFragment();
-          Bundle args = new Bundle();
-//          args.putInt(DeckMemberFragment.DECK_ID,
-//              getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
-          args.putString("currentBack", currentBack);
-          fragment.setArguments(args); // bundle
-          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+          startActivity(new Intent(getActivity(), ImageActivity.class));
 
+//          ChooseImageFragment fragment = new ChooseImageFragment();
+//          Bundle args = new Bundle();
+////          args.putInt(DeckMemberFragment.DECK_ID,
+////              getActivity().getIntent().getIntExtra(DeckMemberFragment.DECK_ID, 0));
+//          args.putString("currentBack", currentBack);
+//          fragment.setArguments(args); // bundle
+//          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+//
 
         }
 
