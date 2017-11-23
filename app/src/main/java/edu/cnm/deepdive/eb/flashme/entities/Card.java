@@ -73,9 +73,7 @@ public class Card {
 //    map.put("back", back);
     map.put("type", type);
 //    map.put("deck_id", deck);
-
         return map.get("front").toString();
-
 //    return map.toString();
   }
 
