@@ -13,14 +13,12 @@ import edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 
 /**
- * An activity representing a single Student detail screen. This activity is only used narrow width
- * devices. On tablet-size devices, item details are presented side-by-side with a list of items in
- * a {@link DeckListActivity}.
- */
+ * An activity representing a single Card detail screen.
+ *
+ * */
 public class DeckMemberActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
-
 
   FragmentManager manager = getSupportFragmentManager();
   DeckMemberFragment fragment = (DeckMemberFragment) manager.findFragmentById(R.id.fragment_container);
@@ -44,6 +42,11 @@ public class DeckMemberActivity
     deckMemberFragment();
   }
 
+  /** Creates a new instance of teh DeckMemberFragment when this activity value is null.
+   *  Passes a bundle that contains DECK_ID with a default value of 0.
+   *  Manages fragment replacement.
+   *
+   * */
   private void deckMemberFragment() {
     if (fragment == null) {
       fragment = new DeckMemberFragment();
@@ -91,7 +94,7 @@ public class DeckMemberActivity
     return helper;
   }
 
-//  @Override
+  @Override
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();
@@ -99,7 +102,8 @@ public class DeckMemberActivity
     }
   }
 
-  public void requeryCards() {
+  /** Queries the database for cards after deleting card/s or editing a card. */
+  public void queryForCards() {
     fragment.queryForCards();
   }
 

@@ -100,7 +100,7 @@ public class EditCardFragment extends DialogFragment {
             e.printStackTrace();
           }
 
-        ((DeckMemberActivity) getActivity()).requeryCards();
+        ((DeckMemberActivity) getActivity()).queryForCards();
 
       }
     });

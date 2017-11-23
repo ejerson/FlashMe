@@ -44,6 +44,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private ArrayAdapter<Card> cardAdapter;
   private String currentItemText;
   private ArrayList<String> stringCollection = new ArrayList<>();
+  CheckedTextView checkedTextView;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -92,24 +93,26 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     return rootView;
   }
 
-  String getItemTextValue() {
+  private void getItemTextValue() {
     cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // change the checkbox state
-        CheckedTextView checkedTextView = ((CheckedTextView)view);
+        checkedTextView = ((CheckedTextView)view);
         checkedTextView.setChecked(!checkedTextView.isChecked());
 
         currentItemText = (String) checkedTextView.getText();
 
-        if(checkedTextView.isChecked()) {
+        if (checkedTextView.isChecked()) {
           stringCollection.add(currentItemText);
         } else {
           stringCollection.remove(currentItemText);
         }
+
+
       }
     });
-    return currentItemText;
+//    return null;
   }
 
   @Override
@@ -139,13 +142,13 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
+            checkedTextView.setChecked(false);
           }
 
           queryForCards();
-          // TODO how to refresh my view on item delete
-
 
           cardList.invalidateViews();
+          cardList.refreshDrawableState();
           cardAdapter.notifyDataSetChanged();
 
 
@@ -183,6 +186,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     }
   }
 
+  /** Queries the database for cards with a specific foreign key. */
   public void queryForCards() {
       try {
         Dao<Deck, Integer> deckDao = helper.getDeckDao();
@@ -195,7 +199,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         cardAdapter.clear();
         cardAdapter.addAll(cards);
         cardAdapter.notifyDataSetChanged();
-//        rootView.forceLayout();
+
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }

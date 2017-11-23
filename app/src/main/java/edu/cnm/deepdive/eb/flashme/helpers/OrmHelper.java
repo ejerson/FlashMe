@@ -87,6 +87,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   /** Allows other class/component to receive the getHelper method behaviour. */
   public interface OrmInteraction {
     OrmHelper getHelper();
+
+    void releaseHelper();
   }
 
 }

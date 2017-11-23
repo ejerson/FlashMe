@@ -27,11 +27,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * An activity representing a list of Decks. This activity has different presentations for
- * handset and tablet-size devices. On handsets, the activity presents a list of items, which when
- * touched, lead to a {@link DeckMemberActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two vertical panes.
- */
+ * An activity representing a list of Decks. */
+
 public class DeckListActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
@@ -100,7 +97,7 @@ public class DeckListActivity
     }
   }
 
-  /** Manages my the Recycler view for my deck name list */
+  /** Manages my the Recycler view for the deck name list */
   public class DeckItemRecyclerViewAdapter
       extends RecyclerView.Adapter<DeckItemRecyclerViewAdapter.ViewHolder> {
 
@@ -130,7 +127,7 @@ public class DeckListActivity
         public void onClick(View view) {
           try {
           // TODO add a warning fragment to prevent users from accidentally pressing the button
-//            showAddDialog(view);
+            showAddDialog(view);
             Dao<Card, Integer> cardDao = helper.getCardDao();
             DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
             cardDeleteBuilder.where().eq("DECK_ID", holder.mDeck.getId());
