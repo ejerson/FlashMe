@@ -35,96 +35,40 @@ import java.util.List;
 
 public class ImageActivity extends AppCompatActivity {
 
+  /** Stores and concatenates Google Custom Search API endpoint */
   private StringBuilder urlBuilder;
+  /** Flag that indicates whether device is connected to a network or not */
   private boolean networkOk;
-
+  /** Stores the value of the current card back being added to the deck and database */
   private String cardBackKeyword = currentBack;
+  /** Takes the value of cardBackKeyword and splits it into individual words which
+   * are then stored inside an array */
   private String[] arr = cardBackKeyword.split(" ");
+  /** Stores the dynamically created imageViews */
   private ImageView[] imageView;
+  /** Stores the individual links retrieved from Google Custom Search API*/
   private GoogleItem[] dataItems;
-  GridLayout imageLayout;
-  ArrayList<String> currentLink = new ArrayList<>();
-  ClickableSpan clickableSpan;
+  /** Contains the imageView that displays images */
+  private GridLayout imageLayout;
+  /** Stores the url of user selected images to be saved in the database */
+  private ArrayList<String> currentLink = new ArrayList<>();
+  /** Converts the text from arr into clickable spans */
+  private ClickableSpan clickableSpan;
+  /** Stores individual clickableSpan to be used by user as a way to search Google */
+  private List<SpannableString> ss = new ArrayList<>();
 
-  List<SpannableString> ss = new ArrayList<>();;
-
+  /**  Receives and handles broadcast intents sent by sendBroadcast(Intent).
+   *
+   * */
   private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+    /** Called when a BroadcastReceiver is receiving an Intent broadcast. */
     @Override
     public void onReceive(final Context context, Intent intent) {
       dataItems = (GoogleItem[]) intent
           .getParcelableArrayExtra(MyService.MY_SERVICE_PAYLOAD);
 
-      imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
-
-      imageView = new ImageView[dataItems.length];
-      int i;
-
-      imageLayout.removeAllViews();
-        for ( i = 0; i < dataItems.length; i++) {
-          imageView[i] = new ImageView(context);
-          imageView[i].setPadding(5, 5, 5, 5);
-
-          // TODO Allow users to pick multiple images from different search
-          // TODO Save image urls to database from currentLink ArrayList
-          imageView[i].setId(i);
-          imageView[i].setClickable(true);
-
-          if (!currentLink.contains(dataItems[i].getLink())) {
-            setLocked(imageView[i]);
-          }
-
-          imageView[i].setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              String yes;
-              // TODO clear my currentLint arrayList after a save button is clicked
-//              currentLink.remove();
-
-              for (int i = 0; i < dataItems.length; i++) {
-                if (imageView[i].getId() == view.getId()) {
-                  if (currentLink.contains(dataItems[i].getLink())) {
-                    currentLink.remove(dataItems[i].getLink());
-                    setLocked(imageView[i]);
-                  } else {
-                    if ( currentLink.size() < 4) {
-                      setUnlocked(imageView[i]);
-                      imageView[i].setSelected(true);
-                      currentLink.add(dataItems[i].getLink());
-                    }
-                  }
-                }
-
-                // TODO give the user the ability to unselect the image
-                // If a user click on an image,
-                  // image link is removed from currentLink
-                  // image becomes black and white again
-//                if  () {
-//                  setLocked(imageView[i]);
-//                  imageView[i].setSelected(false);
-//                  currentLink.remove(i);
-//                }
-              }
-
-              if (currentLink.size() > 4) {
-                Toast.makeText(ImageActivity.this, "Only choose 4 images!", Toast.LENGTH_SHORT)
-                    .show();
-              }
-
-              yes = String.valueOf(currentLink.size());
-              Toast.makeText(context, yes, Toast.LENGTH_SHORT).show();
-            }
-          });
-
-          int width = context.getResources().getDisplayMetrics().widthPixels;
-
-          Picasso.with(context)
-              .load(dataItems[i].getLink())
-              .centerCrop().resize(width / 2, width / 2)
-              .placeholder(R.drawable.loading)
-              .into(imageView[i]);
-          imageLayout.addView(imageView[i]);
-
-        }
+      handlesImages(context);
       }
   };
 
@@ -179,7 +123,6 @@ public class ImageActivity extends AppCompatActivity {
         .unregisterReceiver(broadcastReceiver);
   }
 
-
   @Override
   protected void onStart() {
     super.onStart();
@@ -208,6 +151,77 @@ public class ImageActivity extends AppCompatActivity {
     }
   }
 
+  /** Receives and handles the data(image links) provided by the BroadcastReceiver class.
+   *
+   *  Creates ImageViews for individual image url.
+   *
+   *  Utilizes Square's Picasso Library to use individual image url
+   *  provided by the BroadcastReceiver as image uri for each ImageView.
+   *
+   *  Handles the behaviour of each ImageView according to user input.
+   * */
+  // TODO if moving this breaks my app, return all the contents of this method inside my
+  // Broadcast Receiver
+  private void handlesImages(final Context context) {
+    imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
+    imageView = new ImageView[dataItems.length];
+    int i;
+
+    imageLayout.removeAllViews();
+    for ( i = 0; i < dataItems.length; i++) {
+      imageView[i] = new ImageView(context);
+      imageView[i].setPadding(5, 5, 5, 5);
+      // TODO Save image urls to database from currentLink ArrayList
+      imageView[i].setId(i);
+      imageView[i].setClickable(true);
+
+      if (!currentLink.contains(dataItems[i].getLink())) {
+        setLocked(imageView[i]);
+      }
+
+      imageView[i].setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          String yes;
+          // TODO clear my currentLint arrayList after a save button is clicked
+          for (int i = 0; i < dataItems.length; i++) {
+            if (imageView[i].getId() == view.getId()) {
+              if (currentLink.contains(dataItems[i].getLink())) {
+                currentLink.remove(dataItems[i].getLink());
+                setLocked(imageView[i]);
+              } else {
+                if ( currentLink.size() < 4) {
+                  setUnlocked(imageView[i]);
+                  imageView[i].setSelected(true);
+                  currentLink.add(dataItems[i].getLink());
+                }
+              }
+            }
+          }
+
+          if (currentLink.size() > 4) {
+            Toast.makeText(ImageActivity.this, "Only choose 4 images!", Toast.LENGTH_SHORT)
+                .show();
+          }
+
+          yes = String.valueOf(currentLink.size());
+          Toast.makeText(context, yes, Toast.LENGTH_SHORT).show();
+        }
+      });
+
+      int width = context.getResources().getDisplayMetrics().widthPixels;
+
+      Picasso.with(context)
+          .load(dataItems[i].getLink())
+          .centerCrop().resize(width / 2, width / 2)
+          .placeholder(R.drawable.loading)
+          .into(imageView[i]);
+      imageLayout.addView(imageView[i]);
+
+    }
+  }
+
+  /** Converts images into a black and white configuration inside handlesImages */
   public static void  setLocked(ImageView v)
   {
     ColorMatrix matrix = new ColorMatrix();
@@ -217,6 +231,7 @@ public class ImageActivity extends AppCompatActivity {
     v.setImageAlpha(128);   // 128 = 0.5
   }
 
+  /** Reverts images to their original color configuration inside handlesImages */
   public static void  setUnlocked(ImageView v)
   {
     v.setColorFilter(null);
