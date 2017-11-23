@@ -25,7 +25,7 @@ import java.util.List;
 public class EditCardFragment extends DialogFragment {
   private OrmHelper helper;
   private ArrayList<String> stringCollection;
-  private Card cards;
+//  private Card cards;
   private String content;
 
 
@@ -33,7 +33,7 @@ public class EditCardFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Builder builder = new Builder(getActivity());
 
-    Bundle bundle = this.getArguments();
+//    Bundle bundle = this.getArguments();
     LayoutInflater inflater = getActivity().getLayoutInflater();
 
     View inflatedView = inflater.inflate(R.layout.dialog_add_card, null);
@@ -48,7 +48,6 @@ public class EditCardFragment extends DialogFragment {
     final EditText frontView = inflatedView.findViewById(R.id.card_front);
     final EditText backView = inflatedView.findViewById(R.id.card_back);
 
-//    for(int i = 0; i < stringCollection.size(); i++) {
         try {
           Dao<Card, Integer> cardDao = helper.getCardDao();
           QueryBuilder<Card, Integer> cardBuilder = cardDao.queryBuilder();
@@ -60,21 +59,14 @@ public class EditCardFragment extends DialogFragment {
           this.content = backView.getText().toString();
 
         } catch (SQLException e) {
-          e.printStackTrace();
+          throw new RuntimeException(e);
         }
-
-    // declare them final to be able to access these inside my OnClickListener
-    // this value will never change, it makes this variable immutable
-    // this variable can't refer to another textView
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
-        // A user chooses what card he/she wants to update
-        // Then a EditCardFragment will appear, which will contain
-        // the first value of front, back, and image
-        // of the first card on a list of cards
+
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
             UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
@@ -82,22 +74,10 @@ public class EditCardFragment extends DialogFragment {
             updateBuilder.where().eq("FRONT", stringCollection.get(0));
             // update the value of your field(s)
             updateBuilder.updateColumnValue("FRONT", frontView.getText().toString());
-//          updateBuilder.updateColumnValue("BACK", backView.getText().toString());
+          updateBuilder.updateColumnValue("BACK", backView.getText().toString());
             updateBuilder.update();
           } catch (SQLException e) {
-            e.printStackTrace();
-          }
-
-          try {
-            Dao<Card, Integer> cardDao = helper.getCardDao();
-            UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
-            // set the criteria like you would a QueryBuilder
-            updateBuilder.where().eq("BACK", content);
-            // update the value of your field(s)
-            updateBuilder.updateColumnValue("BACK", backView.getText().toString());
-            updateBuilder.update();
-          } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
           }
 
         ((DeckMemberActivity) getActivity()).queryForCards();

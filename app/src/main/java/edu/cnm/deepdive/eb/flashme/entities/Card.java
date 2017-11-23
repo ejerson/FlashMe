@@ -25,6 +25,18 @@ public class Card {
   @DatabaseField(columnName = "TYPE", canBeNull = false)
   private int type;
 
+  @DatabaseField(columnName = "IMAGE_ONE", canBeNull = false)
+  private String imageOne;
+
+  @DatabaseField(columnName = "IMAGE_TWO", canBeNull = false)
+  private String imageTwo;
+
+  @DatabaseField(columnName = "IMAGE_THREE", canBeNull = false)
+  private String imageThree;
+
+  @DatabaseField(columnName = "IMAGE_FOUR", canBeNull = false)
+  private String imageFour;
+
   @DatabaseField(columnName = "DECK_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Deck deck;
 
@@ -64,6 +76,39 @@ public class Card {
     this.type = type;
   }
 
+  public String getImageOne() {
+    return imageOne;
+  }
+
+  public void setImageOne(String imageOne) {
+    this.imageOne = imageOne;
+  }
+
+  public String getImageTwo() {
+    return imageTwo;
+  }
+
+  public void setImageTwo(String imageTwo) {
+    this.imageTwo = imageTwo;
+  }
+
+  public String getImageThree() {
+    return imageThree;
+  }
+
+  public void setImageThree(String imageThree) {
+    this.imageThree = imageThree;
+  }
+
+  public String getImageFour() {
+    return imageFour;
+  }
+
+  public void setImageFour(String imageFour) {
+    this.imageFour = imageFour;
+  }
+
+
   @Override
   public String toString() {
     Map<String, Object> map = new HashMap<>();
@@ -71,8 +116,7 @@ public class Card {
     map.put("front", front);
     map.put("back", back);
     map.put("type", type);
-    map.put("deck_id", deck);
-
+//    map.put("deck_id", deck);
         return map.get("front").toString();
 //    return map.toString();
   }

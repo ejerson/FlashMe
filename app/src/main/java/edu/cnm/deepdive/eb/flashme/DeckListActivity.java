@@ -89,7 +89,7 @@ public class DeckListActivity
     return helper;
   }
 
-//  @Override
+  @Override
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();
@@ -127,7 +127,7 @@ public class DeckListActivity
         public void onClick(View view) {
           try {
           // TODO add a warning fragment to prevent users from accidentally pressing the button
-            showAddDialog(view);
+//            showAddDialog(view);
             Dao<Card, Integer> cardDao = helper.getCardDao();
             DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
             cardDeleteBuilder.where().eq("DECK_ID", holder.mDeck.getId());

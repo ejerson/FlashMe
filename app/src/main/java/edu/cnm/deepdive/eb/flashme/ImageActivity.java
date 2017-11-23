@@ -25,15 +25,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.squareup.picasso.Picasso;
+import edu.cnm.deepdive.eb.flashme.entities.Card;
+import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import edu.cnm.deepdive.eb.flashme.model.GoogleItem;
 import edu.cnm.deepdive.eb.flashme.services.MyService;
 import edu.cnm.deepdive.eb.flashme.utils.NetworkHelper;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity
+    extends AppCompatActivity
+    implements OrmHelper.OrmInteraction {
+
+  private OrmHelper helper;
 
   /** Stores and concatenates Google Custom Search API endpoint */
   private StringBuilder urlBuilder;
@@ -67,7 +77,6 @@ public class ImageActivity extends AppCompatActivity {
     public void onReceive(final Context context, Intent intent) {
       dataItems = (GoogleItem[]) intent
           .getParcelableArrayExtra(MyService.MY_SERVICE_PAYLOAD);
-
       handlesImages(context);
       }
   };
@@ -236,5 +245,45 @@ public class ImageActivity extends AppCompatActivity {
   {
     v.setColorFilter(null);
     v.setImageAlpha(255);
+  }
+
+  // TODO save each image url onto the database
+  @Override
+  public synchronized OrmHelper getHelper() {
+    if (helper == null) {
+      helper = OpenHelperManager.getHelper(this, OrmHelper.class);
+    }
+    return helper;
+  }
+
+  public void addCardImages(View view) {
+    getHelper();
+    if (currentLink.size() != 4) {
+      Toast.makeText(this, "Choose 4 cards.", Toast.LENGTH_SHORT).show();
+    } else {
+      try {
+        Dao<Card, Integer> cardDao = helper.getCardDao();
+        UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
+        updateBuilder.where().eq("IMAGE_ONE", "first image");
+        updateBuilder.where().eq("IMAGE_TWO", "second image");
+        updateBuilder.where().eq("IMAGE_THREE", "third image");
+        updateBuilder.where().eq("IMAGE_FOUR", "forth image");
+        updateBuilder.updateColumnValue("IMAGE_ONE", currentLink.get(0));
+        updateBuilder.updateColumnValue("IMAGE_TWO", currentLink.get(1));
+        updateBuilder.updateColumnValue("IMAGE_THREE", currentLink.get(2));
+        updateBuilder.updateColumnValue("IMAGE_FOUR", currentLink.get(3));
+        updateBuilder.update();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    }
+
+  @Override
+  public synchronized void releaseHelper() {
+    if (helper != null) {
+      OpenHelperManager.releaseHelper();
+      helper = null;
+    }
   }
 }

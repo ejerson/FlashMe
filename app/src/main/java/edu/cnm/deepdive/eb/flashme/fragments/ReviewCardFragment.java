@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
@@ -15,6 +16,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
@@ -54,9 +56,16 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private TextView cardReview;
   private TextView cardCheck;
 
+  private ImageView image_one;
+  private ImageView image_two;
+  private ImageView image_three;
+  private ImageView image_four;
+
   private Card currentRandomCard;
   private String currentCardFront;
   private String currentCardBack;
+
+  private List<Card> cards;
 
   // create a pool of cards to be reviewed
 
@@ -84,8 +93,12 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     rootView = inflater.inflate(R.layout.review_card_fragment, container, false);
 
-//    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
+    image_one = rootView.findViewById(R.id.image_one);
+    image_two = rootView.findViewById(R.id.image_two);
+    image_three = rootView.findViewById(R.id.image_three);
+    image_four = rootView.findViewById(R.id.image_four);
 
+//    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
     Button card_review_button = rootView.findViewById(R.id.button_review);
     card_review_button.setOnClickListener(this);
 
@@ -106,8 +119,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     switch(view.getId()) {
       case R.id.button_review:
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
+
+
         randomNumberGenerator();
         randomCard();
+
 
         // a user gets a 30 out of 30 when cards have either been promoted or demoted
         // place all cards to the graduated pile - this pile contains cards that have gone
@@ -228,6 +244,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     }
 
+
   }
 
   public Card randomNumberGenerator() {
@@ -251,6 +268,33 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     } else {
       currentCardFront = currentRandomCard.getFront();
       currentCardBack = currentRandomCard.getBack();
+
+      int width = getContext().getResources().getDisplayMetrics().widthPixels;
+
+      Picasso.with(getContext())
+          .load(currentRandomCard.getImageOne())
+          .centerCrop().resize(width / 2, width / 2)
+          .placeholder(R.drawable.loading)
+          .into(image_one);
+
+      Picasso.with(getContext())
+          .load(currentRandomCard.getImageTwo())
+          .centerCrop().resize(width / 2, width / 2)
+          .placeholder(R.drawable.loading)
+          .into(image_two);
+
+      Picasso.with(getContext())
+          .load(currentRandomCard.getImageThree())
+          .centerCrop().resize(width / 2, width / 2)
+          .placeholder(R.drawable.loading)
+          .into(image_three);
+
+      Picasso.with(getContext())
+          .load(currentRandomCard.getImageFour())
+          .centerCrop().resize(width / 2, width / 2)
+          .placeholder(R.drawable.loading)
+          .into(image_four);
+
       cardReview.setText(currentCardFront);
     }
   }
@@ -258,6 +302,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentCardBack);
+
   }
 
 }

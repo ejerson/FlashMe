@@ -28,7 +28,9 @@ import java.util.List;
  * A fragment representing a single Deck detail screen. This fragment is contained in a
  * {@link DeckListActivity}.
  */
-public class DeckMemberFragment extends Fragment implements OnClickListener {
+public class DeckMemberFragment
+    extends Fragment
+    implements OnClickListener {
 
   /** The fragment argument representing the item ID that this fragment represents. */
   public static final String DECK_ID = "deck_id";
@@ -37,13 +39,17 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
   private OrmHelper helper;
   private int deckId;
   private Deck deck;
-  private Card card;
+//  private Card card;
   private View rootView;
-  List<Card> cards;
+
+  private List<Card> cards;
   private ListView cardList;
   private ArrayAdapter<Card> cardAdapter;
   private String currentItemText;
   private ArrayList<String> stringCollection = new ArrayList<>();
+
+  /** Stores card front values to be used for validation inside AddCardFragment */
+  private ArrayList<String> cardFrontCollection = new ArrayList<>();
   CheckedTextView checkedTextView;
 
   /**
@@ -62,6 +68,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     } else {
       deckId = 0;
     }
+
   }
 
   @Override
@@ -109,7 +116,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           stringCollection.remove(currentItemText);
         }
 
-
       }
     });
 //    return null;
@@ -123,6 +129,7 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         AddCardFragment dialog = new AddCardFragment();
         Bundle args = new Bundle();
         args.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
+        args.putStringArrayList("cardFrontCollection", cardFrontCollection);
         dialog.setArguments(args);
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
@@ -138,7 +145,6 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
         try {
           Dao<Card, Integer> cardDao = helper.getCardDao();
           DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
-
           for(int i = 0; i < stringCollection.size(); i++) {
             cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
             cardDeleteBuilder.delete();
@@ -146,11 +152,8 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
           }
 
           queryForCards();
-
           cardList.invalidateViews();
-          cardList.refreshDrawableState();
           cardAdapter.notifyDataSetChanged();
-
 
         } catch (SQLException e) {
           throw new RuntimeException();
@@ -184,6 +187,11 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
     } else {
       deck = null;
     }
+
+    for (int i = 0; i < cards.size(); i ++) {
+      cardFrontCollection.add(cards.get(i).getFront().toString());
+    }
+
   }
 
   /** Queries the database for cards with a specific foreign key. */
@@ -203,7 +211,14 @@ public class DeckMemberFragment extends Fragment implements OnClickListener {
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
+  }
 
+  public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
   }
 
   @Override

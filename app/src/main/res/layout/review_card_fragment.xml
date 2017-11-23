@@ -29,6 +29,21 @@
     android:orientation="horizontal"
     android:gravity="center">
 
+    <GridLayout
+      android:orientation="vertical"
+      android:id="@+id/image_gridlayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:rowCount="2"
+      android:columnCount="2">
+
+      <ImageView android:id="@+id/image_one"/>
+      <ImageView android:id="@+id/image_two"/>
+      <ImageView android:id="@+id/image_three"/>
+      <ImageView android:id="@+id/image_four"/>
+    </GridLayout>
+
     <Button
       android:id="@+id/button_review"
       android:layout_width="wrap_content"
