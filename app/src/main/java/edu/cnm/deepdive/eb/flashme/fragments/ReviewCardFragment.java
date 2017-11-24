@@ -123,7 +123,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
         randomNumberGenerator();
         randomCard();
-        
+
 
         // a user gets a 30 out of 30 when cards have either been promoted or demoted
         // place all cards to the graduated pile - this pile contains cards that have gone
