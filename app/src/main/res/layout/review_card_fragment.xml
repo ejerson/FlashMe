@@ -13,15 +13,16 @@
     android:paddingTop="70dp"
     app:layout_constraintLeft_toRightOf="parent"
     app:layout_constraintRight_toLeftOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    android:textSize="30dp"/>
 
   <GridLayout
     android:id="@+id/image_review_gridlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="20dp"
     android:rowCount="2"
     android:columnCount="2"
-    android:padding="0dp"
     app:layout_constraintLeft_toRightOf="parent"
     app:layout_constraintRight_toLeftOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/review_random_card"
@@ -42,7 +43,8 @@
     app:layout_constraintLeft_toRightOf="parent"
     app:layout_constraintRight_toLeftOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/image_review_gridlayout"
-    app:layout_constraintBottom_toTopOf="@+id/buttons_for_review"/>
+    app:layout_constraintBottom_toTopOf="@+id/buttons_for_review"
+    android:textSize="30dp"/>
 
   <LinearLayout
     android:id="@+id/buttons_for_review"

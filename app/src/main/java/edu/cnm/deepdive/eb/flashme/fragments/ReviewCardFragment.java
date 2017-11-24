@@ -119,8 +119,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     switch(view.getId()) {
       case R.id.button_review:
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
-
-
         randomNumberGenerator();
         randomCard();
 
@@ -133,9 +131,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
           // a level two card is promoted to level 3
           // a level three card is graduated
              // graduated cards can be place back into the pile as level 1 (for now)
-
-        String yes = String.valueOf(currentRandomCard);
-        Toast.makeText(getActivity(), yes, Toast.LENGTH_SHORT).show();
         break;
       case R.id.button_check:
         cardCheck();
@@ -276,29 +271,30 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentCardBack);
 
+
     int width = getContext().getResources().getDisplayMetrics().widthPixels;
 
     Picasso.with(getContext())
         .load(currentRandomCard.getImageOne())
-        .centerCrop().resize(width / 2, width / 2)
+        .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_one);
 
     Picasso.with(getContext())
         .load(currentRandomCard.getImageTwo())
-        .centerCrop().resize(width / 2, width / 2)
+        .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_two);
 
     Picasso.with(getContext())
         .load(currentRandomCard.getImageThree())
-        .centerCrop().resize(width / 2, width / 2)
+        .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_three);
 
     Picasso.with(getContext())
         .load(currentRandomCard.getImageFour())
-        .centerCrop().resize(width / 2, width / 2)
+        .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_four);
 
