@@ -123,7 +123,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
         randomNumberGenerator();
         randomCard();
-
+        
 
         // a user gets a 30 out of 30 when cards have either been promoted or demoted
         // place all cards to the graduated pile - this pile contains cards that have gone
@@ -268,33 +268,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     } else {
       currentCardFront = currentRandomCard.getFront();
       currentCardBack = currentRandomCard.getBack();
-
-      int width = getContext().getResources().getDisplayMetrics().widthPixels;
-
-      Picasso.with(getContext())
-          .load(currentRandomCard.getImageOne())
-          .centerCrop().resize(width / 2, width / 2)
-          .placeholder(R.drawable.loading)
-          .into(image_one);
-
-      Picasso.with(getContext())
-          .load(currentRandomCard.getImageTwo())
-          .centerCrop().resize(width / 2, width / 2)
-          .placeholder(R.drawable.loading)
-          .into(image_two);
-
-      Picasso.with(getContext())
-          .load(currentRandomCard.getImageThree())
-          .centerCrop().resize(width / 2, width / 2)
-          .placeholder(R.drawable.loading)
-          .into(image_three);
-
-      Picasso.with(getContext())
-          .load(currentRandomCard.getImageFour())
-          .centerCrop().resize(width / 2, width / 2)
-          .placeholder(R.drawable.loading)
-          .into(image_four);
-
       cardReview.setText(currentCardFront);
     }
   }
@@ -302,6 +275,32 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentCardBack);
+
+    int width = getContext().getResources().getDisplayMetrics().widthPixels;
+
+    Picasso.with(getContext())
+        .load(currentRandomCard.getImageOne())
+        .centerCrop().resize(width / 2, width / 2)
+        .placeholder(R.drawable.loading)
+        .into(image_one);
+
+    Picasso.with(getContext())
+        .load(currentRandomCard.getImageTwo())
+        .centerCrop().resize(width / 2, width / 2)
+        .placeholder(R.drawable.loading)
+        .into(image_two);
+
+    Picasso.with(getContext())
+        .load(currentRandomCard.getImageThree())
+        .centerCrop().resize(width / 2, width / 2)
+        .placeholder(R.drawable.loading)
+        .into(image_three);
+
+    Picasso.with(getContext())
+        .load(currentRandomCard.getImageFour())
+        .centerCrop().resize(width / 2, width / 2)
+        .placeholder(R.drawable.loading)
+        .into(image_four);
 
   }
 
