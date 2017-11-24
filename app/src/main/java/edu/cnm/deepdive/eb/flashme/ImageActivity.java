@@ -91,7 +91,6 @@ public class ImageActivity
 
     clickableSpan = new ClickableSpan() {
 
-      // TODO users can click on multiple keywords to search for images, as of now users can only pick one
       @Override
       public void onClick(View textView) {
         String cx = getString(R.string.search_engine_id);
@@ -122,14 +121,6 @@ public class ImageActivity
             new IntentFilter(MyService.MY_SERVICE_MESSAGE));
 
     networkOk = NetworkHelper.hasNetworkAccess(this);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-
-    LocalBroadcastManager.getInstance(getApplicationContext())
-        .unregisterReceiver(broadcastReceiver);
   }
 
   @Override
@@ -169,8 +160,7 @@ public class ImageActivity
    *
    *  Handles the behaviour of each ImageView according to user input.
    * */
-  // TODO if moving this breaks my app, return all the contents of this method inside my
-  // Broadcast Receiver
+
   private void handlesImages(final Context context) {
     imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
     imageView = new ImageView[dataItems.length];
@@ -180,7 +170,6 @@ public class ImageActivity
     for ( i = 0; i < dataItems.length; i++) {
       imageView[i] = new ImageView(context);
       imageView[i].setPadding(5, 5, 5, 5);
-      // TODO Save image urls to database from currentLink ArrayList
       imageView[i].setId(i);
       imageView[i].setClickable(true);
 
@@ -191,8 +180,6 @@ public class ImageActivity
       imageView[i].setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
-          String yes;
-          // TODO clear my currentLint arrayList after a save button is clicked
           for (int i = 0; i < dataItems.length; i++) {
             if (imageView[i].getId() == view.getId()) {
               if (currentLink.contains(dataItems[i].getLink())) {
@@ -212,9 +199,6 @@ public class ImageActivity
             Toast.makeText(ImageActivity.this, "Only choose 4 images!", Toast.LENGTH_SHORT)
                 .show();
           }
-
-          yes = String.valueOf(currentLink.size());
-          Toast.makeText(context, yes, Toast.LENGTH_SHORT).show();
         }
       });
 
@@ -247,7 +231,6 @@ public class ImageActivity
     v.setImageAlpha(255);
   }
 
-  // TODO save each image url onto the database
   @Override
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
@@ -277,7 +260,7 @@ public class ImageActivity
         throw new RuntimeException(e);
       }
     }
-    
+
     }
 
   @Override
@@ -286,5 +269,13 @@ public class ImageActivity
       OpenHelperManager.releaseHelper();
       helper = null;
     }
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    LocalBroadcastManager.getInstance(getApplicationContext())
+        .unregisterReceiver(broadcastReceiver);
   }
 }

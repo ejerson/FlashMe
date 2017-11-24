@@ -21,21 +21,30 @@ import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-
+/** A fragment that handles the creation of cards, and facilitate smooth transition onto
+ *  the ImageActivity to allow users to add Images onto the database.
+ *
+ *  It is within this fragment that the Card entity is used to create, and populate the database
+ *  with card values that will later be used by multiple components (fragments and activities)
+ *  to do their respective functions.
+ * */
 public class AddCardFragment extends DialogFragment {
 
+  /** Constant value of DECK_ID */
   public static final String DECK_ID_KEY = "deck_id";
 
   private Dao<Deck, Integer> deckDao;
-  private Dao <Card, Integer> cardDao;
   private Deck deck;
-    private Deck card;
   private OrmHelper helper;
 
+  /** Saves the content of the bundle received from DeckMemberFragment */
   private List<String> cardFrontCollection;
 
-
+  /** Access and Saves the value of user specified card front value. */
+  public static String currentFront;
+  /** Access and Saves the value of user specified card back value. */
   public static String currentBack;
+
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,6 +54,7 @@ public class AddCardFragment extends DialogFragment {
 
     final View inflatedView = inflater.inflate(R.layout.dialog_add_card, null);
     helper = ((OrmInteraction) getActivity()).getHelper();
+
     try {
       deckDao = helper.getDeckDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID_KEY));
@@ -52,14 +62,18 @@ public class AddCardFragment extends DialogFragment {
       throw new RuntimeException(e);
     }
 
+    /**
+     * Receives the bundle sent by DeckMemberFragment when a user adds a card.
+     *  Used by this fragment to validate whether a card already exist or not.
+     * */
     Bundle args = getArguments();
     if (args != null && args.containsKey("cardFrontCollection")) {
       cardFrontCollection = args.getStringArrayList("cardFrontCollection");
     }
-    // declare them final to be able to access these inside my OnClickListener
-    // this value will never change, it makes this variable immutable
-    // this variable can't refer to another textView
+
+    /** Retrieves and Saves the user specified value of the card front in a variable. */
     final EditText frontView = inflatedView.findViewById(R.id.card_front);
+    /** Retrieves and Saves the user specified value of the card back in a variable. */
     final EditText backView = inflatedView.findViewById(R.id.card_back);
 
     builder.setView(inflatedView);
@@ -67,21 +81,21 @@ public class AddCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
-        String front = frontView.getText().toString();
+       currentFront = frontView.getText().toString();
         currentBack = backView.getText().toString();
 
         // STRETCH GOAL give users the ability to override a card if it already exists
         if (cardFrontCollection.size() == 0) {
-          addCard(front);
+          addCard(currentFront);
         } else {
           for (int j = 0; j < cardFrontCollection.size(); j++) {
 
-            if (cardFrontCollection.get(j).contains(front)) {
+            if (cardFrontCollection.get(j).contains(currentFront)) {
               Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_LONG).show();
-            } else if (front.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
+            } else if (currentFront.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
               Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
             } else {
-              addCard(front);
+              addCard(currentFront);
               break;
             }
           }

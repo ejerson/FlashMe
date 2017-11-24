@@ -10,15 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import edu.cnm.deepdive.eb.flashme.DeckListActivity;
+import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 
-
-public class AddContentFragment extends DialogFragment {
-
-  private OrmHelper helper = null;
+/** A fragment that handles the Deck creation process and calls the
+ * refreshRecyclerView() to update the RecyclerView on deck addition.
+ * This fragment is contained within {@link DeckMemberActivity}
+ * */
+public class AddDeckFragment extends DialogFragment {
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class AddContentFragment extends DialogFragment {
     builder.setNegativeButton(getString(R.string.dialogue_cancel), new OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
-        AddContentFragment.this.getDialog().cancel();
+        AddDeckFragment.this.getDialog().cancel();
       }
     });
     return builder.create();

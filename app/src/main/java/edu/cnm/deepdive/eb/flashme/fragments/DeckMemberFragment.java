@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import edu.cnm.deepdive.eb.flashme.DeckListActivity;
+import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
@@ -25,31 +25,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a single Deck detail screen. This fragment is contained in a
- * {@link DeckListActivity}.
+ * A fragment representing a single Card List screen. This fragment is contained in a
+ * {@link DeckMemberActivity}.
  */
 public class DeckMemberFragment
     extends Fragment
     implements OnClickListener {
 
-  /** The fragment argument representing the item ID that this fragment represents. */
+  /** The fragment argument representing the deck ID that this fragment represents. */
   public static final String DECK_ID = "deck_id";
+  /** The fragment argument representing the deck NAME that this fragment represents. */
   public static final String DECK = "deck_name";
 
+  /** Stores the value of my helper to be used by the queries within this fragment. */
   private OrmHelper helper;
+  /** Stores the id of the current deck. */
   private int deckId;
+  /** Stores the current deck. */
   private Deck deck;
-//  private Card card;
+  /** Stores the value of the rootView */
   private View rootView;
 
+  /** Contains Card objects that are retrieved from the database. */
   private List<Card> cards;
+  /** Utilized as a way to display each cards. */
   private ListView cardList;
+  /** The adapter for the ListView and List<Card>. */
   private ArrayAdapter<Card> cardAdapter;
+
+  /** The value of the currently checked card checkbox. */
   private String currentItemText;
+  /** Collection of currentItemText that is used to determine which cards to be deleted. */
   private ArrayList<String> stringCollection = new ArrayList<>();
 
   /** Stores card front values to be used for validation inside AddCardFragment */
   private ArrayList<String> cardFrontCollection = new ArrayList<>();
+  /** Flag that shows/stores whether a card checkbox is checked or not. */
   CheckedTextView checkedTextView;
 
   /**
@@ -68,7 +79,6 @@ public class DeckMemberFragment
     } else {
       deckId = 0;
     }
-
   }
 
   @Override
@@ -77,7 +87,6 @@ public class DeckMemberFragment
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
 
     cardList = rootView.findViewById(R.id.card_front);
-//    MyCustomAdapter adapter = new MyCustomAdapter(cardList, this);
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
     cardList.setAdapter(cardAdapter);
 
@@ -118,12 +127,10 @@ public class DeckMemberFragment
 
       }
     });
-//    return null;
   }
 
   @Override
   public void onClick(View view) {
-
     switch (view.getId()) {
       case R.id.button_add_card:
         AddCardFragment dialog = new AddCardFragment();
@@ -171,7 +178,6 @@ public class DeckMemberFragment
        } else {
          Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
        }
-
         break;
       default:
         break;
@@ -212,18 +218,4 @@ public class DeckMemberFragment
         throw new RuntimeException(e);
       }
   }
-
-  public List<Card> getCards() {
-    return cards;
-  }
-
-  public void setCards(List<Card> cards) {
-    this.cards = cards;
-  }
-
-  @Override
-    public String toString() {
-      return super.toString();
-    }
-
 }

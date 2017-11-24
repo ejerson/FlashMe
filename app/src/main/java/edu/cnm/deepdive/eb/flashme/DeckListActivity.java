@@ -21,7 +21,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
-import edu.cnm.deepdive.eb.flashme.fragments.AddContentFragment;
+import edu.cnm.deepdive.eb.flashme.fragments.AddDeckFragment;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 import java.util.List;
@@ -126,8 +126,7 @@ public class DeckListActivity
         @Override
         public void onClick(View view) {
           try {
-          // TODO add a warning fragment to prevent users from accidentally pressing the button
-//            showAddDialog(view);
+          // TODO add a warning fragment to prevent users from accidentally pressing the delete button
             Dao<Card, Integer> cardDao = helper.getCardDao();
             DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
             cardDeleteBuilder.where().eq("DECK_ID", holder.mDeck.getId());
@@ -190,8 +189,8 @@ public class DeckListActivity
   }
 
   public void showAddDialog(View view) {
-    AddContentFragment dialog = new AddContentFragment();
-    dialog.show(getSupportFragmentManager(), "AddContentFragment");
+    AddDeckFragment dialog = new AddDeckFragment();
+    dialog.show(getSupportFragmentManager(), "AddDeckFragment");
   }
 
 }
