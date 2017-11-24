@@ -277,6 +277,7 @@ public class ImageActivity
         throw new RuntimeException(e);
       }
     }
+    
     }
 
   @Override

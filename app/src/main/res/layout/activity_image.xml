@@ -42,17 +42,20 @@
     </LinearLayout>
 
   </HorizontalScrollView>
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <GridLayout
       android:orientation="vertical"
       android:id="@+id/image_gridlayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
-      android:rowCount="2"
+      android:rowCount="5"
       android:columnCount="2">
 
     </GridLayout>
 
-
+  </ScrollView>
 
 </LinearLayout>
