@@ -25,58 +25,59 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/** A fragment that handles the card review functionality of this app.
+ *  Cards are reviewed using a streamlined version of Leitner's Game Schedule.
+ *  Instead of users having to review card levels sequentially and at a specific date,
+ *  Users are able to review cards from every level. The card review pool is
+ *  populated with up to 15 level 1 cards and 10 level 2 cards.
+ *
+ * */
 public class ReviewCardFragment extends Fragment implements OnClickListener {
 
+  /** Constant for deck_id */
   private static final String DECK_ID = "deck_id";
-  public static final String CARD_ID = "card_id";
 
+  /** Stores the value of my helper. */
   private OrmHelper helper;
-  private int deckId;
+  /** Stores information about the current deck. */
   private Deck deck;
-  private Card card;
-  private int cardId;
+  /** Stores the view for this fragment. */
   private View rootView;
-
+  /** Contains all of level 1 cards. */
   private List<Card> cardL1Collection;
+  /** Contains all of level 2 cards. */
   private List<Card> cardL2Collection;
-
-
+  /** Contains up to 15 level 1 cards. */
   private ArrayList<Card> cardL1Id = new ArrayList<>();
+  /** Contains up to 10 level 2 cards. */
   private ArrayList<Card> cardL2Id = new ArrayList<>();
-
-  // 15 id from cardL1 and 10 id cardL2
+  /** Contains up to 25 cards from both level 1 and 2. */
   private ArrayList<Card> reviewPool = new ArrayList<>();
 
+  /** Will contain cards that have reached the maximum level. */
+  private ArrayList<String> graduatedCards = new ArrayList<>();
 
-  private ArrayList<String> graduatedFront = new ArrayList<>();
-
+  /** Front text value of card being reviewed. */
   private TextView cardReview;
+  /** Back text value of card being reviewed. */
   private TextView cardCheck;
 
+  // TODO change to dynamically created image views.
+  /** ImageView for image one. */
   private ImageView image_one;
+  /** ImageView for image one. */
   private ImageView image_two;
+  /** ImageView for image one. */
   private ImageView image_three;
+  /** ImageView for image one. */
   private ImageView image_four;
 
+  /** Current, Random card being reviewed. */
   private Card currentRandomCard;
-  private String currentCardFront;
-  private String currentCardBack;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    if(getArguments().containsKey(DECK_ID)) {
-      deckId = getArguments().getInt(DECK_ID);
-    } else {
-      deckId = 0;
-    }
-
-    if (getArguments().containsKey(CARD_ID)) {
-      cardId = getArguments().getInt(CARD_ID);
-    } else {
-      cardId = 0;
-    }
   }
 
   @Nullable
@@ -115,8 +116,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         cardCheck();
         break;
       case R.id.button_level_up:
-
-    // duplicate the parent state, which is the listView
     try {
       // TODO downgrade the level of the card being reviewed
       Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -150,7 +149,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       where.eq("DECK_ID", deck.getId());
       PreparedQuery<Card> preparedQueryL1 = queryBuilder.prepare();
       cardL1Collection = cardDao.query(preparedQueryL1);
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -167,7 +165,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       where.eq("DECK_ID", deck.getId());
       PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
       cardL2Collection = cardDao.query(preparedQuery);
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -192,7 +189,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         int addItemSize = (cardL2Collection.size() > 10) ? 10 : cardL2Collection.size();
         reviewPool.addAll(cardL2Collection.subList(0, addItemSize));
       }
-
         randomNumberGenerator();
         randomCard();
     }
@@ -219,22 +215,19 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
    *  */
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
-    if (cardL1Collection.isEmpty() && cardL2Collection.isEmpty()) {
+    if (reviewPool.isEmpty()) {
       Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
     } else {
-      currentCardFront = currentRandomCard.getFront();
-      currentCardBack = currentRandomCard.getBack();
-      cardReview.setText(currentCardFront);
+      cardReview.setText(currentRandomCard.getFront());
     }
   }
-
 
   /** Gives a user the ability to check if they answered a given card correctly.
    *  Shows images that the user picked in order to help with retention.
    * */
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
-    cardCheck.setText(currentCardBack);
+    cardCheck.setText(currentRandomCard.getBack());
 
     int width = getContext().getResources().getDisplayMetrics().widthPixels;
 
