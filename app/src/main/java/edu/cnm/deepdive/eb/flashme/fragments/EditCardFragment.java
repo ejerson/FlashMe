@@ -27,15 +27,11 @@ import java.util.List;
 public class EditCardFragment extends DialogFragment {
   private OrmHelper helper;
   private ArrayList<String> stringCollection;
-//  private Card cards;
-  private String content;
 
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Builder builder = new Builder(getActivity());
-
-//    Bundle bundle = this.getArguments();
     LayoutInflater inflater = getActivity().getLayoutInflater();
 
     View inflatedView = inflater.inflate(R.layout.dialog_add_card, null);
@@ -57,9 +53,6 @@ public class EditCardFragment extends DialogFragment {
           List<Card> cards = cardDao.query(cardBuilder.prepare());
           frontView.setText(cards.get(0).getFront());
           backView.setText(cards.get(0).getBack());
-
-          this.content = backView.getText().toString();
-
         } catch (SQLException e) {
           throw new RuntimeException(e);
         }

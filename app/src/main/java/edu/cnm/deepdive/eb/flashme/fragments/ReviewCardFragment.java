@@ -37,9 +37,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private int cardId;
   private View rootView;
 
-//  private ArrayAdapter<Card> singleAdapter;
-
-  // create a pool of cards from each levels
   private List<Card> cardL1Collection;
   private List<Card> cardL2Collection;
 
@@ -64,10 +61,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private Card currentRandomCard;
   private String currentCardFront;
   private String currentCardBack;
-
-  private List<Card> cards;
-
-  // create a pool of cards to be reviewed
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +91,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     image_three = rootView.findViewById(R.id.image_three);
     image_four = rootView.findViewById(R.id.image_four);
 
-//    singleAdapter = new ArrayAdapter<>(getContext(), R.layout.single_card);
     Button card_review_button = rootView.findViewById(R.id.button_review);
     card_review_button.setOnClickListener(this);
 
@@ -107,9 +99,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     Button level_up_button = rootView.findViewById(R.id.button_level_up);
     level_up_button.setOnClickListener(this);
-
-
-
     return rootView;
   }
 
@@ -121,16 +110,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
         randomNumberGenerator();
         randomCard();
-
-
-        // a user gets a 30 out of 30 when cards have either been promoted or demoted
-        // place all cards to the graduated pile - this pile contains cards that have gone
-        // beyond the highest level.
-        // the counter increases if
-          // a level one card is promoted to level 2
-          // a level two card is promoted to level 3
-          // a level three card is graduated
-             // graduated cards can be place back into the pile as level 1 (for now)
         break;
       case R.id.button_check:
         cardCheck();
@@ -140,14 +119,9 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     // duplicate the parent state, which is the listView
     try {
       // TODO downgrade the level of the card being reviewed
-
-//      Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
-//      // this is how I make my query more specific by using the and keyword
       UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
-//      // set the criteria like you would a QueryBuilder
       updateBuilder.where().eq("CARD_ID", currentRandomCard.getId());
-//      // update the value of your field(s)
       updateBuilder.updateColumnValue("TYPE", 2);
       updateBuilder.update();
     } catch (SQLException e) {
@@ -164,57 +138,43 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
 
-    /** get level 1 cards */
+    /** Retrieves level 1 cards from the database. */
     try {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-// get our query builder from the DAO
-      QueryBuilder<Card, Integer> queryBuilder =
-          cardDao.queryBuilder();
-      // this is how I make my query more specific by using the and keyword
+      QueryBuilder<Card, Integer> queryBuilder = cardDao.queryBuilder();
       Where<Card, Integer> where = queryBuilder.where();
-// the name field must be equal to "foo"
       where.eq("TYPE", 1);
-//// and
       where.and();
-// only retrieve cards that belongs to a specific deck
       where.eq("DECK_ID", deck.getId());
-// prepare my sql statement
       PreparedQuery<Card> preparedQueryL1 = queryBuilder.prepare();
-// query for all decks that have 1 as a type
       cardL1Collection = cardDao.query(preparedQueryL1);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    /** get level 2 cards */
+    /** Retrieves level 2 cards from the database. */
     try {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       Dao<Card, Integer> cardDao = helper.getCardDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-// get our query builder from the DAO
-      QueryBuilder<Card, Integer> queryBuilder =
-          cardDao.queryBuilder();
-      // this is how I make my query more specific by using the and keyword
+      QueryBuilder<Card, Integer> queryBuilder = cardDao.queryBuilder();
       Where<Card, Integer> where = queryBuilder.where();
-// the name field must be equal to "foo"
       where.eq("TYPE", 2);
-//// and
       where.and();
-// only retrieve cards that belongs to a specific deck
       where.eq("DECK_ID", deck.getId());
-// prepare my sql statement
       PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
-// query for all decks that have 2 as a type
       cardL2Collection = cardDao.query(preparedQuery);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    /** Review Pool Population */
+    /** Generates the review pool collection and ensures that a maximum of 25 cards can
+     *  be reviewed at any given time.
+     * */
     if (reviewPool.size() > 25) {
       Toast.makeText(getActivity(), "Please increase review limit.", Toast.LENGTH_SHORT).show();
     } else {
@@ -222,7 +182,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       if(cardL1Collection.isEmpty() && cardL1Id.size() > 15) {
         Toast.makeText(getActivity(), "Please create cards", Toast.LENGTH_SHORT).show();
       } else {
-        // I want this  value to be 15 if cardL1Id is full, otherwise I want it to be cardL1.size
         int addItemSize = (cardL1Collection.size() > 15) ? 15 : cardL1Collection.size();
         reviewPool.addAll(cardL1Collection.subList(0, addItemSize));
       }
@@ -236,12 +195,12 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
         randomNumberGenerator();
         randomCard();
-
     }
-
-
   }
 
+  /** Provides a random number to be used as a way to determine which card
+   *  is going to be reviewed.
+   * */
   public Card randomNumberGenerator() {
     int max = reviewPool.size();
     int min = 0;
@@ -255,9 +214,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     return currentRandomCard;
   }
 
+  /** Retrieves value of the current random card to be used for
+   *  studying.
+   *  */
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
-    /** checks and retrieve value of the current random card*/
     if (cardL1Collection.isEmpty() && cardL2Collection.isEmpty()) {
       Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
     } else {
@@ -268,6 +229,9 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   }
 
 
+  /** Gives a user the ability to check if they answered a given card correctly.
+   *  Shows images that the user picked in order to help with retention.
+   * */
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentCardBack);

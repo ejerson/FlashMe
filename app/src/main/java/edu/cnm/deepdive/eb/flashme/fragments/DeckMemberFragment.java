@@ -27,42 +27,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a single Card List screen. This fragment is contained in a
- * {@link DeckMemberActivity}.
+ * A fragment representing a single Card List screen. This fragment is contained in a {@link
+ * DeckMemberActivity}.
  */
 public class DeckMemberFragment
     extends Fragment
     implements OnClickListener {
 
-  /** The fragment argument representing the deck ID that this fragment represents. */
+  /**
+   * The fragment argument representing the deck ID that this fragment represents.
+   */
   public static final String DECK_ID = "deck_id";
-  /** The fragment argument representing the deck NAME that this fragment represents. */
+  /**
+   * The fragment argument representing the deck NAME that this fragment represents.
+   */
   public static final String DECK = "deck_name";
 
-  /** Stores the value of my helper to be used by the queries within this fragment. */
+  /**
+   * Stores the value of my helper to be used by the queries within this fragment.
+   */
   private OrmHelper helper;
-  /** Stores the id of the current deck. */
+  /**
+   * Stores the id of the current deck.
+   */
   private int deckId;
-  /** Stores the current deck. */
+  /**
+   * Stores the current deck.
+   */
   private Deck deck;
-  /** Stores the value of the rootView */
+  /**
+   * Stores the value of the rootView
+   */
   private View rootView;
 
-  /** Contains Card objects that are retrieved from the database. */
+  /**
+   * Contains Card objects that are retrieved from the database.
+   */
   private List<Card> cards;
-  /** Utilized as a way to display each cards. */
+  /**
+   * Utilized as a way to display each cards.
+   */
   private ListView cardList;
-  /** The adapter for the ListView and List<Card>. */
+  /**
+   * The adapter for the ListView and List<Card>.
+   */
   private ArrayAdapter<Card> cardAdapter;
 
-  /** The value of the currently checked card checkbox. */
+  /**
+   * The value of the currently checked card checkbox.
+   */
   private String currentItemText;
-  /** Collection of currentItemText that is used to determine which cards to be deleted. */
+  /**
+   * Collection of currentItemText that is used to determine which cards to be deleted.
+   */
   private ArrayList<String> stringCollection = new ArrayList<>();
 
-  /** Stores card front values to be used for validation inside AddCardFragment */
+  /**
+   * Stores card front values to be used for validation inside AddCardFragment
+   */
   private ArrayList<String> cardFrontCollection = new ArrayList<>();
-  /** Flag that shows/stores whether a card checkbox is checked or not. */
+  /**
+   * Flag that shows/stores whether a card checkbox is checked or not.
+   */
   CheckedTextView checkedTextView;
 
 
@@ -95,7 +121,8 @@ public class DeckMemberFragment
     rootView = inflater.inflate(R.layout.deck_detail, container, false);
 
     cardList = rootView.findViewById(R.id.card_front);
-    cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
+    cardAdapter = new ArrayAdapter<>(getContext(),
+        android.R.layout.simple_list_item_multiple_choice);
     cardList.setAdapter(cardAdapter);
 
     getItemTextValue();
@@ -127,18 +154,27 @@ public class DeckMemberFragment
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
       case R.id.button_review_card:
+        if (cardAdapter.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+          review_card_button.setEnabled(false);
+        } else {
           ReviewCardFragment review = new ReviewCardFragment();
           Bundle argsReview = new Bundle();
           argsReview.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
           review.setArguments(argsReview); // bundle
           getActivity().getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, review).commit();
+        }
         break;
       case R.id.button_delete_card:
+        if (cardAdapter.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+          delete_card_button.setEnabled(false);
+        } else {
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
             DeleteBuilder<Card, Integer> cardDeleteBuilder = cardDao.deleteBuilder();
-            for(int i = 0; i < stringCollection.size(); i++) {
+            for (int i = 0; i < stringCollection.size(); i++) {
               cardDeleteBuilder.where().eq("FRONT", stringCollection.get(i));
               cardDeleteBuilder.delete();
               checkedTextView.setChecked(false);
@@ -150,11 +186,13 @@ public class DeckMemberFragment
           } catch (SQLException e) {
             throw new RuntimeException();
           }
-
+        }
         break;
-
-      // STRETCH GOAL users can pick multiple cards to edit
       case R.id.button_edit_card:
+        if (cardAdapter.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+          edit_card_button.setEnabled(false);
+        } else {
           if (stringCollection.size() == 1) {
             EditCardFragment edit = new EditCardFragment();
             Bundle argsEdit = new Bundle();
@@ -164,6 +202,8 @@ public class DeckMemberFragment
           } else {
             Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
           }
+        }
+
         break;
       default:
         break;
@@ -180,7 +220,7 @@ public class DeckMemberFragment
       deck = null;
     }
 
-    for (int i = 0; i < cards.size(); i ++) {
+    for (int i = 0; i < cards.size(); i++) {
       cardFrontCollection.add(cards.get(i).getFront().toString());
     }
 
@@ -197,34 +237,37 @@ public class DeckMemberFragment
 
   }
 
-  /** Queries the database for cards with a specific foreign key. */
+  /**
+   * Queries the database for cards with a specific foreign key.
+   */
   public void queryForCards() {
-      try {
-        Dao<Deck, Integer> deckDao = helper.getDeckDao();
-        Dao<Card, Integer> cardDao = helper.getCardDao();
-        deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-        QueryBuilder<Card, Integer> builder = cardDao.queryBuilder();
-        getActivity().setTitle(deck.getName());
-        builder.where().eq("DECK_ID", deck.getId());
-        cards = cardDao.query(builder.prepare());
-        cardAdapter.clear();
-        cardAdapter.addAll(cards);
-        cardAdapter.notifyDataSetChanged();
+    try {
+      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      Dao<Card, Integer> cardDao = helper.getCardDao();
+      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
+      QueryBuilder<Card, Integer> builder = cardDao.queryBuilder();
+      getActivity().setTitle(deck.getName());
+      builder.where().eq("DECK_ID", deck.getId());
+      cards = cardDao.query(builder.prepare());
+      cardAdapter.clear();
+      cardAdapter.addAll(cards);
+      cardAdapter.notifyDataSetChanged();
 
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  /** pools the front value of each individual checked item/s and
-   * store them inside List<String> stringCollection
-   * */
+  /**
+   * pools the front value of each individual checked item/s and store them inside List<String>
+   * stringCollection
+   */
   private void getItemTextValue() {
     cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // change the checkbox state
-        checkedTextView = ((CheckedTextView)view);
+        checkedTextView = ((CheckedTextView) view);
         checkedTextView.setChecked(!checkedTextView.isChecked());
 
         currentItemText = (String) checkedTextView.getText();
