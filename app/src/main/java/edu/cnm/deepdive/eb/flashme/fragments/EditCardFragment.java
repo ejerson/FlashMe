@@ -21,7 +21,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/** A fragment that handles card edit functionality.
+ *
+ * */
 public class EditCardFragment extends DialogFragment {
   private OrmHelper helper;
   private ArrayList<String> stringCollection;
@@ -74,7 +76,7 @@ public class EditCardFragment extends DialogFragment {
             updateBuilder.where().eq("FRONT", stringCollection.get(0));
             // update the value of your field(s)
             updateBuilder.updateColumnValue("FRONT", frontView.getText().toString());
-          updateBuilder.updateColumnValue("BACK", backView.getText().toString());
+            updateBuilder.updateColumnValue("BACK", backView.getText().toString());
             updateBuilder.update();
           } catch (SQLException e) {
             throw new RuntimeException(e);

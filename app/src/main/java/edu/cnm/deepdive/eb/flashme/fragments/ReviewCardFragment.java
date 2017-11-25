@@ -267,10 +267,10 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     }
   }
 
+
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentCardBack);
-
 
     int width = getContext().getResources().getDisplayMetrics().widthPixels;
 
@@ -297,7 +297,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_four);
-
   }
 
 }

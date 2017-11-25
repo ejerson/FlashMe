@@ -90,8 +90,6 @@ public class DeckMemberFragment
     cardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice);
     cardList.setAdapter(cardAdapter);
 
-    /** pools the front value of each individual checked item/s and
-     * store them inside List<String> stringCollection */
     getItemTextValue();
 
     Button edit_card_button = rootView.findViewById(R.id.button_edit_card);
@@ -107,26 +105,6 @@ public class DeckMemberFragment
     delete_card_button.setOnClickListener(this);
 
     return rootView;
-  }
-
-  private void getItemTextValue() {
-    cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // change the checkbox state
-        checkedTextView = ((CheckedTextView)view);
-        checkedTextView.setChecked(!checkedTextView.isChecked());
-
-        currentItemText = (String) checkedTextView.getText();
-
-        if (checkedTextView.isChecked()) {
-          stringCollection.add(currentItemText);
-        } else {
-          stringCollection.remove(currentItemText);
-        }
-
-      }
-    });
   }
 
   @Override
@@ -217,5 +195,28 @@ public class DeckMemberFragment
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
+  }
+
+  /** pools the front value of each individual checked item/s and
+   * store them inside List<String> stringCollection
+   * */
+  private void getItemTextValue() {
+    cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // change the checkbox state
+        checkedTextView = ((CheckedTextView)view);
+        checkedTextView.setChecked(!checkedTextView.isChecked());
+
+        currentItemText = (String) checkedTextView.getText();
+
+        if (checkedTextView.isChecked()) {
+          stringCollection.add(currentItemText);
+        } else {
+          stringCollection.remove(currentItemText);
+        }
+
+      }
+    });
   }
 }
