@@ -21,11 +21,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A fragment that handles card edit functionality.
- *
+/** A fragment that handles card edit functionality. The database is queried
+ *  for the value of the specific card being edited, and updates the value
+ *  of that given card when the user confirms their desired changes are
+ *  entered.
  * */
 public class EditCardFragment extends DialogFragment {
   private OrmHelper helper;
+
+  /** Stores the value of individual cards that have been selected for editing. */
   private ArrayList<String> stringCollection;
 
 
@@ -46,6 +50,7 @@ public class EditCardFragment extends DialogFragment {
     final EditText frontView = inflatedView.findViewById(R.id.card_front);
     final EditText backView = inflatedView.findViewById(R.id.card_back);
 
+        /** Queries the database for the specific card chosen to be edited. */
         try {
           Dao<Card, Integer> cardDao = helper.getCardDao();
           QueryBuilder<Card, Integer> cardBuilder = cardDao.queryBuilder();
@@ -62,12 +67,11 @@ public class EditCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
+        /** Updates the value of the card chosen for editing. */
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
             UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
-            // set the criteria like you would a QueryBuilder
             updateBuilder.where().eq("FRONT", stringCollection.get(0));
-            // update the value of your field(s)
             updateBuilder.updateColumnValue("FRONT", frontView.getText().toString());
             updateBuilder.updateColumnValue("BACK", backView.getText().toString());
             updateBuilder.update();
@@ -75,8 +79,10 @@ public class EditCardFragment extends DialogFragment {
             throw new RuntimeException(e);
           }
 
+        /** Queries the database to ensure that the card list
+         *  being displayed for the user is updated.
+         * */
         ((DeckMemberActivity) getActivity()).queryForCards();
-
       }
     });
 

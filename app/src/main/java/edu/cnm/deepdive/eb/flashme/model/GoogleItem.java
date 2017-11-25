@@ -4,17 +4,22 @@ package edu.cnm.deepdive.eb.flashme.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * A class that serves as the model for the result retrieved from querying Google's Custom Search
+ * API. This class implements the Parcelable interface to simplify data access for the components of
+ * this app.
+ */
 public class GoogleItem implements Parcelable {
 
-    private String link;
+  private String link;
 
-    public String getLink() {
-      return link;
-    }
+  public String getLink() {
+    return link;
+  }
 
-    public void setLink(String link) {
-      this.link = link;
-    }
+  public void setLink(String link) {
+    this.link = link;
+  }
 
   @Override
   public int describeContents() {
@@ -26,6 +31,9 @@ public class GoogleItem implements Parcelable {
     dest.writeString(this.link);
   }
 
+  /**
+   * Empty Constructor
+   */
   public GoogleItem() {
   }
 
