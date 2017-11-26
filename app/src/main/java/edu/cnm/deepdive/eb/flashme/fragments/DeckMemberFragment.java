@@ -1,9 +1,7 @@
 package edu.cnm.deepdive.eb.flashme.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -166,6 +164,8 @@ public class DeckMemberFragment
               .replace(R.id.fragment_container, review).commit();
         }
         break;
+        // FIXME if two cards have the same name, they are both deleted even
+      // if cards are in different deck
       case R.id.button_delete_card:
         if (cardAdapter.isEmpty()) {
           Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
@@ -253,6 +253,7 @@ public class DeckMemberFragment
       cardAdapter.addAll(cards);
       cardAdapter.notifyDataSetChanged();
 
+
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -282,8 +283,4 @@ public class DeckMemberFragment
     });
   }
 
-  @Override
-  public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-    super.onInflate(context, attrs, savedInstanceState);
-  }
 }

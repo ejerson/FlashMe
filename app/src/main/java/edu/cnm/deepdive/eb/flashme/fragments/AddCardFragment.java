@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.ImageActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -71,6 +73,8 @@ public class AddCardFragment extends DialogFragment {
       throw new RuntimeException(e);
     }
 
+
+
     /**
      * Receives the bundle sent by DeckMemberFragment when a user adds a card.
      *  Used by this fragment to validate whether a card already exist or not.
@@ -93,17 +97,20 @@ public class AddCardFragment extends DialogFragment {
         currentFront = frontView.getText().toString();
         currentBack = backView.getText().toString();
 
+
         // STRETCH GOAL give users the ability to override a card if it already exists
         if (cardFrontCollection.size() == 0) {
           addCard(currentFront);
+          getCardPool(cardFrontCollection.size());
         } else {
-          // FIXME adding card with existent front value after the second card addition.
+          // FIXME user still able to add card with existent front value after the second card addition.
           for (int j = 0; j < cardFrontCollection.size(); j++) {
             if (cardFrontCollection.get(j).contains(currentFront)) {
               Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
               break;
             } else {
               addCard(currentFront);
+              getCardPool(cardFrontCollection.size());
               break;
             }
           }
@@ -112,10 +119,6 @@ public class AddCardFragment extends DialogFragment {
         if (currentFront.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
           Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
       }
     });
 
@@ -144,11 +147,31 @@ public class AddCardFragment extends DialogFragment {
     startActivity(new Intent(getActivity(), ImageActivity.class));
     try {
       helper.getCardDao().create(card);
-
     } catch (SQLException e) {
       throw new RuntimeException();
     }
   }
 
+  public List<String> getCardFrontCollection() {
+    return cardFrontCollection;
+  }
 
+  public int cardPoolSize() {
+    return getCardFrontCollection().size();
+  }
+
+  /** Updates the value of the cardPool */
+  public void getCardPool(int size) {
+    try {
+      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
+      Where<Deck, Integer> where = updateBuilder.where();
+      where.eq("DECK", deck.getName());
+      updateBuilder.updateColumnValue("CARD_POOL", size);
+      updateBuilder.update();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
 }

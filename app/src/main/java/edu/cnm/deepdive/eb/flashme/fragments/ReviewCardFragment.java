@@ -114,14 +114,14 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
         randomNumberGenerator();
         randomCard();
-        getCardPool();
+        getCardPool(reviewPool.size());
         break;
       case R.id.button_check:
         cardCheck();
-        getCardPool();
+        getCardPool(reviewPool.size());
         break;
       case R.id.button_level_up:
-        getCardPool();
+        getCardPool(reviewPool.size());
     try {
       // TODO downgrade the level of the card being reviewed
       Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -200,8 +200,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     }
 
-    cardPool = reviewPool.size();
-    getCardPool();
+    getCardPool(reviewPool.size());
   }
 
   /** Provides a random number to be used as a way to determine which card
@@ -266,21 +265,21 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   }
 
   /** Updates the value of the cardPool */
-  public void getCardPool () {
+  public void getCardPool (int cardPool) {
     try {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
       Where<Deck, Integer> where = updateBuilder.where();
       where.eq("DECK", deck.getName());
-      where.and();
-      updateBuilder.where().eq("CARD_POOL", deck.getPool());
       updateBuilder.updateColumnValue("CARD_POOL", cardPool);
       updateBuilder.update();
     } catch (SQLException e) {
       e.printStackTrace();
     }
-
-
   }
 
+//  @Override
+//  public int cardPool(int size) {
+//    return cardPool;
+//  }
 }
