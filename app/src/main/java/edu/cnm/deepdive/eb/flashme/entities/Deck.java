@@ -23,6 +23,9 @@ public class Deck {
   @DatabaseField(columnName = "DECK", canBeNull = false)
   private String name;
 
+  @DatabaseField(columnName = "CARD_POOL", canBeNull = false)
+  private int pool;
+
 
   @ForeignCollectionField
   public ForeignCollection<Card> cards;
@@ -43,6 +46,14 @@ public class Deck {
     this.name = name;
   }
 
+  public int getPool() {
+    return pool;
+  }
+
+  public void setPool(int pool) {
+    this.pool = pool;
+  }
+
   public ForeignCollection<Card> getCards() {
     return cards;
   }
@@ -53,6 +64,7 @@ public class Deck {
 //    map.put("id", id);
     map.put("name", name);
 //    map.put("created", created);
+    map.put("pool", pool);
 
     return map.toString();
   }

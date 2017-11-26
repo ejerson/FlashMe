@@ -51,8 +51,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private ArrayList<Card> cardL1Id = new ArrayList<>();
   /** Contains up to 10 level 2 cards. */
   private ArrayList<Card> cardL2Id = new ArrayList<>();
+
   /** Contains up to 25 cards from both level 1 and 2. */
   private ArrayList<Card> reviewPool = new ArrayList<>();
+
+  public int cardPool;
 
   /** Will contain cards that have reached the maximum level. */
   private ArrayList<String> graduatedCards = new ArrayList<>();
@@ -111,11 +114,14 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
         randomNumberGenerator();
         randomCard();
+        getCardPool();
         break;
       case R.id.button_check:
         cardCheck();
+        getCardPool();
         break;
       case R.id.button_level_up:
+        getCardPool();
     try {
       // TODO downgrade the level of the card being reviewed
       Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -191,7 +197,11 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       }
         randomNumberGenerator();
         randomCard();
+
     }
+
+    cardPool = reviewPool.size();
+    getCardPool();
   }
 
   /** Provides a random number to be used as a way to determine which card
@@ -206,7 +216,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
     currentPoolRandomId = (int) (Math.random() * range) + min;
     currentRandomCard = reviewPool.get(currentPoolRandomId);
-    // generate random number from 0 to singleCard.size()
     return currentRandomCard;
   }
 
@@ -254,6 +263,24 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         .centerCrop().resize(width / 2, width / 3)
         .placeholder(R.drawable.loading)
         .into(image_four);
+  }
+
+  /** Updates the value of the cardPool */
+  public void getCardPool () {
+    try {
+      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
+      Where<Deck, Integer> where = updateBuilder.where();
+      where.eq("DECK", deck.getName());
+      where.and();
+      updateBuilder.where().eq("CARD_POOL", deck.getPool());
+      updateBuilder.updateColumnValue("CARD_POOL", cardPool);
+      updateBuilder.update();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+
   }
 
 }

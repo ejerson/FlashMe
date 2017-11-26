@@ -16,7 +16,7 @@ import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import java.sql.SQLException;
 
-/** A fragment that handles the Deck creation process and calls the
+/** A fragment that handles the deck creation process and calls the
  * refreshRecyclerView() to update the RecyclerView on deck addition.
  * This fragment is contained within {@link DeckMemberActivity}
  * */
@@ -32,6 +32,7 @@ public class AddDeckFragment extends DialogFragment {
 
     final EditText contentView = inflatedView.findViewById(R.id.new_deck);
 
+
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
       @Override
@@ -39,9 +40,10 @@ public class AddDeckFragment extends DialogFragment {
 
         OrmHelper helper = new OrmHelper(getContext());
 
-        String content = contentView.getText().toString();
+        String name = contentView.getText().toString();
         Deck deck = new Deck();
-        deck.setName(content);
+        deck.setName(name);
+        deck.setPool(0);
         try {
           helper.getDeckDao().create(deck);
         } catch (SQLException e) {

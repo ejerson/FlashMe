@@ -15,7 +15,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   private static final String DATABASE_NAME = "deck.db";
   private static final int DATABASE_VERSION = 1;
 
-  //Data access object (Daos are parametarized by entity type <Deck> and the data type of the primary key <Integer>)
+  /** Data access object (Daos are parametarized by entity type <deck>
+   * and the data type of the primary key <Integer>) */
   private Dao<Deck, Integer> deckDao = null;
   private Dao<Card, Integer> cardDao = null;
 
@@ -48,7 +49,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     super.close();
   }
 
-  /** Handles traffic to the Deck Dao */
+  /** Handles traffic to the deck Dao */
   public synchronized Dao<Deck, Integer> getDeckDao() throws SQLException {
     if(deckDao == null) {
       deckDao = getDao(Deck.class);
@@ -67,7 +68,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   /** Populates the database directly without user input for testing purposes. */
   private void populateDatabase() throws SQLException {
 //     a lot of deserialization depends on a no parameter constructor
-//    Deck deck = new Deck();
+//    deck deck = new deck();
 //    deck.setName("Fudge Nickleson");
 //    getDeckDao().create(deck);
 ////    data access object?
@@ -78,7 +79,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 //    card.setDeck(deck);
 //    getCardDao().create(card);
 //
-//    List<Deck> testList = getDeckDao().queryForAll();
+//    List<deck> testList = getDeckDao().queryForAll();
 //    Assert.assertEquals(testList.size(), 1);
 //    Assert.assertEquals(testList.get(0).getCards().size(), 1);
 //

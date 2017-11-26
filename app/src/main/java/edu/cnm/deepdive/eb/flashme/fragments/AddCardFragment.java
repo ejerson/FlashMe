@@ -21,28 +21,37 @@ import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-/** A fragment that handles the creation of cards, and facilitate smooth transition onto
- *  the ImageActivity to allow users to add Images onto the database.
+/**
+ * A fragment that handles the creation of cards, and facilitate smooth transition onto the
+ * ImageActivity to allow users to add Images onto the database.
  *
- *  It is within this fragment that the Card entity is used to create, and populate the database
- *  with card values that will later be used by multiple components (fragments and activities)
- *  to do their respective functions.
- * */
+ * It is within this fragment that the Card entity is used to create, and populate the database with
+ * card values that will later be used by multiple components (fragments and activities) to do their
+ * respective functions.
+ */
 public class AddCardFragment extends DialogFragment {
 
-  /** Constant value of DECK_ID */
+  /**
+   * Constant value of DECK_ID
+   */
   public static final String DECK_ID_KEY = "deck_id";
 
   private Dao<Deck, Integer> deckDao;
   private Deck deck;
   private OrmHelper helper;
 
-  /** Saves the content of the bundle received from DeckMemberFragment */
+  /**
+   * Saves the content of the bundle received from DeckMemberFragment
+   */
   private List<String> cardFrontCollection;
 
-  /** Access and Saves the value of user specified card front value. */
+  /**
+   * Access and Saves the value of user specified card front value.
+   */
   public static String currentFront;
-  /** Access and Saves the value of user specified card back value. */
+  /**
+   * Access and Saves the value of user specified card back value.
+   */
   public static String currentBack;
 
 
@@ -81,25 +90,31 @@ public class AddCardFragment extends DialogFragment {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 
-       currentFront = frontView.getText().toString();
+        currentFront = frontView.getText().toString();
         currentBack = backView.getText().toString();
 
         // STRETCH GOAL give users the ability to override a card if it already exists
         if (cardFrontCollection.size() == 0) {
           addCard(currentFront);
         } else {
+          // FIXME adding card with existent front value after the second card addition.
           for (int j = 0; j < cardFrontCollection.size(); j++) {
-
             if (cardFrontCollection.get(j).contains(currentFront)) {
-              Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_LONG).show();
-            } else if (currentFront.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
-              Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
+              break;
             } else {
               addCard(currentFront);
               break;
             }
           }
         }
+
+        if (currentFront.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
+          Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
       }
     });
@@ -113,7 +128,9 @@ public class AddCardFragment extends DialogFragment {
     return builder.create();
   }
 
-  /** Adds a card to the database and starts the ImageActivity */
+  /**
+   * Adds a card to the database and starts the ImageActivity
+   */
   private void addCard(String front) {
     Card card = new Card();
     card.setDeck(deck);
