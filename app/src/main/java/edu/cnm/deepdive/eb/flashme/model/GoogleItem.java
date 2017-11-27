@@ -44,7 +44,7 @@ public class GoogleItem implements Parcelable {
   protected GoogleItem(Parcel in) {
     this.link = in.readString();
   }
-  
+
   public static final Creator<GoogleItem> CREATOR = new Creator<GoogleItem>() {
     @Override
     public GoogleItem createFromParcel(Parcel source) {
