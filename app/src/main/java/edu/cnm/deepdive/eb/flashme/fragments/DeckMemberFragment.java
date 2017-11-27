@@ -87,13 +87,23 @@ public class DeckMemberFragment
   /**
    * Flag that shows/stores whether a card checkbox is checked or not.
    */
-  CheckedTextView checkedTextView;
-
-
-  Button edit_card_button;
-  Button review_card_button;
-  Button add_card_button;
-  Button delete_card_button;
+  private CheckedTextView checkedTextView;
+  /**
+   * Stores value of edit button.
+   */
+  private Button edit_card_button;
+  /**
+   * Stores value of review button.
+   */
+  private Button review_card_button;
+  /**
+   * Stores value of add button.
+   */
+  private Button add_card_button;
+  /**
+   * Stores value of delete button.
+   */
+  private Button delete_card_button;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
