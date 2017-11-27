@@ -15,8 +15,8 @@ public class HttpHelper {
     /**
      * Returns text from a URL on a web server
      *
-     * @param address
-     * @return
+     * @param address Passes URL address string.
+     * @return Returns a null value.
      * @throws IOException
      */
     public static String downloadUrl(String address) throws IOException {
@@ -52,8 +52,8 @@ public class HttpHelper {
     /**
      * Reads an InputStream and converts it to a String.
      *
-     * @param stream
-     * @return
+     * @param stream Passes an InputStream.
+     * @return Returns a null value.
      * @throws IOException
      */
     private static String readStream(InputStream stream) throws IOException {

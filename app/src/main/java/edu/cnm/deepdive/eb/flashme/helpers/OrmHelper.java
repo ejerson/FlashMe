@@ -10,14 +10,23 @@ import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import java.sql.SQLException;
 
+/**
+ * A class that handles OrmLite database related functions.
+ */
 public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   private static final String DATABASE_NAME = "deck.db";
   private static final int DATABASE_VERSION = 1;
 
-  /** Data access object (Daos are parametarized by entity type <deck>
-   * and the data type of the primary key <Integer>) */
+  /**
+   * Data access object (Daos are parametarized by entity type <deck> and the data type of the
+   * primary key <Integer>)
+   */
   private Dao<Deck, Integer> deckDao = null;
+  /**
+   * Data access object (Daos are parametarized by entity type <card> and the data type of the
+   * primary key <Integer>)
+   */
   private Dao<Card, Integer> cardDao = null;
 
   public OrmHelper(Context context) {
@@ -32,7 +41,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 //      populateDatabase();
 
     } catch (SQLException e) {
-      // RunTimeException is not a checked exception
       throw new RuntimeException(e);
     }
   }
@@ -49,23 +57,30 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     super.close();
   }
 
-  /** Handles traffic to the deck Dao */
+  /**
+   * Handles traffic to the deck Dao.
+   */
   public synchronized Dao<Deck, Integer> getDeckDao() throws SQLException {
-    if(deckDao == null) {
+    if (deckDao == null) {
       deckDao = getDao(Deck.class);
     }
     return deckDao;
   }
 
-  /** Handles traffic to the Card Dao */
+  /**
+   * Handles traffic to the Card Dao.
+   */
   public synchronized Dao<Card, Integer> getCardDao() throws SQLException {
-    if(cardDao == null) {
+    if (cardDao == null) {
       cardDao = getDao(Card.class);
     }
     return cardDao;
   }
 
-  /** Populates the database directly without user input for testing purposes. */
+  /**
+   * Populates the database directly without user input for testing purposes.
+   * @throws SQLException
+   */
   private void populateDatabase() throws SQLException {
 //     a lot of deserialization depends on a no parameter constructor
 //    deck deck = new deck();
@@ -85,8 +100,11 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 //
   }
 
-  /** Allows other class/component to receive the getHelper method behaviour. */
+  /**
+   * Allows other class/component to receive the getHelper method behaviour.
+   */
   public interface OrmInteraction {
+
     OrmHelper getHelper();
 
     void releaseHelper();

@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.eb.flashme;
+package edu.cnm.deepdive.eb.flashme.activities;
 
 import static edu.cnm.deepdive.eb.flashme.fragments.AddCardFragment.currentBack;
 
@@ -29,6 +29,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.squareup.picasso.Picasso;
+import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
 import edu.cnm.deepdive.eb.flashme.model.GoogleItem;
@@ -43,33 +44,53 @@ public class ImageActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
 
-  private OrmHelper helper;
+  private OrmHelper helper = null;
 
-  /** Stores and concatenates Google Custom Search API endpoint */
+  /**
+   * Stores and concatenates Google Custom Search API endpoint
+   */
   private StringBuilder urlBuilder;
-  /** Flag that indicates whether device is connected to a network or not */
+  /**
+   * Flag that indicates whether device is connected to a network or not
+   */
   private boolean networkOk;
-  /** Stores the value of the current card back being added to the deck and database */
+  /**
+   * Stores the value of the current card back being added to the deck and database
+   */
   private String cardBackKeyword = currentBack;
-  /** Takes the value of cardBackKeyword and splits it into individual words which
-   * are then stored inside an array */
+  /**
+   * Takes the value of cardBackKeyword and splits it into individual words which are then stored
+   * inside an array
+   */
   private String[] arr = cardBackKeyword.split(" ");
-  /** Stores the dynamically created imageViews */
+  /**
+   * Stores the dynamically created imageViews
+   */
   private ImageView[] imageView;
-  /** Stores the individual links retrieved from Google Custom Search API*/
+  /**
+   * Stores the individual links retrieved from Google Custom Search API
+   */
   private GoogleItem[] dataItems;
-  /** Contains the imageView that displays images */
+  /**
+   * Contains the imageView that displays images
+   */
   private GridLayout imageLayout;
-  /** Stores the url of user selected images to be saved in the database */
+  /**
+   * Stores the url of user selected images to be saved in the database
+   */
   private ArrayList<String> currentLink = new ArrayList<>();
-  /** Converts the text from arr into clickable spans */
+  /**
+   * Converts the text from arr into clickable spans
+   */
   private ClickableSpan clickableSpan;
-  /** Stores individual clickableSpan to be used by user as a way to search Google */
+  /**
+   * Stores individual clickableSpan to be used by user as a way to search Google
+   */
   private List<SpannableString> ss = new ArrayList<>();
 
-  /**  Receives and handles broadcast intents sent by sendBroadcast(Intent).
-   *
-   * */
+  /**
+   * Receives and handles broadcast intents sent by sendBroadcast(Intent).
+   */
   private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
     /** Called when a BroadcastReceiver is receiving an Intent broadcast. */
@@ -78,7 +99,7 @@ public class ImageActivity
       dataItems = (GoogleItem[]) intent
           .getParcelableArrayExtra(MyService.MY_SERVICE_PAYLOAD);
       handlesImages(context);
-      }
+    }
   };
 
   @Override
@@ -127,7 +148,6 @@ public class ImageActivity
   protected void onStart() {
     super.onStart();
 
-
     for (int i = 0; i < arr.length; i++) {
       ss.add(new SpannableString(arr[i]));
     }
@@ -151,15 +171,16 @@ public class ImageActivity
     }
   }
 
-  /** Receives and handles the data(image links) provided by the BroadcastReceiver class.
+  /**
+   * Receives and handles the data(image links) provided by the BroadcastReceiver class.
    *
-   *  Creates ImageViews for individual image url.
+   * Creates ImageViews for individual image url.
    *
-   *  Utilizes Square's Picasso Library to use individual image url
-   *  provided by the BroadcastReceiver as image uri for each ImageView.
+   * Utilizes Square's Picasso Library to use individual image url provided by the BroadcastReceiver
+   * as image uri for each ImageView.
    *
-   *  Handles the behaviour of each ImageView according to user input.
-   * */
+   * Handles the behaviour of each ImageView according to user input.
+   */
 
   private void handlesImages(final Context context) {
     imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
@@ -167,7 +188,7 @@ public class ImageActivity
     int i;
 
     imageLayout.removeAllViews();
-    for ( i = 0; i < dataItems.length; i++) {
+    for (i = 0; i < dataItems.length; i++) {
       imageView[i] = new ImageView(context);
       imageView[i].setPadding(5, 5, 5, 5);
       imageView[i].setId(i);
@@ -186,7 +207,7 @@ public class ImageActivity
                 currentLink.remove(dataItems[i].getLink());
                 setLocked(imageView[i]);
               } else {
-                if ( currentLink.size() < 4) {
+                if (currentLink.size() < 4) {
                   setUnlocked(imageView[i]);
                   imageView[i].setSelected(true);
                   currentLink.add(dataItems[i].getLink());
@@ -214,9 +235,10 @@ public class ImageActivity
     }
   }
 
-  /** Converts images into a black and white configuration inside handlesImages */
-  public static void  setLocked(ImageView v)
-  {
+  /**
+   * Converts images into a black and white configuration inside handlesImages
+   */
+  public static void setLocked(ImageView v) {
     ColorMatrix matrix = new ColorMatrix();
     matrix.setSaturation(0);  //0 means grayscale
     ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
@@ -224,9 +246,10 @@ public class ImageActivity
     v.setImageAlpha(128);   // 128 = 0.5
   }
 
-  /** Reverts images to their original color configuration inside handlesImages */
-  public static void  setUnlocked(ImageView v)
-  {
+  /**
+   * Reverts images to their original color configuration inside handlesImages
+   */
+  public static void setUnlocked(ImageView v) {
     v.setColorFilter(null);
     v.setImageAlpha(255);
   }
@@ -260,8 +283,7 @@ public class ImageActivity
         throw new RuntimeException(e);
       }
     }
-
-    }
+  }
 
   @Override
   public synchronized void releaseHelper() {

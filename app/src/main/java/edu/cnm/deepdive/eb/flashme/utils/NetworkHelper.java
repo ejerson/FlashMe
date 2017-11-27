@@ -4,8 +4,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * A class that monitors whether a device is online or not.
+ */
 public class NetworkHelper {
 
+    /**
+     * This method checks to see if device connection is live or not.
+     * @param context Passes a context
+     * @return Returns true or false
+     */
     public static boolean hasNetworkAccess(Context context) {
 
         ConnectivityManager cm = (ConnectivityManager)

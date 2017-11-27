@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
+import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a single Card List screen. This fragment is contained in a {@link
+ * A fragment representing a single Card List screen. This fragment is contained in the {@link
  * DeckMemberActivity}.
  */
 public class DeckMemberFragment

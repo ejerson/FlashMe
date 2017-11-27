@@ -32,15 +32,19 @@ public class GoogleItem implements Parcelable {
   }
 
   /**
-   * Empty Constructor
+   * An Empty Constructor.
    */
   public GoogleItem() {
   }
 
+  /**
+   * Receives a parcel and saves its value in the link field.
+   * @param in Passes a parcel.
+   */
   protected GoogleItem(Parcel in) {
     this.link = in.readString();
   }
-
+  
   public static final Creator<GoogleItem> CREATOR = new Creator<GoogleItem>() {
     @Override
     public GoogleItem createFromParcel(Parcel source) {

@@ -14,7 +14,10 @@ import org.json.JSONObject;
 import edu.cnm.deepdive.eb.flashme.model.GoogleItem;
 import edu.cnm.deepdive.eb.flashme.utils.HttpHelper;
 
-
+/**
+ * A class that manages the data received from the HttpHelper.
+ *
+ */
 public class MyService extends IntentService {
 
     public static final String TAG = "MyService";
@@ -40,24 +43,23 @@ public class MyService extends IntentService {
             return;
         }
 
-        JSONArray firstArray = new JSONArray();
+        JSONArray firstArray;
         // Get individual image link
-        JSONArray imageLinks = new JSONArray();
+//        JSONArray imageLinks = new JSONArray();
 
         try {
             JSONObject jsonObj = new JSONObject(response);
             firstArray = jsonObj.getJSONArray("items");
 
-            for (int i = 0; i < firstArray.length(); i++) {
-                imageLinks.put(firstArray.getJSONObject(i).getString("link"));
-            }
+//            for (int i = 0; i < firstArray.length(); i++) {
+//                imageLinks.put(firstArray.getJSONObject(i).getString("link"));
+//            }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
 
         Gson gson = new Gson();
-        // change this to items from my link
 
         GoogleItem[] dataItems = gson.fromJson(firstArray.toString(), GoogleItem[].class);
 

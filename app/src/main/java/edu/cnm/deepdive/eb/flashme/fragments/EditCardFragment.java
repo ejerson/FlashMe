@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import edu.cnm.deepdive.eb.flashme.DeckMemberActivity;
+import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;

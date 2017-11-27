@@ -40,30 +40,58 @@ public class Card {
   @DatabaseField(columnName = "DECK_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Deck deck;
 
+  /**
+   * Provides access to the Card Id.
+   * @return Returns a card id
+   */
   public int getId() {
     return id;
   }
 
+  /**
+   * Provides access to the Front value of a card.
+   * @return Returns the front value of a card.
+   */
   public String getFront() {
     return front;
   }
 
+  /**
+   * Allow for the mutation of card front value.
+   * @param front Passes user created front.
+   */
   public void setFront(String front) {
     this.front = front;
   }
 
+  /**
+   * Provides access to the Back value of a card.
+   * @return Returns the back value of a card.
+   */
   public String getBack() {
     return back;
   }
 
+  /**
+   * Allow for the mutation of back value.
+   * @param back Passes user created back.
+   */
   public void setBack(String back) {
     this.back = back;
   }
 
+  /**
+   * Provides access to the Deck.
+   * @return Returns the deck value of a card.
+   */
   public Deck getDeck() {
     return deck;
   }
 
+  /**
+   * Allow for the mutation of deck value.
+   * @param deck Passes user created deck.
+   */
   public void setDeck(Deck deck) {
     this.deck = deck;
   }
@@ -116,7 +144,7 @@ public class Card {
     map.put("front", front);
     map.put("back", back);
     map.put("type", type);
-//    map.put("deck_id", deck);
+    map.put("deck_id", deck);
         return map.get("front").toString();
 //    return map.toString();
   }

@@ -16,7 +16,7 @@
     android:layout_marginRight="16dp"
     android:name="edu.cnm.deepdive.eb.flashme.DeckListFragment"
     app:layoutManager="LinearLayoutManager"
-    tools:context="edu.cnm.deepdive.eb.flashme.DeckListActivity"
+    tools:context="edu.cnm.deepdive.eb.flashme.activities.DeckListActivity"
     tools:listitem="@layout/deck_list_content"/>
 
 </LinearLayout>

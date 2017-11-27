@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
-import edu.cnm.deepdive.eb.flashme.ImageActivity;
+import edu.cnm.deepdive.eb.flashme.activities.ImageActivity;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
