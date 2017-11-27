@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
-import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
+import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.R;
+import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
 import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
@@ -105,6 +107,8 @@ public class DeckMemberFragment
    */
   private Button delete_card_button;
 
+  public int pool;
+
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
    * screen orientation changes).
@@ -183,6 +187,8 @@ public class DeckMemberFragment
               cardDeleteBuilder.delete();
               checkedTextView.setChecked(false);
             }
+            pool = getDeck().getPool() - 1;
+            getCardPool(pool);
             queryForCards();
             if (cardAdapter.isEmpty()) {
               delete_card_button.setEnabled(false);
@@ -224,9 +230,10 @@ public class DeckMemberFragment
       deck = null;
     }
 
-    for (int i = 0; i < cards.size(); i++) {
-      cardFrontCollection.add(cards.get(i).getFront().toString());
-    }
+      for (Card card : cards) {
+        cardFrontCollection.add(card.getFront().toString());
+      }
+
 
     if (cards.size() == 0) {
       review_card_button.setEnabled(false);
@@ -284,6 +291,28 @@ public class DeckMemberFragment
 
       }
     });
+  }
+
+  /**
+   * Provides access to the current deck.
+    * @return Returns a deck
+   */
+  public Deck getDeck() {
+    return deck;
+  }
+
+  /** Updates the value of the cardPool */
+  public void getCardPool (int cardPool) {
+    try {
+      Dao<Deck, Integer> deckDao = helper.getDeckDao();
+      UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
+      Where<Deck, Integer> where = updateBuilder.where();
+      where.eq("DECK", getDeck().getName());
+      updateBuilder.updateColumnValue("CARD_POOL", cardPool);
+      updateBuilder.update();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

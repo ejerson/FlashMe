@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.activities.ImageActivity;
 import edu.cnm.deepdive.eb.flashme.entities.Card;
@@ -34,7 +36,6 @@ public class AddCardFragment extends DialogFragment {
   /**
    * Constant value of DECK_ID.
    */
-
   public static final String DECK_ID_KEY = "deck_id";
   /**
    * Stores value of deckDao.
@@ -63,6 +64,15 @@ public class AddCardFragment extends DialogFragment {
    */
   public static String currentBack;
 
+  /**
+   * Stores the value of the current deck pool + 1.
+   */
+  private int pool;
+
+  /** Retrieves and saves the user specified value of the card front in a variable. */
+  private EditText frontView;
+  /** Retrieves and saves the user specified value of the card back in a variable. */
+  private EditText backView;
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -73,6 +83,9 @@ public class AddCardFragment extends DialogFragment {
     final View inflatedView = inflater.inflate(R.layout.dialog_add_card, null);
     helper = ((OrmInteraction) getActivity()).getHelper();
 
+    frontView = inflatedView.findViewById(R.id.card_front);
+    backView = inflatedView.findViewById(R.id.card_back);
+
     try {
       deckDao = helper.getDeckDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID_KEY));
@@ -80,19 +93,10 @@ public class AddCardFragment extends DialogFragment {
       throw new RuntimeException(e);
     }
 
-    /**
-     * Receives the bundle sent by DeckMemberFragment when a user adds a card.
-     *  Used by this fragment to validate whether a card already exist or not.
-     * */
     Bundle args = getArguments();
     if (args != null && args.containsKey("cardFrontCollection")) {
       cardFrontCollection = args.getStringArrayList("cardFrontCollection");
     }
-
-    /** Retrieves and saves the user specified value of the card front in a variable. */
-    final EditText frontView = inflatedView.findViewById(R.id.card_front);
-    /** Retrieves and saves the user specified value of the card back in a variable. */
-    final EditText backView = inflatedView.findViewById(R.id.card_back);
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
@@ -107,17 +111,20 @@ public class AddCardFragment extends DialogFragment {
         } else {
           if (cardFrontCollection.size() == 0) {
             addCard(currentFront);
+
+              pool = getDeck().getPool() + 1;
+              getCardPool(pool);
+
           } else {
             if (cardFrontCollection.contains(currentFront)) {
               Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
             } else {
               addCard(currentFront);
+              pool = getDeck().getPool() + 1;
+              getCardPool(pool);
             }
           }
         }
-
-
-
       }
     });
 
@@ -144,10 +151,35 @@ public class AddCardFragment extends DialogFragment {
     card.setImageThree("third image");
     card.setImageFour("forth image");
     startActivity(new Intent(getActivity(), ImageActivity.class));
+
     try {
       helper.getCardDao().create(card);
     } catch (SQLException e) {
       throw new RuntimeException();
     }
   }
+
+  /**
+   * Provides access to the current deck.
+   * @return Returns a deck
+   */
+  public Deck getDeck() {
+    return deck;
+  }
+
+  // FIXME deck pool is still incrementing even if I am adding level one cards to the list
+  /** Updates the value of the cardPool */
+  private void getCardPool (int cardPool) {
+    try {
+      deckDao = helper.getDeckDao();
+      UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
+      Where<Deck, Integer> where = updateBuilder.where();
+      where.eq("DECK", getDeck().getName());
+      updateBuilder.updateColumnValue("CARD_POOL", cardPool);
+      updateBuilder.update();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }

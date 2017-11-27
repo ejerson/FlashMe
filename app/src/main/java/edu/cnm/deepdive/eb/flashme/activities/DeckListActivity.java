@@ -33,7 +33,6 @@ import java.util.List;
  * that is connected to a button that allows a user to open the AddCardFragment.
  *
  */
-
 public class DeckListActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
@@ -53,8 +52,6 @@ public class DeckListActivity
     refreshRecyclerView();
   }
 
-
-  // gets invoked after onCreate
   @Override
   protected void onStart() {
     super.onStart();

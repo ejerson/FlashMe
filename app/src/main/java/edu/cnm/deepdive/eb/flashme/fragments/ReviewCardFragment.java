@@ -55,8 +55,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   /** Contains up to 25 cards from both level 1 and 2. */
   private ArrayList<Card> reviewPool = new ArrayList<>();
 
-  public int cardPool;
-
   /** Will contain cards that have reached the maximum level. */
   private ArrayList<String> graduatedCards = new ArrayList<>();
 
@@ -114,14 +112,14 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
         // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
         randomNumberGenerator();
         randomCard();
-        getCardPool(reviewPool.size());
+//        getCardPool(reviewPool.size());
         break;
       case R.id.button_check:
         cardCheck();
-        getCardPool(reviewPool.size());
+//        getCardPool(reviewPool.size());
         break;
       case R.id.button_level_up:
-        getCardPool(reviewPool.size());
+//        getCardPool(reviewPool.size());
     try {
       // TODO downgrade the level of the card being reviewed
       Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -277,4 +275,5 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       throw new RuntimeException(e);
     }
   }
+
 }
