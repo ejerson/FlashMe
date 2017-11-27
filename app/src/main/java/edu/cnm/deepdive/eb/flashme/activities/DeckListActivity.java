@@ -28,7 +28,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * An activity representing a list of Decks.
+ * An activity representing a list of Decks. This activity handles
+ * the implementation of the recycler view and contains a method
+ * that is connected to a button that allows a user to open the AddCardFragment.
  *
  */
 

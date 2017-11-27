@@ -44,6 +44,9 @@ public class ImageActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
 
+  /**
+   * Stores the value of the OrmHelper.
+   */
   private OrmHelper helper = null;
 
   /**
@@ -181,7 +184,6 @@ public class ImageActivity
    *
    * Handles the behaviour of each ImageView according to user input.
    */
-
   private void handlesImages(final Context context) {
     imageLayout = (GridLayout) findViewById(R.id.image_gridlayout);
     imageView = new ImageView[dataItems.length];
@@ -262,6 +264,10 @@ public class ImageActivity
     return helper;
   }
 
+  /**
+   * Updates the image to contain the url string supplied by the user.
+   * @param view Passes the view.
+   */
   public void addCardImages(View view) {
     getHelper();
     if (currentLink.size() != 4) {

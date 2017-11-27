@@ -203,7 +203,6 @@ public class DeckMemberFragment
             Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
           }
         }
-
         break;
       default:
         break;
@@ -252,8 +251,6 @@ public class DeckMemberFragment
       cardAdapter.clear();
       cardAdapter.addAll(cards);
       cardAdapter.notifyDataSetChanged();
-
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -270,6 +267,8 @@ public class DeckMemberFragment
         // change the checkbox state
         checkedTextView = ((CheckedTextView) view);
         checkedTextView.setChecked(!checkedTextView.isChecked());
+
+        checkedTextView.getId();
 
         currentItemText = (String) checkedTextView.getText();
 

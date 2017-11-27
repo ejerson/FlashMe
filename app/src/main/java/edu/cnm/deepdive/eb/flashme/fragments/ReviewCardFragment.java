@@ -277,9 +277,4 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       e.printStackTrace();
     }
   }
-
-//  @Override
-//  public int cardPool(int size) {
-//    return cardPool;
-//  }
 }
