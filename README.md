@@ -1,16 +1,16 @@
-## Flash Me
+### Overview
 _Flash me_ is a a flash card generation and studying app 
 that allows users to save time by optimizing the card creation process and
-utilizing the power of our visual memories. It includes an implementation of Leitner
-System, which is a way of enhancing retention using the concept of 
+utilizing the power of our visual memories. It includes an implementation of the
+[Leitner System](https://en.wikipedia.org/wiki/Leitner_system), 
+which is a way of enhancing retention using the concept of the
 Spaced Repetition. 
 
-For more information:
-https://en.wikipedia.org/wiki/Leitner_system
+
 
 ### Why build this app?
 I built this app for the sole purpose of saving time while creating flashcards.
-I love using Anki as a way to create and study flash cards, but I disliked
+I love using [Anki](https://apps.ankiweb.net/) as a way to create and study flash cards, but I disliked
 the fact that I could not automatically search for images and use
 them as memory aid from within Anki. 
 
@@ -46,9 +46,21 @@ the search functionality.
 ### Necessary Aesthetic Improvements
 * Check buttons should have a white background with a line on top.
 * The Review button and Level up button should only appear when 
-the user checks each cards.
-
+  the user checks each cards.
+* When user is reviewing cards, to go to the previous or next card, user can swipe right
+  or left instead of just clicking the REVIEW button.
 ### Action Items
+* Need to fix the issue with the card delete button. Cards with the same names
+  are deleted even if one of them is in a different deck.
+* Be able to update the review pool being displayed in the DeckList. As of now,
+  it can can only be updated when a user review cards. This should be updated on
+  card addition, card edit, and card delete.
+* The Leitner System implementation is at its initial stage. I can promote cards to Level 2.
+  * Create a graduated card pool, which will contain cards that have reached the
+    highest level (7).
+  * Demote cards if the user fails to remember the back of the card within 1 minute.
+  * Promote card if the user remembers the back of the card within 1 minute and clicking
+    the LEVEL UP button.
 * Implement a daily limit on how many cards are being reviewed (30)
     * Each day a card pool will be populated with a specific amount of cards 
     from each card level 
@@ -57,7 +69,7 @@ the user checks each cards.
       * 5 - Level 3
     * If a user fails to remember a card, demote card to level 1
     * If a user succeeds to remember a card, promote card to a higher level
- 
+    
 ### Stretch Goals
 * Users can promote cards up to Level 7.
 * Users can select multiple cards to edit sequentially, instead of the current 
@@ -69,12 +81,6 @@ the daily limit pool are reviewed.
 * Auto demote a card if a user fails to remember them at a given set of time.
 * Users will be able to swipe instead of having to click the review button
 to review a new card
-
-  
-  
-## TODOS
-* Add a link to generated Javadoc HTML pages in your repository.
-* The project must include Javadoc documentation. 
 
 
 
