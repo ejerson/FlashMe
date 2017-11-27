@@ -102,20 +102,22 @@ public class AddCardFragment extends DialogFragment {
         currentFront = frontView.getText().toString();
         currentBack = backView.getText().toString();
 
-        // STRETCH GOAL give users the ability to override a card if it already exists
-        if (cardFrontCollection.size() == 0) {
-          addCard(currentFront);
+        if (currentFront.equals("") | currentBack.equals("")) {
+          Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
         } else {
+          if (cardFrontCollection.size() == 0) {
+            addCard(currentFront);
+          } else {
             if (cardFrontCollection.contains(currentFront)) {
               Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
             } else {
               addCard(currentFront);
+            }
           }
         }
 
-        if (currentFront.equalsIgnoreCase("") || currentBack.equalsIgnoreCase("")) {
-          Toast.makeText(getActivity(), "Enter card details.", Toast.LENGTH_SHORT).show();
-        }
+
+
       }
     });
 

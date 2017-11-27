@@ -173,7 +173,7 @@ public class DeckMemberFragment
       // if cards are in different deck
       case R.id.button_delete_card:
         if (stringCollection.isEmpty()) {
-          Toast.makeText(getActivity(), "Please select card/s.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(getActivity(), getString(R.string.select_card), Toast.LENGTH_SHORT).show();
         } else {
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -205,7 +205,7 @@ public class DeckMemberFragment
             edit.setArguments(argsEdit);
             edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
           } else {
-            Toast.makeText(getActivity(), "Please select a card.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.select_single_card), Toast.LENGTH_SHORT).show();
 
         }
         break;

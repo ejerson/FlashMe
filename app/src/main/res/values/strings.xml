@@ -28,4 +28,6 @@
   <string name="choose_four_cards">Choose 4 cards.</string>
   <string name="images_added">Images are added!</string>
   <string name="create_cards">Please create cards.</string>
+  <string name="select_card">Please select card/s.</string>
+  <string name="select_single_card">Please select a card.</string>
 </resources>
