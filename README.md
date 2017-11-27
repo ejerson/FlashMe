@@ -85,7 +85,7 @@ the daily limit pool are reviewed.
 * Users will be able to swipe instead of having to click the review button
 to review a new card
 
-   #[JavaDoc](https://apps.ankiweb.net/)
+   #[JavaDoc](doc)
 
 
 
