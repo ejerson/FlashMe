@@ -27,4 +27,5 @@
   <string name="choose_four_images">Only choose 4 images!</string>
   <string name="choose_four_cards">Choose 4 cards.</string>
   <string name="images_added">Images are added!</string>
+  <string name="create_cards">Please create cards.</string>
 </resources>

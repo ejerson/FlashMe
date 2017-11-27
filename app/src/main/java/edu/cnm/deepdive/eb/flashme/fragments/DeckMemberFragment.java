@@ -152,23 +152,18 @@ public class DeckMemberFragment
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
       case R.id.button_review_card:
-        if (cardAdapter.isEmpty()) {
-          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
-          review_card_button.setEnabled(false);
-        } else {
           ReviewCardFragment review = new ReviewCardFragment();
           Bundle argsReview = new Bundle();
           argsReview.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
           review.setArguments(argsReview); // bundle
           getActivity().getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, review).commit();
-        }
         break;
         // FIXME if two cards have the same name, they are both deleted even
       // if cards are in different deck
       case R.id.button_delete_card:
-        if (cardAdapter.isEmpty()) {
-          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+        if (stringCollection.isEmpty()) {
+          Toast.makeText(getActivity(), "Please select card/s.", Toast.LENGTH_SHORT).show();
         } else {
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -181,6 +176,8 @@ public class DeckMemberFragment
             queryForCards();
             if (cardAdapter.isEmpty()) {
               delete_card_button.setEnabled(false);
+              review_card_button.setEnabled(false);
+              edit_card_button.setEnabled(false);
             }
             cardList.invalidateViews();
             cardAdapter.notifyDataSetChanged();
@@ -191,19 +188,15 @@ public class DeckMemberFragment
         }
         break;
       case R.id.button_edit_card:
-        if (cardAdapter.isEmpty()) {
-          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
-          edit_card_button.setEnabled(false);
-        } else {
           if (stringCollection.size() == 1) {
             EditCardFragment edit = new EditCardFragment();
             Bundle argsEdit = new Bundle();
             argsEdit.putStringArrayList("stringCollection", stringCollection);
-            edit.setArguments(argsEdit); // bundle
+            edit.setArguments(argsEdit);
             edit.show(getActivity().getSupportFragmentManager(), "EditCardFragment");
           } else {
-            Toast.makeText(getActivity(), "Please select one card.", Toast.LENGTH_SHORT).show();
-          }
+            Toast.makeText(getActivity(), "Please select a card.", Toast.LENGTH_SHORT).show();
+
         }
         break;
       default:
@@ -225,7 +218,6 @@ public class DeckMemberFragment
       cardFrontCollection.add(cards.get(i).getFront().toString());
     }
 
-    // TODO expand this functionality
     if (cards.size() == 0) {
       review_card_button.setEnabled(false);
       edit_card_button.setEnabled(false);

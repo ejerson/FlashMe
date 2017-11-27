@@ -6,8 +6,6 @@ utilizing the power of our visual memories. It includes an implementation of the
 which is a way of enhancing retention using the concept of the
 Spaced Repetition. 
 
-
-
 ### Why build this app?
 I built this app for the sole purpose of saving time while creating flashcards.
 I love using [Anki](https://apps.ankiweb.net/) as a way to create and study flash cards, but I disliked
@@ -31,14 +29,11 @@ the future, the Leitner System will be fully implemented and be more robust.
 Aside from having to deal with the UX flow, the app itself is minimally viable. 
 
 ### Hardware and Software Specifications and Testing
-Emulators 
-* Nexus 5X API 22
+<b>Emulators |</b> Nexus 5X API 22
 
-Device 
-* Samsung S7 Edge API 24
-  
-Orientation Restrictions
-* The ImageActivity is restricted to Portrait orientation to solve
+<b>Device |</b> Samsung S7 Edge API 24
+ 
+<b>Orientation Restrictions |</b> The ImageActivity is restricted to Portrait orientation to solve
 an issue with the Google Custom Search API disappearing on layout change. 
 In addition, this decision is made to preserve the aesthetic feel of 
 the search functionality. 
@@ -51,6 +46,9 @@ the search functionality.
   or left instead of just clicking the REVIEW button.
   
 ### Action Items
+* Instead of a user being able to delete a deck by clicking the delete button once,
+  the user should receive a warning dialog instead that ask them if they really want 
+  to delete a given deck.
 * Need to fix the issue with the card delete button. Cards with the same names
   are deleted even if one of them is in a different deck.
 * Be able to update the review pool being displayed in the DeckList. As of now,
@@ -72,6 +70,10 @@ the search functionality.
     * If a user succeeds to remember a card, promote card to a higher level
     
 ### Stretch Goals
+* Build a website to allow user to create cards and migrate Flash Me to be  
+  used as a way to review cards. The card creation functionality will still 
+  be functional. This would also mean that the app would need to be connected 
+  to a external database to allow for a shared pool of cards.
 * Users can promote cards up to Level 7.
 * Users can select multiple cards to edit sequentially, instead of the current 
 functionality of users only able to select one card to edit at a time.
@@ -83,7 +85,7 @@ the daily limit pool are reviewed.
 * Users will be able to swipe instead of having to click the review button
 to review a new card
 
-
+   #[JavaDoc](https://apps.ankiweb.net/)
 
 
 
