@@ -40,6 +40,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A class that handles the keyword to image relationship. This class
+ * utilizes Square's Picasso Library to use individual image url provided by
+ * the BroadcastReceiver as image uri for each ImageView.
+ */
 public class ImageActivity
     extends AppCompatActivity
     implements OrmHelper.OrmInteraction {
@@ -134,7 +139,7 @@ public class ImageActivity
           intent.setData(Uri.parse(urlBuilder.toString()));
           startService(intent);
         } else {
-          Toast.makeText(ImageActivity.this, "Network not available!", Toast.LENGTH_SHORT).show();
+          Toast.makeText(ImageActivity.this, getString(R.string.network_unavailable), Toast.LENGTH_SHORT).show();
         }
       }
 
@@ -176,12 +181,7 @@ public class ImageActivity
 
   /**
    * Receives and handles the data(image links) provided by the BroadcastReceiver class.
-   *
    * Creates ImageViews for individual image url.
-   *
-   * Utilizes Square's Picasso Library to use individual image url provided by the BroadcastReceiver
-   * as image uri for each ImageView.
-   *
    * Handles the behaviour of each ImageView according to user input.
    */
   private void handlesImages(final Context context) {
@@ -219,7 +219,7 @@ public class ImageActivity
           }
 
           if (currentLink.size() > 4) {
-            Toast.makeText(ImageActivity.this, "Only choose 4 images!", Toast.LENGTH_SHORT)
+            Toast.makeText(ImageActivity.this, getString(R.string.choose_four_images), Toast.LENGTH_SHORT)
                 .show();
           }
         }
@@ -271,7 +271,7 @@ public class ImageActivity
   public void addCardImages(View view) {
     getHelper();
     if (currentLink.size() != 4) {
-      Toast.makeText(this, "Choose 4 cards.", Toast.LENGTH_SHORT).show();
+      Toast.makeText(this, getString(R.string.choose_four_cards), Toast.LENGTH_SHORT).show();
     } else {
       try {
         Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -285,8 +285,7 @@ public class ImageActivity
         updateBuilder.updateColumnValue("IMAGE_THREE", currentLink.get(2));
         updateBuilder.updateColumnValue("IMAGE_FOUR", currentLink.get(3));
         updateBuilder.update();
-        // FIXME need to go to DeckMemberActivity on click
-        Toast.makeText(this, "Images are added!", Toast.LENGTH_SHORT).show();
+        finish();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }

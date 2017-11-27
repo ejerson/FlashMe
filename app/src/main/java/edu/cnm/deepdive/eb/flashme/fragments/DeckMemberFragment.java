@@ -169,7 +169,6 @@ public class DeckMemberFragment
       case R.id.button_delete_card:
         if (cardAdapter.isEmpty()) {
           Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
-          delete_card_button.setEnabled(false);
         } else {
           try {
             Dao<Card, Integer> cardDao = helper.getCardDao();
@@ -180,6 +179,9 @@ public class DeckMemberFragment
               checkedTextView.setChecked(false);
             }
             queryForCards();
+            if (cardAdapter.isEmpty()) {
+              delete_card_button.setEnabled(false);
+            }
             cardList.invalidateViews();
             cardAdapter.notifyDataSetChanged();
 

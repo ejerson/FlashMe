@@ -65,7 +65,7 @@ public class Card {
   }
 
   /**
-   * Provides access to the Back value of a card.
+   * Provides access to the back value of a card.
    * @return Returns the back value of a card.
    */
   public String getBack() {
@@ -81,7 +81,7 @@ public class Card {
   }
 
   /**
-   * Provides access to the Deck.
+   * Provides access to the deck value.
    * @return Returns the deck value of a card.
    */
   public Deck getDeck() {
@@ -96,42 +96,82 @@ public class Card {
     this.deck = deck;
   }
 
+  /**
+   * Provides access to the type value.
+   * @return Returns the type value of a card.
+   */
   public int getType() {
     return type;
   }
 
+  /**
+   * Allow for the mutation of type value.
+   * @param type Passes card type.
+   */
   public void setType(int type) {
     this.type = type;
   }
 
+  /**
+   * Provides access to the imageOne value.
+   * @return Returns the imageOne value of a card.
+   */
   public String getImageOne() {
     return imageOne;
   }
 
+  /**
+   * Allow for the mutation of imageOne value.
+   * @param imageOne Passes card imageOne.
+   */
   public void setImageOne(String imageOne) {
     this.imageOne = imageOne;
   }
 
+  /**
+   * Provides access to the imageTwo value.
+   * @return Returns the imageTwo value of a card.
+   */
   public String getImageTwo() {
     return imageTwo;
   }
 
+  /**
+   * Allow for the mutation of imageTwo value.
+   * @param imageTwo Passes card imageTwo.
+   */
   public void setImageTwo(String imageTwo) {
     this.imageTwo = imageTwo;
   }
 
+  /**
+   * Provides access to the imageThree value.
+   * @return Returns the imageThree value of a card.
+   */
   public String getImageThree() {
     return imageThree;
   }
 
+  /**
+   * Allow for the mutation of imageThree value.
+   * @param imageThree Passes card imageThree.
+   */
   public void setImageThree(String imageThree) {
     this.imageThree = imageThree;
   }
 
+  /**
+   * Provides access to the imageFour value.
+   * @return Returns the imageFour value of a card.
+   */
   public String getImageFour() {
     return imageFour;
   }
 
+  /**
+   * Allow for the mutation of imageFour value.
+   * @param imageFour Passes card imageFour.
+   */
   public void setImageFour(String imageFour) {
     this.imageFour = imageFour;
   }

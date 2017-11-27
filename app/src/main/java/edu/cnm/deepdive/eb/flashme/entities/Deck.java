@@ -30,6 +30,10 @@ public class Deck {
   @ForeignCollectionField
   public ForeignCollection<Card> cards;
 
+  /**
+   * Provides access to the id value of a deck.
+   * @return Returns the id of a deck.
+   */
   public int getId() {
     return id;
   }
@@ -38,18 +42,34 @@ public class Deck {
 //    return created;
 //  }
 
+  /**
+   * Provides access to the name value of a deck.
+   * @return Returns the name of a deck.
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Allow for the mutation of deck name value.
+   * @param name Passes user created name.
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Provides access to the pool value of a deck.
+   * @return Returns the pool value of a deck.
+   */
   public int getPool() {
     return pool;
   }
 
+  /**
+   * Allow for the mutation of deck pool value.
+   * @param pool Passes pool value.
+   */
   public void setPool(int pool) {
     this.pool = pool;
   }

@@ -53,6 +53,7 @@ public class DeckListActivity
     refreshRecyclerView();
   }
 
+
   // gets invoked after onCreate
   @Override
   protected void onStart() {
@@ -194,6 +195,7 @@ public class DeckListActivity
         deckView = view.findViewById(R.id.deck_name);
         deckPool = view.findViewById(R.id.deck_pool);
         deckDeleteView = view.findViewById(R.id.delete_deck);
+
       }
 
       @Override

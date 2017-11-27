@@ -274,7 +274,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       updateBuilder.updateColumnValue("CARD_POOL", cardPool);
       updateBuilder.update();
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 }

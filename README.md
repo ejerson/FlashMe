@@ -49,6 +49,7 @@ the search functionality.
   the user checks each cards.
 * When user is reviewing cards, to go to the previous or next card, user can swipe right
   or left instead of just clicking the REVIEW button.
+  
 ### Action Items
 * Need to fix the issue with the card delete button. Cards with the same names
   are deleted even if one of them is in a different deck.

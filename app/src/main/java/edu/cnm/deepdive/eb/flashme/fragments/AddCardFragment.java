@@ -107,14 +107,11 @@ public class AddCardFragment extends DialogFragment {
           addCard(currentFront);
         } else {
           // FIXME user still able to add card with existent front value after the second card addition.
-          for (int j = 0; j < cardFrontCollection.size(); j++) {
-            if (cardFrontCollection.get(j).contains(currentFront)) {
+
+            if (cardFrontCollection.contains(currentFront)) {
               Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
-              break;
             } else {
               addCard(currentFront);
-              break;
-            }
           }
         }
 

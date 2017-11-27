@@ -23,4 +23,8 @@
   <string name="forth_image_description">Forth Image</string>
   <string name="check_card_text">CHECK</string>
   <string name="level_up_button_text">LEVEL UP</string>
+  <string name="network_unavailable">Network not available!</string>
+  <string name="choose_four_images">Only choose 4 images!</string>
+  <string name="choose_four_cards">Choose 4 cards.</string>
+  <string name="images_added">Images are added!</string>
 </resources>
