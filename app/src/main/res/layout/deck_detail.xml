@@ -6,13 +6,22 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
+    android:fontFamily="sans-serif-condensed"
+    android:textAlignment="center"
+    android:textColor="@color/colorPrimaryDark"
+    android:text="@string/card_list_title"
+    android:textSize="@dimen/title_text_size"/>
+
   <ListView
     android:id="@+id/card_front"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1.00"
-    android:layout_marginTop="@dimen/app_bar_height"
     android:padding="16dp"
     tools:listitem="@layout/single_card"/>
 
@@ -26,30 +35,33 @@
       android:id="@+id/button_edit_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="EDIT"
-      android:layout_gravity="bottom"/>
+      android:text="@string/edit_button_text"
+      android:layout_gravity="bottom"
+      style="@style/Widget.AppCompat.Button.Colored"/>
 
     <Button
       android:id="@+id/button_add_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="ADD"
-      android:layout_gravity="bottom"/>
+      android:text="@string/add_button_text"
+      android:layout_gravity="bottom"
+      style="@style/Widget.AppCompat.Button.Colored"/>
     <Button
       android:id="@+id/button_review_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="REVIEW"
-      android:layout_gravity="bottom"/>
+      android:text="@string/review_button_text"
+      android:layout_gravity="bottom"
+      style="@style/Widget.AppCompat.Button.Colored"/>
 
     <Button
       android:id="@+id/button_delete_card"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="DELETE"
-      android:layout_gravity="bottom"/>
+      android:text="@string/delete_button_text"
+      android:layout_gravity="bottom"
+      style="@style/Widget.AppCompat.Button.Colored"/>
 
   </LinearLayout>
-
 
 </LinearLayout>

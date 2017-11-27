@@ -26,25 +26,27 @@
     android:id="@+id/button_image_add"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Add Images"
-    android:onClick="addCardImages"/>
+    android:text="@string/add_images"
+    android:onClick="addCardImages"
+    style="@style/Widget.AppCompat.Button.Colored"/>
 
   <HorizontalScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
       android:id="@+id/image_textlayout"
       android:orientation="horizontal"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:paddingBottom="10dp">
-
-    </LinearLayout>
+      android:paddingBottom="@dimen/image_textlayout_padding"/>
 
   </HorizontalScrollView>
+
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <GridLayout
       android:orientation="vertical"
       android:id="@+id/image_gridlayout"
@@ -52,9 +54,7 @@
       android:layout_height="wrap_content"
       android:gravity="center"
       android:rowCount="5"
-      android:columnCount="2">
-
-    </GridLayout>
+      android:columnCount="2"/>
 
   </ScrollView>
 

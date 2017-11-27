@@ -14,8 +14,8 @@
     app:layout_constraintLeft_toRightOf="parent"
     app:layout_constraintRight_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:textSize="30dp"
-    android:textColor="@color/colorAccent"/>
+    android:textSize="30sp"
+    android:textColor="@color/colorPrimaryDark"/>
 
   <GridLayout
     android:id="@+id/image_review_gridlayout"
@@ -27,10 +27,14 @@
     app:layout_constraintRight_toLeftOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/review_random_card"
     app:layout_constraintBottom_toTopOf="@+id/check_random_card">
-    <ImageView android:id="@+id/image_one"/>
-    <ImageView android:id="@+id/image_two"/>
-    <ImageView android:id="@+id/image_three"/>
-    <ImageView android:id="@+id/image_four"/>
+    <ImageView android:id="@+id/image_one"
+      android:contentDescription="@string/first_image_description"/>
+    <ImageView android:id="@+id/image_two"
+      android:contentDescription="@string/second_image_description"/>
+    <ImageView android:id="@+id/image_three"
+      android:contentDescription="@string/third_image_description"/>
+    <ImageView android:id="@+id/image_four"
+      android:contentDescription="@string/forth_image_description"/>
   </GridLayout>
 
   <TextView
@@ -43,7 +47,7 @@
     app:layout_constraintTop_toBottomOf="@+id/image_review_gridlayout"
     app:layout_constraintBottom_toTopOf="@+id/buttons_for_review"
     android:textSize="30sp"
-    android:textColor="@color/colorAccent"/>
+    android:textColor="@color/colorPrimaryDark"/>
 
   <LinearLayout
     android:id="@+id/buttons_for_review"
@@ -53,26 +57,28 @@
     android:gravity="center"
     app:layout_constraintLeft_toRightOf="parent"
     app:layout_constraintRight_toLeftOf="parent"
-
     app:layout_constraintBottom_toBottomOf="parent">
 
     <Button
       android:id="@+id/button_review"
+      style="@style/Widget.AppCompat.Button.Colored"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="REVIEW"/>
+      android:text="@string/review_button_text"/>
 
     <Button
       android:id="@+id/button_check"
+      style="@style/Widget.AppCompat.Button.Colored"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="CHECK" />
+      android:text="@string/check_card_text" />
 
     <Button
       android:id="@+id/button_level_up"
+      style="@style/Widget.AppCompat.Button.Colored"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="LEVEL UP" />
+      android:text="@string/level_up_button_text"/>
 
   </LinearLayout>
 

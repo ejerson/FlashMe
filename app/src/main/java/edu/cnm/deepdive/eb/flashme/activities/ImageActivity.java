@@ -285,6 +285,8 @@ public class ImageActivity
         updateBuilder.updateColumnValue("IMAGE_THREE", currentLink.get(2));
         updateBuilder.updateColumnValue("IMAGE_FOUR", currentLink.get(3));
         updateBuilder.update();
+        // FIXME need to go to DeckMemberActivity on click
+        Toast.makeText(this, "Images are added!", Toast.LENGTH_SHORT).show();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }

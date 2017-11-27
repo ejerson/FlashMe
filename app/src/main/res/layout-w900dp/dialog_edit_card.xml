@@ -13,7 +13,7 @@
     android:padding="10dp"
     android:layout_margin="30dp"
   android:inputType="text"
-  android:hint="Front"/>
+  android:hint="@string/card_front_hint_text"/>
 
   <EditText
     android:id="@id/card_back"
@@ -24,6 +24,6 @@
     android:layout_marginStart="30dp"
     android:layout_marginEnd="30dp"
     android:inputType="text"
-    android:hint="Back"/>
+    android:hint="@string/card_back_hint_text"/>
 
 </LinearLayout>

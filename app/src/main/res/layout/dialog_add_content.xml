@@ -12,6 +12,6 @@
     android:padding="10dp"
     android:layout_margin="30dp"
   android:inputType="text"
-  android:hint="Deck Name"/>
+  android:hint="@string/deck_name_text_hint"/>
 
 </LinearLayout>

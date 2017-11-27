@@ -5,4 +5,22 @@
   <string name="dialogue_cancel">Cancel</string>
   <string name="run_code">Run code</string>
   <string name="clear_output">Clear</string>
+  <string name="delete_button_description">Delete button</string>
+  <string name="add_images">Add Images</string>
+  <string name="deck_list_title">Deck List</string>
+  <string name="add_deck_text">ADD DECK</string>
+  <string name="card_list_title">Card List</string>
+  <string name="edit_button_text">EDIT</string>
+  <string name="add_button_text">ADD</string>
+  <string name="review_button_text">REVIEW</string>
+  <string name="delete_button_text">DELETE</string>
+  <string name="deck_name_text_hint">Deck Name</string>
+  <string name="card_front_hint_text">Card Front</string>
+  <string name="card_back_hint_text">Card Back</string>
+  <string name="first_image_description">First Image</string>
+  <string name="second_image_description">Second Image</string>
+  <string name="third_image_description">Third Image</string>
+  <string name="forth_image_description">Forth Image</string>
+  <string name="check_card_text">CHECK</string>
+  <string name="level_up_button_text">LEVEL UP</string>
 </resources>

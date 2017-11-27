@@ -21,14 +21,16 @@
       app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
   </android.support.design.widget.AppBarLayout>
+
   <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="70dp"
     android:fontFamily="sans-serif-condensed"
     android:textAlignment="center"
-    android:text="Deck List"
-    android:textSize="40dp"/>
+    android:text="@string/deck_list_title"
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="@dimen/title_text_size"/>
 
   <FrameLayout
     android:id="@+id/frameLayout"
@@ -37,31 +39,20 @@
     android:layout_marginTop="70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
     <include
       layout="@layout/deck_list"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>
+
     <Button
       android:id="@+id/button_add_deck"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
-    android:onClick="showAddDialog"
-    android:text="ADD DECK"/>
+      android:onClick="showAddDialog"
+      android:text="@string/add_deck_text"
+      style="@style/Widget.AppCompat.Button.Colored"/>
 
   </FrameLayout>
-
-  <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/fab"-->
-    <!--android:onClick="showAddDialog"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--android:layout_gravity="bottom|end"-->
-    <!--app:srcCompat="@android:drawable/ic_dialog_email"/>-->
-
-
-
 
 </android.support.design.widget.CoordinatorLayout>
