@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import edu.cnm.deepdive.eb.flashme.R;
@@ -51,9 +52,9 @@ public class AddCardFragment extends DialogFragment {
   private OrmHelper helper;
 
   /**
-   * Saves the content of the bundle received from DeckMemberFragment
+   * Stores card values.
    */
-  private List<String> cardFrontCollection;
+  private List<Card> cardFrontCollection;
 
   /**
    * Access and Saves the value of user specified card front value.
@@ -93,10 +94,8 @@ public class AddCardFragment extends DialogFragment {
       throw new RuntimeException(e);
     }
 
-    Bundle args = getArguments();
-    if (args != null && args.containsKey("cardFrontCollection")) {
-      cardFrontCollection = args.getStringArrayList("cardFrontCollection");
-    }
+    queryForCards();
+
 
     builder.setView(inflatedView);
     builder.setPositiveButton(R.string.dialogue_ok, new OnClickListener() {
@@ -111,18 +110,19 @@ public class AddCardFragment extends DialogFragment {
         } else {
           if (cardFrontCollection.size() == 0) {
             addCard(currentFront);
-
               pool = getDeck().getPool() + 1;
               getCardPool(pool);
-
           } else {
-            if (cardFrontCollection.contains(currentFront)) {
-              Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
-            } else {
+            for (Card card : cardFrontCollection) {
+              if (card.getFront().equals(currentFront)) {
+                Toast.makeText(getActivity(), "Card already exists.", Toast.LENGTH_SHORT).show();
+                return;
+              }
+            }
               addCard(currentFront);
               pool = getDeck().getPool() + 1;
               getCardPool(pool);
-            }
+
           }
         }
       }
@@ -150,6 +150,7 @@ public class AddCardFragment extends DialogFragment {
     card.setImageTwo("second image");
     card.setImageThree("third image");
     card.setImageFour("forth image");
+    card.setReviewStatus("review pool member");
     startActivity(new Intent(getActivity(), ImageActivity.class));
 
     try {
@@ -177,6 +178,20 @@ public class AddCardFragment extends DialogFragment {
       where.eq("DECK", getDeck().getName());
       updateBuilder.updateColumnValue("CARD_POOL", cardPool);
       updateBuilder.update();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Queries the database for cards with a specific foreign key.
+   */
+  public void queryForCards() {
+    try {
+      Dao<Card, Integer> cardDao = helper.getCardDao();
+      QueryBuilder<Card, Integer> builder = cardDao.queryBuilder();
+      builder.where().eq("DECK_ID", deck.getId());
+      cardFrontCollection = builder.query();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

@@ -25,6 +25,12 @@ public class Card {
   @DatabaseField(columnName = "TYPE", canBeNull = false)
   private int type;
 
+  @DatabaseField(columnName = "REVIEW_STATUS")
+  private String reviewStatus;
+
+  @DatabaseField(columnName = "REVIEWED")
+  private boolean reviewed;
+
   @DatabaseField(columnName = "IMAGE_ONE", canBeNull = false)
   private String imageOne;
 
@@ -176,17 +182,36 @@ public class Card {
     this.imageFour = imageFour;
   }
 
+  public String getReviewStatus() {
+    return reviewStatus;
+  }
+
+  public void setReviewStatus(String reviewStatus) {
+    this.reviewStatus = reviewStatus;
+  }
+
+  public boolean isReviewed() {
+    return reviewed;
+  }
+
+  public void setReviewed(boolean reviewed) {
+    this.reviewed = reviewed;
+  }
 
   @Override
   public String toString() {
     Map<String, Object> map = new HashMap<>();
-    map.put("id", id);
+//    map.put("id", id);
     map.put("front", front);
-    map.put("back", back);
+//    map.put("back", back);
     map.put("type", type);
-    map.put("deck_id", deck);
-        return map.get("front").toString();
-//    return map.toString();
+//    map.put("deck_id", deck);
+    map.put("reviewed", reviewed);
+    map.put("status", reviewStatus);
+    return map.toString();
+
+
+//    return map.get("front").toString();
   }
 
 

@@ -83,9 +83,9 @@ public class DeckMemberFragment
   private ArrayList<String> stringCollection = new ArrayList<>();
 
   /**
-   * Stores card front values to be used for validation inside AddCardFragment
+   * Stores card values to be used for validation inside AddCardFragment
    */
-  private ArrayList<String> cardFrontCollection = new ArrayList<>();
+  private ArrayList<Card> cardFrontCollection = new ArrayList<>();
   /**
    * Flag that shows/stores whether a card checkbox is checked or not.
    */
@@ -161,7 +161,6 @@ public class DeckMemberFragment
         AddCardFragment dialog = new AddCardFragment();
         Bundle args = new Bundle();
         args.putInt(AddCardFragment.DECK_ID_KEY, deck.getId());
-        args.putStringArrayList("cardFrontCollection", cardFrontCollection);
         dialog.setArguments(args);
         dialog.show(getActivity().getSupportFragmentManager(), "AddCardFragment");
         break;
@@ -187,9 +186,10 @@ public class DeckMemberFragment
               cardDeleteBuilder.delete();
               checkedTextView.setChecked(false);
             }
-            pool = getDeck().getPool() - 1;
-            getCardPool(pool);
             queryForCards();
+            pool = getDeck().getPool() - stringCollection.size();
+            getCardPool(pool);
+
             if (cardAdapter.isEmpty()) {
               delete_card_button.setEnabled(false);
               review_card_button.setEnabled(false);
@@ -230,8 +230,8 @@ public class DeckMemberFragment
       deck = null;
     }
 
-      for (Card card : cards) {
-        cardFrontCollection.add(card.getFront().toString());
+      for (int j = 0; j < cards.size(); j++) {
+        cardFrontCollection.add(cards.get(j));
       }
 
 
@@ -279,8 +279,6 @@ public class DeckMemberFragment
         checkedTextView = ((CheckedTextView) view);
         checkedTextView.setChecked(!checkedTextView.isChecked());
 
-        checkedTextView.getId();
-
         currentItemText = (String) checkedTextView.getText();
 
         if (checkedTextView.isChecked()) {
@@ -314,5 +312,4 @@ public class DeckMemberFragment
       throw new RuntimeException(e);
     }
   }
-
 }
