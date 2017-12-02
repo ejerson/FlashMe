@@ -25,23 +25,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A fragment that handles the card review functionality of this app.
- *  Cards are reviewed using a streamlined version of Leitner's Game Schedule.
- *  Instead of users having to review card levels sequentially and at a specific date,
- *  Users are able to review cards from every level. The card review pool is
- *  populated with up to 15 level 1 cards and 10 level 2 cards.
- *
- * */
+/**
+ * A fragment that handles the card review functionality of this app. Cards are reviewed using a
+ * streamlined version of Leitner's Game Schedule. Instead of users having to review card levels
+ * sequentially and at a specific date, Users are able to review cards from every level. The card
+ * review pool is populated with up to 15 level 1 cards and 10 level 2 cards.
+ */
 public class ReviewCardFragment extends Fragment implements OnClickListener {
 
-  /** Constant for deck_id */
+  /**
+   * Constant for deck_id
+   */
   private static final String DECK_ID = "deck_id";
 
-  /** Stores the value of my helper. */
+  /**
+   * Stores the value of my helper.
+   */
   private OrmHelper helper;
-  /** Stores information about the current deck. */
+  /**
+   * Stores information about the current deck.
+   */
   private Deck deck;
-  /** Stores the view for this fragment. */
+  /**
+   * Stores the view for this fragment.
+   */
   private View rootView;
 //  /** Contains all of level 1 cards. */
 //  private List<Card> cardL1Collection;
@@ -50,51 +57,83 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 //  /** Contains all of level 2 cards. */
 //  private List<Card> cardL3Collection;
 
-
   // push reviewPoolSize amount of cards here - make sure cards has "review pool member" status
-  /** Contains all the cards to be reviewed */
+  /**
+   * Contains all the cards to be reviewed
+   */
   private List<Card> reviewPool = new ArrayList<>();
 
-  /** Initially contains 1/3 of reviewPoolSize. */
+  /**
+   * cardPoolOne to cardPoolThree keeps track of what's inside each card pool
+   */
+  // need to persist into the database?
+  /**
+   * Initially contains 1/3 of reviewPoolSize.
+   */
   private List<Card> cardPoolOne = new ArrayList<>();
-  /** Initially contains 1/3 of reviewPoolSize. */
+  // need to persist into the database?
+  /**
+   * Initially contains 1/3 of reviewPoolSize.
+   */
   private List<Card> cardPoolTwo = new ArrayList<>();
-
-  /** Initially contains 1/3 of reviewPoolSize. */
+// need to persist into the database?
+  /**
+   * Initially contains 1/3 of reviewPoolSize.
+   */
   private List<Card> cardPoolThree = new ArrayList<>();
 
   // push cards that are members of cardPoolThree - make sure cards has "graduated" status
-  /** Will contain cards that have reached the maximum level. */
+  /**
+   * Will contain cards that have reached the maximum level.
+   */
   private ArrayList<String> graduatedCards = new ArrayList<>();
 
-  /** Front text value of card being reviewed. */
+  /**
+   * Front text value of card being reviewed.
+   */
   private TextView cardReview;
-  /** Back text value of card being reviewed. */
+  /**
+   * Back text value of card being reviewed.
+   */
   private TextView cardCheck;
 
   // TODO change to dynamically created image views.
-  /** ImageView for image one. */
+  /**
+   * ImageView for image one.
+   */
   private ImageView image_one;
-  /** ImageView for image one. */
+  /**
+   * ImageView for image one.
+   */
   private ImageView image_two;
-  /** ImageView for image one. */
+  /**
+   * ImageView for image one.
+   */
   private ImageView image_three;
-  /** ImageView for image one. */
+  /**
+   * ImageView for image one.
+   */
   private ImageView image_four;
 
   // if currentRandomNumber == previousRandomNumber - generate another number.
-  /** Current, Random card being reviewed. */
+  /**
+   * Current, Random card being reviewed.
+   */
   private Card currentRandomCard;
 
   // this tracks what session they're in,
   // changed only when all cards in the pool have been reviewed
 
   // This needs to be persisted onto the database
-  private int sessionNumber = 0;
+  private int sessionNumber = 1;
   // this tracks user specified reviewPoolSize
   // This needs to be persisted too.
-  private int reviewPoolSize = 6;
+  private long reviewPoolSize = 6;
 
+//  sessionOnePool keeps pools all card inside one array to be used in each session
+  private List <Card> sessionOnePool = new ArrayList<>();
+  private List <Card> sessionTwoPool = new ArrayList<>();
+  private List <Card> sessionThreePool = new ArrayList<>();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -127,49 +166,72 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   @Override
   public void onClick(View view) {
 
-    switch(view.getId()) {
+    switch (view.getId()) {
       case R.id.button_review:
-        // TODO able to show 30 cards, 15 from L1, 10 from L2, and 5 from L3;
-        switch(sessionNumber) {
+        switch (sessionNumber) {
           case 0:
-            if (cardPoolOne.isEmpty()) {
+            if (sessionOnePool.isEmpty()) {
+              Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT)
+                  .show();
+            } else {
+              randomNumberGenerator();
+              randomCard();
+            }
+            break;
+          case 1:
+            if (sessionTwoPool.isEmpty()) {
               Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT).show();
             } else {
               randomNumberGenerator();
               randomCard();
             }
+            break;
         }
-
 
         break;
       case R.id.button_check:
         cardCheck();
-        switch(sessionNumber) {
+        switch (sessionNumber) {
           case 0:
             if (currentRandomCard.isReviewed() == false) {
               currentRandomCard.setReviewed(true);
-              cardPoolTwo.add(currentRandomCard);
-              cardPoolOne.remove(currentRandomCard);
             }
-
+            break;
+          case 1:
+            if (currentRandomCard.isReviewed() == false) {
+              currentRandomCard.setReviewed(true);
+            }
+            break;
         }
-//        getCardPool(reviewPool.size());
         break;
+
       case R.id.button_level_up:
-//        getCardPool(reviewPool.size());
-    try {
-      // TODO downgrade the level of the card being reviewed
-      Dao<Card, Integer> cardDao = helper.getCardDao();
-      UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
-      updateBuilder.where().eq("CARD_ID", currentRandomCard.getId());
-      updateBuilder.updateColumnValue("TYPE", 2);
-      updateBuilder.update();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+        switch (sessionNumber) {
+          case 0:
+            if (currentRandomCard.isReviewed() == true) {
+              sessionTwoPool.add(currentRandomCard);
+              sessionOnePool.remove(currentRandomCard);
+            }
+            break;
+          case 1:
+            if (currentRandomCard.isReviewed() == true) {
+              sessionThreePool.add(currentRandomCard);
+              sessionTwoPool.remove(currentRandomCard);
+            }
+            // push cardPool1 to cardPool2
+//            try {
+//              Dao<Card, Integer> cardDao = helper.getCardDao();
+//              UpdateBuilder<Card, Integer> updateBuilder = cardDao.updateBuilder();
+//              updateBuilder.where().eq("CARD_ID", currentRandomCard.getId());
+//              updateBuilder.updateColumnValue("TYPE", 2);
+//              updateBuilder.update();
+//            } catch (SQLException e) {
+//              throw new RuntimeException(e);
+//            }
+        }
         break;
-        default:
-          break;
+      default:
+        break;
     }
   }
 
@@ -184,101 +246,113 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       Dao<Card, Integer> cardDao = helper.getCardDao();
       deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
       QueryBuilder<Card, Integer> queryBuilder = cardDao.queryBuilder();
+      queryBuilder.limit(reviewPoolSize);
       Where<Card, Integer> where = queryBuilder.where();
       where.eq("REVIEWED", false);
       where.and();
       where.eq("DECK_ID", deck.getId());
+      where.and();
+      where.eq("REVIEW_STATUS", "review pool member");
       PreparedQuery<Card> preparedQueryL1 = queryBuilder.prepare();
       reviewPool = cardDao.query(preparedQueryL1);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-//    /** Retrieves level 2 cards from the database. */
-//    try {
-//      Dao<Deck, Integer> deckDao = helper.getDeckDao();
-//      Dao<Card, Integer> cardDao = helper.getCardDao();
-//      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//      QueryBuilder<Card, Integer> queryBuilder = cardDao.queryBuilder();
-//      Where<Card, Integer> where = queryBuilder.where();
-//      where.eq("TYPE", 2);
-//      where.and();
-//      where.eq("DECK_ID", deck.getId());
-//      PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
-//      reviewPool = cardDao.query(preparedQuery);
-//    } catch (SQLException e) {
-//      throw new RuntimeException(e);
-//    }
-
-//    /** Retrieves level 2 cards from the database. */
-//    try {
-//      Dao<Deck, Integer> deckDao = helper.getDeckDao();
-//      Dao<Card, Integer> cardDao = helper.getCardDao();
-//      deck = deckDao.queryForId(getArguments().getInt(DECK_ID));
-//      QueryBuilder<Card, Integer> queryBuilder = cardDao.queryBuilder();
-//      Where<Card, Integer> where = queryBuilder.where();
-//      where.eq("TYPE", 3);
-//      where.and();
-//      where.eq("DECK_ID", deck.getId());
-//      PreparedQuery<Card> preparedQuery = queryBuilder.prepare();
-//      reviewPool = cardDao.query(preparedQuery);
-//    } catch (SQLException e) {
-//      throw new RuntimeException(e);
-//    }
 
     /** Generates the review pool collection and ensures that a maximum of 25 cards can
      *  be reviewed at any given time.
      * */
     // make sure that only cards with the review status is added
-    if (reviewPool.size() < reviewPoolSize/3) {
+
+    int reviewPoolAllocationSize = (int) reviewPoolSize / 3;
+
+    if (reviewPool.size() < reviewPoolSize) {
       Toast.makeText(getActivity(), "Please add more cards.", Toast.LENGTH_SHORT).show();
     } else {
 
+      // retrieve all cardPoolOne by getting the first 3rd of the review pool
+      for (int i = 0; i < reviewPoolAllocationSize; i++) {
+        cardPoolOne.add(reviewPool.get(i));
+      }
+
+      // populate cardPoolTwo by getting the second third of the review pool
+      for (int i = 0; i < reviewPoolAllocationSize; i++) {
+        cardPoolTwo.add(reviewPool.get(i + reviewPoolAllocationSize));
+      }
+
+      for (int i = 0; i < reviewPoolAllocationSize; i++) {
+        cardPoolThree.add(reviewPool.get(i + (reviewPoolAllocationSize * 2)));
+      }
+
       switch (sessionNumber) {
         case 0:
-          for (int i = 0; i < reviewPoolSize/3; i++) {
-            cardPoolOne.add(reviewPool.get(i));
-          }
-          randomNumberGenerator();
-          randomCard();
-
+            sessionOnePool.addAll(cardPoolOne);
+          break;
+        case 1:
+          sessionTwoPool.addAll(cardPoolOne);
+          sessionTwoPool.addAll(cardPoolTwo);
+          break;
       }
+
+      randomNumberGenerator();
+      randomCard();
     }
 
     // gets the cards that are currently being reviewed -- might not need this.
     getCardPool(reviewPool.size());
   }
 
-  /** Provides a random number to be used as a way to determine which card
-   *  is going to be reviewed.
-   * */
+  /**
+   * Provides a random number to be used as a way to determine which card is going to be reviewed.
+   */
   public Card randomNumberGenerator() {
-    int max = reviewPool.size();
+
+    int max = 0;
     int min = 0;
-    int range = max - min;
 
     int currentPoolRandomId;
 
+    switch(sessionNumber) {
+      case 0:
+        max = sessionOnePool.size();
+        break;
+      case 1:
+        max = sessionTwoPool.size();
+        break;
+      default:
+    }
+
+    int range = max - min;
     currentPoolRandomId = (int) (Math.random() * range) + min;
-    currentRandomCard = cardPoolOne.get(currentPoolRandomId);
+
+    switch(sessionNumber) {
+      case 0:
+        currentRandomCard = sessionOnePool.get(currentPoolRandomId);
+        break;
+      case 1:
+        currentRandomCard = sessionTwoPool.get(currentPoolRandomId);
+    }
+
     return currentRandomCard;
   }
 
-  /** Retrieves value of the current random card to be used for
-   *  studying.
-   *  */
+  /**
+   * Retrieves value of the current random card to be used for studying.
+   */
   public final void randomCard() {
     cardReview = rootView.findViewById(R.id.review_random_card);
-    if (reviewPool.isEmpty()) {
+    if (cardPoolOne.isEmpty()) {
       Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
     } else {
       cardReview.setText(currentRandomCard.getFront());
     }
   }
 
-  /** Gives a user the ability to check if they answered a given card correctly.
-   *  Shows images that the user picked in order to help with retention.
-   * */
+  /**
+   * Gives a user the ability to check if they answered a given card correctly. Shows images that
+   * the user picked in order to help with retention.
+   */
   public final void cardCheck() {
     cardCheck = rootView.findViewById(R.id.check_random_card);
     cardCheck.setText(currentRandomCard.getBack());
@@ -312,8 +386,10 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
 
   }
 
-  /** Updates the value of the cardPool */
-  public void getCardPool (int cardPool) {
+  /**
+   * Updates the value of the cardPool
+   */
+  public void getCardPool(int cardPool) {
     try {
       Dao<Deck, Integer> deckDao = helper.getDeckDao();
       UpdateBuilder<Deck, Integer> updateBuilder = deckDao.updateBuilder();
