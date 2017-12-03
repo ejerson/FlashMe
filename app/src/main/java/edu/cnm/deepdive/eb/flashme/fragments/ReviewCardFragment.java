@@ -125,7 +125,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   // changed only when all cards in the pool have been reviewed
 
   // This needs to be persisted onto the database
-  private int sessionNumber = 2;
+  private int sessionNumber = 4;
   // this tracks user specified reviewPoolSize
   // This needs to be persisted too.
   private long reviewPoolSize = 6;
@@ -134,6 +134,10 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   private List <Card> sessionOnePool = new ArrayList<>();
   private List <Card> sessionTwoPool = new ArrayList<>();
   private List <Card> sessionThreePool = new ArrayList<>();
+  private List <Card> sessionFourPool = new ArrayList<>();
+  private List <Card> sessionFivePool = new ArrayList<>();
+  private List <Card> sessionSixPool = new ArrayList<>();
+  private List <Card> sessionSevenPool = new ArrayList<>();
   private List<Card> graduatedPool = new ArrayList<>();
 
   @Override
@@ -170,7 +174,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     switch (view.getId()) {
       case R.id.button_review:
         switch (sessionNumber) {
-          case 0:
+          case 1:
             if (sessionOnePool.isEmpty()) {
               Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT)
                   .show();
@@ -179,7 +183,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
               randomCard();
             }
             break;
-          case 1:
+          case 2:
             if (sessionTwoPool.isEmpty()) {
               Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT).show();
             } else {
@@ -187,8 +191,16 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
               randomCard();
             }
             break;
-          case 2:
+          case 3:
             if (sessionThreePool.isEmpty()) {
+              Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT).show();
+            } else {
+              randomNumberGenerator();
+              randomCard();
+            }
+            break;
+          case 4:
+            if (sessionFourPool.isEmpty()) {
               Toast.makeText(getActivity(), "Great work! Reviewed all cards.", Toast.LENGTH_SHORT).show();
             } else {
               randomNumberGenerator();
@@ -200,11 +212,6 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       case R.id.button_check:
         cardCheck();
         switch (sessionNumber) {
-          case 0:
-            if (currentRandomCard.isReviewed() == false) {
-              currentRandomCard.setReviewed(true);
-            }
-            break;
           case 1:
             if (currentRandomCard.isReviewed() == false) {
               currentRandomCard.setReviewed(true);
@@ -215,18 +222,28 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
               currentRandomCard.setReviewed(true);
             }
             break;
+          case 3:
+            if (currentRandomCard.isReviewed() == false) {
+              currentRandomCard.setReviewed(true);
+            }
+            break;
+          case 4:
+            if (currentRandomCard.isReviewed() == false) {
+              currentRandomCard.setReviewed(true);
+            }
+            break;
         }
         break;
       case R.id.button_level_up:
         switch (sessionNumber) {
-          case 0:
+          case 1:
             if (currentRandomCard.isReviewed() == true) {
               cardPoolTwo.add(currentRandomCard);
               cardPoolOne.remove(currentRandomCard);
               sessionOnePool.remove(currentRandomCard);
             }
             break;
-          case 1:
+          case 2:
             if (currentRandomCard.isReviewed() == true) {
               if (cardPoolOne.contains(currentRandomCard)) {
                 cardPoolTwo.add(currentRandomCard);
@@ -242,22 +259,41 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
             }
 
             break;
-          case 2:
+          case 3:
             if (currentRandomCard.isReviewed() == true) {
               if (cardPoolOne.contains(currentRandomCard)) {
                 cardPoolTwo.add(currentRandomCard);
                 cardPoolOne.remove(currentRandomCard);
-//                sessionFourPool.add(currentRandomCard);
+                sessionFourPool.add(currentRandomCard);
                 sessionThreePool.remove(currentRandomCard);
               } else if (cardPoolTwo.contains(currentRandomCard)) {
                 cardPoolThree.add(currentRandomCard);
                 cardPoolTwo.remove(currentRandomCard);
-//                sessionFourPool.add(currentRandomCard);
+                sessionFourPool.add(currentRandomCard);
                 sessionThreePool.remove(currentRandomCard);
               } else if (cardPoolThree.contains(currentRandomCard)) {
                 graduatedPool.add(currentRandomCard);
                 cardPoolThree.remove(currentRandomCard);
                 sessionThreePool.remove(currentRandomCard);
+              }
+            }
+            break;
+
+          case 4:
+            if (currentRandomCard.isReviewed() == true) {
+              if (cardPoolOne.contains(currentRandomCard)) {
+                cardPoolTwo.add(currentRandomCard);
+                sessionFivePool.add(currentRandomCard);
+                cardPoolOne.remove(currentRandomCard);
+                sessionFourPool.remove(currentRandomCard);
+              } else if (cardPoolTwo.contains(currentRandomCard)) {
+                cardPoolThree.add(currentRandomCard);
+                sessionFourPool.add(currentRandomCard);
+                cardPoolTwo.remove(currentRandomCard);
+                sessionThreePool.remove(currentRandomCard);
+              } else if (cardPoolThree.contains(currentRandomCard)) {
+                graduatedPool.add(currentRandomCard);
+                sessionFourPool.remove(currentRandomCard);
               }
             }
             break;
@@ -319,17 +355,37 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
       }
 
       switch (sessionNumber) {
-        case 0:
+        case 1:
             sessionOnePool.addAll(cardPoolOne);
           break;
-        case 1:
+        case 2:
           sessionTwoPool.addAll(cardPoolOne);
           sessionTwoPool.addAll(cardPoolTwo);
           break;
-        case 2:
+        case 3:
           sessionThreePool.addAll(cardPoolOne);
           sessionThreePool.addAll(cardPoolTwo);
           sessionThreePool.addAll(cardPoolThree);
+          break;
+        case 4:
+          sessionFourPool.addAll(cardPoolOne);
+          sessionFourPool.addAll(cardPoolTwo);
+          sessionFourPool.addAll(cardPoolThree);
+          break;
+        case 5:
+          sessionFivePool.addAll(cardPoolOne);
+          sessionFivePool.addAll(cardPoolTwo);
+          sessionFivePool.addAll(cardPoolThree);
+          break;
+        case 6:
+          sessionSixPool.addAll(cardPoolOne);
+          sessionSixPool.addAll(cardPoolTwo);
+          sessionSixPool.addAll(cardPoolThree);
+          break;
+        case 7:
+          sessionSevenPool.addAll(cardPoolOne);
+          sessionSevenPool.addAll(cardPoolTwo);
+          sessionSevenPool.addAll(cardPoolThree);
           break;
         default:
           break;
@@ -354,14 +410,26 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     int currentPoolRandomId;
 
     switch(sessionNumber) {
-      case 0:
+      case 1:
         max = sessionOnePool.size();
         break;
-      case 1:
+      case 2:
         max = sessionTwoPool.size();
         break;
-      case 2:
+      case 3:
         max = sessionThreePool.size();
+        break;
+      case 4:
+        max = sessionFourPool.size();
+        break;
+      case 5:
+        max = sessionFourPool.size();
+        break;
+      case 6:
+        max = sessionFourPool.size();
+        break;
+      case 7:
+        max = sessionFourPool.size();
         break;
     }
 
@@ -369,15 +437,28 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     currentPoolRandomId = (int) (Math.random() * range) + min;
 
     switch(sessionNumber) {
-      case 0:
+      case 1:
         currentRandomCard = sessionOnePool.get(currentPoolRandomId);
         break;
-      case 1:
+      case 2:
         currentRandomCard = sessionTwoPool.get(currentPoolRandomId);
         break;
-      case 2:
+      case 3:
         currentRandomCard = sessionThreePool.get(currentPoolRandomId);
         break;
+      case 4:
+        currentRandomCard = sessionFourPool.get(currentPoolRandomId);
+        break;
+      case 5:
+        currentRandomCard = sessionFivePool.get(currentPoolRandomId);
+        break;
+      case 6:
+        currentRandomCard = sessionSixPool.get(currentPoolRandomId);
+        break;
+      case 7:
+        currentRandomCard = sessionSevenPool.get(currentPoolRandomId);
+        break;
+
     }
 
     return currentRandomCard;
@@ -390,22 +471,50 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
     cardReview = rootView.findViewById(R.id.review_random_card);
 
     switch (sessionNumber) {
-      case 0:
+      case 1:
         if (sessionOnePool.isEmpty()) {
           Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
         } else {
           cardReview.setText(currentRandomCard.getFront());
         }
         break;
-      case 1:
+      case 2:
         if (sessionTwoPool.isEmpty()) {
           Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
         } else {
           cardReview.setText(currentRandomCard.getFront());
         }
         break;
-      case 2:
+      case 3:
         if (sessionThreePool.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+        } else {
+          cardReview.setText(currentRandomCard.getFront());
+        }
+        break;
+      case 4:
+        if (sessionFourPool.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+        } else {
+          cardReview.setText(currentRandomCard.getFront());
+        }
+        break;
+      case 5:
+        if (sessionFivePool.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+        } else {
+          cardReview.setText(currentRandomCard.getFront());
+        }
+        break;
+      case 6:
+        if (sessionSixPool.isEmpty()) {
+          Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
+        } else {
+          cardReview.setText(currentRandomCard.getFront());
+        }
+        break;
+      case 7:
+        if (sessionSevenPool.isEmpty()) {
           Toast.makeText(getActivity(), "Please create cards.", Toast.LENGTH_SHORT).show();
         } else {
           cardReview.setText(currentRandomCard.getFront());
