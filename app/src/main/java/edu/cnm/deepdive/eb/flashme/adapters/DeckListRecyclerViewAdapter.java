@@ -52,15 +52,9 @@ public class DeckListRecyclerViewAdapter
     holder.deckView.setText(holder.deck.getName());
     holder.deckPool.setText(String.valueOf(holder.deck.getPool()));
 
-//    if (holder.deckDeleteView.isChecked()) {
-//
-//    }
-
-
-
     holder.deckDeleteView.setOnClickListener(new OnClickListener() {
       @Override
-      public void onClick(View view) {
+      public void onClick(View v) {
         deckDeletePool.add(Decks.get(position).getId());
       }
     });
@@ -73,7 +67,6 @@ public class DeckListRecyclerViewAdapter
         Intent intent = new Intent(context, DeckMemberActivity.class);
         intent.putExtra(DECK_ID, holder.deck.getId());
         intent.putExtra(DECK, holder.deck.getName());
-
         context.startActivity(intent);
       }
     });
