@@ -125,7 +125,7 @@ public class ReviewCardFragment extends Fragment implements OnClickListener {
   // changed only when all cards in the pool have been reviewed
 
   // This needs to be persisted onto the database
-  private int sessionNumber = 4;
+  private int sessionNumber = 1;
   // this tracks user specified reviewPoolSize
   // This needs to be persisted too.
   private long reviewPoolSize = 6;
