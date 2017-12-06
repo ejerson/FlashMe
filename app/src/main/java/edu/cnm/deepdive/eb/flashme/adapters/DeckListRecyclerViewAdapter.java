@@ -14,7 +14,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
-import edu.cnm.deepdive.eb.flashme.entities.Deck;
+import edu.cnm.deepdive.eb.flashme.enteties.Deck;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class DeckListRecyclerViewAdapter
    */
   private final List<Deck> Decks;
 
-  private List<Integer> deckDeletePool = new ArrayList<>();
+  private List<Long> deckDeletePool = new ArrayList<>();
 
   /**
    * Constructor for the List<deck> Decks field.
@@ -49,8 +49,8 @@ public class DeckListRecyclerViewAdapter
   @Override
   public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.deck = Decks.get(position);
-    holder.deckView.setText(holder.deck.getName());
-    holder.deckPool.setText(String.valueOf(holder.deck.getPool()));
+    holder.deckView.setText(holder.deck.getDeckName());
+    holder.deckPool.setText(String.valueOf(holder.deck.getReviewPool()));
 
     holder.deckDeleteView.setOnClickListener(new OnClickListener() {
       @Override
@@ -66,7 +66,7 @@ public class DeckListRecyclerViewAdapter
         Context context = v.getContext();
         Intent intent = new Intent(context, DeckMemberActivity.class);
         intent.putExtra(DECK_ID, holder.deck.getId());
-        intent.putExtra(DECK, holder.deck.getName());
+        intent.putExtra(DECK, holder.deck.getDeckName());
         context.startActivity(intent);
       }
     });
@@ -105,7 +105,7 @@ public class DeckListRecyclerViewAdapter
   }
 
 
-  public List<Integer> getDeckDeletePool() {
+  public List<Long> getDeckDeletePool() {
     return deckDeletePool;
   }
 

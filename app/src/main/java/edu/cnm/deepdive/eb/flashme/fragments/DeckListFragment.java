@@ -12,8 +12,9 @@ import android.widget.Button;
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.activities.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.adapters.DeckListRecyclerViewAdapter;
+import edu.cnm.deepdive.eb.flashme.enteties.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  * A fragment representing a single Card List screen. This fragment is contained in the {@link
@@ -23,6 +24,7 @@ public class DeckListFragment
     extends Fragment
     implements OnClickListener {
 
+  private List<Deck> Decks;
   private OrmHelper helper;
   DeckListRecyclerViewAdapter deckListRecyclerViewAdapter;
   Button delete_deck;
@@ -46,7 +48,6 @@ public class DeckListFragment
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
-
   }
 
   @Override
@@ -82,7 +83,11 @@ public class DeckListFragment
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.button_delete_deck:
-        ((DeckListActivity) getActivity()).deleteDeck();
+          // TODO call the DeleteDeckHttpTask
+        // TODO refresh recyclerview
+        break;
+      case R.id.button_add_deck:
+//        ((DeckListActivity) getActivity()).addDeck();
         break;
     }
   }
@@ -101,20 +106,17 @@ public class DeckListFragment
    * @param recyclerView passes RecyclerView
    */
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-    try {
-      deckListRecyclerViewAdapter = new DeckListRecyclerViewAdapter(helper.getDeckDao().queryForAll());
-      recyclerView
-          .setAdapter(deckListRecyclerViewAdapter);
+    deckListRecyclerViewAdapter = new DeckListRecyclerViewAdapter(((DeckListActivity) getActivity()).getDecks());
+    recyclerView
+        .setAdapter(deckListRecyclerViewAdapter);
 
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
   public void onStart() {
     super.onStart();
     helper = ((OrmHelper.OrmInteraction) getActivity()).getHelper();
+
   }
 
 
