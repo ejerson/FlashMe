@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import java.util.List;
+
 import edu.cnm.deepdive.eb.flashme.R;
 import edu.cnm.deepdive.eb.flashme.activities.DeckListActivity;
 import edu.cnm.deepdive.eb.flashme.adapters.DeckListRecyclerViewAdapter;
-import edu.cnm.deepdive.eb.flashme.enteties.Deck;
+import edu.cnm.deepdive.eb.flashme.entities.Deck;
 import edu.cnm.deepdive.eb.flashme.helpers.OrmHelper;
-import java.util.List;
 
 /**
  * A fragment representing a single Card List screen. This fragment is contained in the {@link
@@ -54,9 +56,6 @@ public class DeckListFragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     rootView = inflater.inflate(R.layout.activity_deck_list, container, false);
-
-
-
 
 //    try {
       recyclerView = rootView.findViewById(R.id.deck_list);

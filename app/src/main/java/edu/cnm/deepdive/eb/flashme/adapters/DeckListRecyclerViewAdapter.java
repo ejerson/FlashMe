@@ -1,8 +1,5 @@
 package edu.cnm.deepdive.eb.flashme.adapters;
 
-import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK;
-import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK_ID;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +9,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import edu.cnm.deepdive.eb.flashme.R;
-import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
-import edu.cnm.deepdive.eb.flashme.enteties.Deck;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.cnm.deepdive.eb.flashme.R;
+import edu.cnm.deepdive.eb.flashme.activities.DeckMemberActivity;
+import edu.cnm.deepdive.eb.flashme.entities.Deck;
+
+import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK;
+import static edu.cnm.deepdive.eb.flashme.fragments.DeckMemberFragment.DECK_ID;
 
 /**
  * Manages my the Recycler view for the deck name list.
@@ -49,13 +51,13 @@ public class DeckListRecyclerViewAdapter
   @Override
   public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.deck = Decks.get(position);
-    holder.deckView.setText(holder.deck.getDeckName());
-    holder.deckPool.setText(String.valueOf(holder.deck.getReviewPool()));
+    holder.deckView.setText(holder.deck.getName());
+    holder.deckPool.setText(String.valueOf(holder.deck.getPool()));
 
     holder.deckDeleteView.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        deckDeletePool.add(Decks.get(position).getId());
+//        deckDeletePool.add(Decks.get(position).getId());
       }
     });
 
@@ -66,7 +68,7 @@ public class DeckListRecyclerViewAdapter
         Context context = v.getContext();
         Intent intent = new Intent(context, DeckMemberActivity.class);
         intent.putExtra(DECK_ID, holder.deck.getId());
-        intent.putExtra(DECK, holder.deck.getDeckName());
+        intent.putExtra(DECK, holder.deck.getName());
         context.startActivity(intent);
       }
     });
